@@ -1,0 +1,27 @@
+.navbar {
+  padding: 1rem;
+  background-color: rgb(252, 252, 252);
+}
+.btn-primary {
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+.btn-primary:hover {
+  transform: scale(1.1);
+}
+.nav-link {
+  color: black;
+  font-weight: bolder;
+}
+.nav-link:hover {
+  text-decoration: underline;
+}
+.navbar-toggler {
+  margin-left: auto; 
+  margin-right: 10px; 
+}
+
+@media (max-width: 768px) {
+  .navbar-toggler {
+    margin-left: 0; 
+  }
+}

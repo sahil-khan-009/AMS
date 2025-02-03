@@ -1,0 +1,40 @@
+body {
+    background-color: #e8eaf6;
+    font-family: Arial, sans-serif;
+}
+
+.dashboard-content {
+    padding: 20px;
+}
+
+.brand {
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    font-size: 30px;
+  }
+
+.form-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-container .navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        text-align: center;
+    }
+
+    .form-container {
+        padding: 10px;
+    }
+}
+
+
+.bs{
+   background-color: rgb(98, 0, 255);
+   border-radius: 0.2rem;
+}

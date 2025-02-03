@@ -1,0 +1,151 @@
+*{
+    font-family: Helvetica;
+}
+
+.background-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('C:\Users\ORENZTECH\Desktop\WEB FOLDER\Backend Folder\AMS\my-ams-frontend\src\assets\sl_021921_40900_13.jpg') no-repeat center center;
+    background-size: cover;
+    object-fit: contain;
+    padding: 20px;
+}
+
+.signup-container {
+    background-color: #cae5ff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+
+.signup-container h3 {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bolder;
+}
+
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+
+.form-label {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+    display: block;
+}
+
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: #0056b3;
+}
+
+.footer-text {
+    text-align: center;
+    margin-top: 20px;
+    color: #555;
+}
+
+.footer-text a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.footer-text a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .background-container {
+        padding: 10px;
+    }
+
+    .signup-container {
+        width: 90%;
+        max-width: 350px;
+    }
+
+    .signup-container h3 {
+        font-size: 22px;
+    }
+
+    .form-control {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .btn-submit {
+        padding: 10px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .signup-container {
+        padding: 20px;
+    }
+
+    .signup-container h3 {
+        font-size: 20px;
+    }
+
+    .form-control {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    .btn-submit {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .footer-text {
+        font-size: 12px;
+    }
+}  
+.message-signup {
+    text-align: center;
+    margin-bottom: 20px; /* Add space below the message */
+    font-size: 16px; /* Optional: Adjust font size */
+    font-weight: bold; /* Optional: Make the message bold */
+    font-family:  Helvetica;
+    font-weight: 800;
+    font-size:0.7em ;
+  }
+  

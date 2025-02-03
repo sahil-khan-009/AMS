@@ -1,0 +1,28 @@
+.sidebar {
+    min-height: 100vh;
+    background-color: #343a40;
+    color: white;
+    padding: 20px;
+  }
+  
+  .sidebar a {
+    color: white;
+    text-decoration: none;
+    margin: 10px 0;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .sidebar a:hover {
+    background-color: #495057;
+  }
+  .dropdown-menu{
+    background-color: #6b6b6b;
+    transform: translate3d(0px, 150px, 0px);
+  }
+  .text-2xl {
+    font-size:45px;
+    line-height: 32px;
+  }
+  
