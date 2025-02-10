@@ -11,7 +11,6 @@ import CoverImage3 from "/src/assets/Doctor_Appointment3.png";
 
 const Home = () => {
   return (
-
     <div>
       <Navbar />
       <section className="hero-section">
@@ -28,7 +27,7 @@ const Home = () => {
       <div className='bg bg-white'>
         <section className="main text-center">
           <div className="container">
-            <h2 className="content-title display-5">What is Appointment Management System</h2>
+            <h2 className="content-title display-5 mt-4">What is Appointment Management System</h2>
           </div>
         </section>
         <div className="container content-section">
@@ -67,10 +66,10 @@ const Home = () => {
         </div>
       </div>
 
-      <section className='py-5'>
+      <section className='middle-section py-5'>
         <div className='container text-center'>
-          <h3 className='text-center mb-4'>Advanced booking features to help you put your business on autopilot</h3>
-          <a>With Appointy’s online booking software say goodbye to your pen-paper appointment book, save time, reduce no shows, and increase staff productivity</a>
+          <h2 className='text-center mb-4'>Advanced booking features to help you put your business on autopilot</h2>
+          <p>With Appointy’s online booking software say goodbye to your pen-paper appointment book, save time, reduce no shows, and increase staff productivity</p>
           <div>
             <img
               src={CoverImage}
@@ -82,7 +81,7 @@ const Home = () => {
       </section>
 
 
-      <section className="py-2">
+      <section className="last-section py-2">
         <div className="container">
           <h2 className="text-center mb-4">Featured AMS</h2>
           <div className="row g-4">
@@ -97,7 +96,9 @@ const Home = () => {
                 <div className="card-body">
                   <h5 className="card-title">Book Your Appointment</h5>
                   <p className="card-text">Schedule your appointment easily with our online booking system.</p>
-                  <a href="/" className="btn btn-primary">Read More</a>
+                  <div className="d-flex justify-content-center align-items-center">
+                    <button className="btn btn-primary">Read More</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -112,7 +113,9 @@ const Home = () => {
                 <div className="card-body">
                   <h5 className="card-title">Book Your Appointment</h5>
                   <p className="card-text">Schedule your appointment easily with our online booking system.</p>
-                  <a href="/" className="btn btn-primary">Read More</a>
+                  <div className="d-flex justify-content-center align-items-center">
+                    <button className="btn btn-primary">Read More</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -127,7 +130,9 @@ const Home = () => {
                 <div className="card-body">
                   <h5 className="card-title">Book Your Appointment</h5>
                   <p className="card-text">Schedule your appointment easily with our online booking system.</p>
-                  <a href="/" className="btn btn-primary">Read More</a>
+                  <div className="d-flex justify-content-center align-items-center">
+                    <button className="btn btn-primary">Read More</button>
+                  </div>
                 </div>
               </div>
             </div>

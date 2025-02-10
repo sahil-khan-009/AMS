@@ -1,40 +1,21 @@
-body {
-    background-color: #e8eaf6;
-    font-family: Arial, sans-serif;
+.custom-header{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-.dashboard-content {
-    padding: 20px;
+.delete, .edit {
+    background: none;
+    border: none;
+    cursor: pointer;  
 }
 
-.brand {
-    color: rgb(0, 0, 0);
-    font-weight: bold;
-    font-size: 30px;
-  }
-
-.form-container {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.form-container .navbar-brand {
+.delete-icon {
+    color: red; 
     font-size: 1.5rem;
-    font-weight: bold;
+    align-items: center;
 }
 
-@media (max-width: 768px) {
-    .sidebar {
-        text-align: center;
-    }
-
-    .form-container {
-        padding: 10px;
-    }
-}
-
-
-.bs{
-   background-color: rgb(98, 0, 255);
-   border-radius: 0.2rem;
+.edit-icon {
+    color: blue;
+    font-size: 1.5rem;
+    align-items: center;
 }

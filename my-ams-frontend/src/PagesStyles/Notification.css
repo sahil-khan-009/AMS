@@ -1,28 +1,25 @@
-body {
-    background-color: #e8eaf6;
-    font-family: Arial, sans-serif;
+/* .notifications {
+    margin-top: 20px;
 }
 
-.dashboard-content {
-    padding: 20px;
+.notification {
+    background: #ecf0f1;
+    padding: 15px;
+    margin: 10px 0;
+    border-left: 5px solid #3498db;
+} */
+
+/* .time {
+    display: block;
+    font-size: 12px;
+    color: gray;
+
+} */
+
+.notifications .alert {
+    margin-bottom: 15px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
 }
-
-.form-container {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.brand {
-    color: rgb(0, 0, 0);
-    font-weight: bold;
-    font-size: 30px;
-  }
-
-.form-container .navbar-brand {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
 @media (max-width: 768px) {
     .sidebar {
         text-align: center;
