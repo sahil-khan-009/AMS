@@ -16,11 +16,11 @@ module.exports = async function (req, res, next) {
     if (!user) {
       return res.status(404).json({ message: "User not found. Please log in again." });
     }
-console.log("decoded------------",decoded)
+// console.log("decoded------------",decoded)
     // Attach user to the request object
     req.user = user;
 
-    console.log("it is req.user in Isloggedin Middleware---==",req.user)
+    // console.log("it is req.user in Isloggedin Middleware---==",req.user)
     next();
   } catch (err) {
     console.error("Error in isLoggedIn middleware:", err.message);

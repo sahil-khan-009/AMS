@@ -9,9 +9,11 @@ import UpdateDetails from './Pages/UpdateDetails.jsx';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from './Pages/Dashboard.jsx';
 import Notification from './Pages/Notification.jsx';
+import {AppointmentProvider} from './context/AppointmentContext.jsx'
 
 function App() {
   return (
+   < AppointmentProvider>
     <Router>
       <Routes>
         <Route path='/' element={<Home />} />
@@ -29,6 +31,7 @@ function App() {
 
       </Routes>
     </Router>
+    </AppointmentProvider>
   )
 }
 

@@ -15,7 +15,7 @@ router.post('/Createdoctor', async (req, res) => {
       department,
       doctors
     });
-
+ 
     // Save the doctor to the database
     const savedDoctor = await createdDoctor.save();
 
@@ -39,7 +39,8 @@ router.post('/Createdoctor', async (req, res) => {
 router.get("/Department", async (req, res) => {
     try {
       // Fetch only specific fields: name, department, and availability
-      const DoctorsDepartment = await Doctor.find({}, { name: 1, department: 1, availability: 1, _id: 0 });
+      const DoctorsDepartment = await Doctor.find({}, { "doctors.phone": 0 });
+
       console.log("Doctors' Name, Department, and Availability:", DoctorsDepartment);
   
       // Send the filtered data to the frontend
