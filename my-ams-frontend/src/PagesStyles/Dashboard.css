@@ -1,36 +1,12 @@
-body {
-    background-color: #f5f5f5;
-  }
-  
-  .dashboard-content {
-    padding: 20px;
-  }
-  
-  .cards {
-    transition: transform 0.2s, box-shadow 0.2s;
-    background-color: #6b6b6b;
-    border-radius: 20px;
-  }
-  
-  .cards:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  .cards-title{
-    padding: 20px;
-   
-  }
-  
-  .brand {
-    color: rgb(0, 0, 0);
-    font-weight: bold;
-    font-size: 30px;
-  }
-  
-  
-  .house-door{
-    vertical-align: middle;
-  }
-  
-  
+.page-show{
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 30px;
+}
+
+.card-title {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.card-text{
+  font-size: 20px;
+}

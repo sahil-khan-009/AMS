@@ -1,5 +1,11 @@
 import React from 'react'
 import '../ComponentStyle/Footer.css';
+import { SiFacebook } from "react-icons/si";
+import { FaSquareXTwitter } from "react-icons/fa6";
+import { BsInstagram } from "react-icons/bs";
+
+
+
 const Footer = () => {
   return (
     <div>
@@ -26,13 +32,13 @@ const Footer = () => {
                     <p>Email: support@appointmentsystem.com</p>
                     <p>Phone: +123 456 7890</p>
                     <div className="social-icons">
-                        <a href="#"><i className="fab fa-facebook"></i></a>
-                        <a href="#"><i className="fab fa-twitter"></i></a>
-                        <a href="#"><i className="fab fa-instagram"></i></a>
+                        <a href="#"><SiFacebook /></a>
+                        <a href="#"><FaSquareXTwitter /></a>
+                        <a href="#"><BsInstagram /></a>
                     </div>
                 </div>
             </div>
-            <div className="footer-bottom mt-4">
+            <div className="footer-bottom mt-2">
                 <p>&copy; 2024 Appointment Management System | All Rights Reserved</p>
             </div>
         </div>

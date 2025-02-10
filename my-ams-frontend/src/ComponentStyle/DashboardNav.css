@@ -1,0 +1,20 @@
+.dashboard-nav {
+    padding: 1rem;
+    background-color: #b9c5c3;
+    border-bottom: 0.1px solid #6f807d;
+  }  
+
+  .rounded{
+    height: 3rem;
+  }
+  
+  @media (max-width: 991px) {
+    .navbar-collapse {
+      text-align: center;
+    }
+  
+    .navbar-nav {
+      margin-top: 10px;
+    }
+  }
+  
