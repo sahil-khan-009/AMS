@@ -1,27 +1,14 @@
-body {
-    background-color: #e8eaf6;
-    font-family: Arial, sans-serif;
-}
 
-.dashboard-content {
+
+/* .dashboard-content {
     padding: 20px;
-}
-
-.brand {
-    color: rgb(0, 0, 0);
-    font-weight: bold;
-    font-size: 30px;
-  }
+} */
 
 .form-container {
     max-width: 800px;
     margin: 0 auto;
-}
+} 
 
-.form-container .navbar-brand {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
 
 .btn-submit {
     background-color: #007bff;

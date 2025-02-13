@@ -1,9 +1,12 @@
 .dashboard-nav {
     padding: 1rem;
     background-color: #b9c5c3;
-    border-bottom: 0.1px solid #6f807d;
+    border-bottom: 0.5px solid #6f807d;
   }  
+.text-start{
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 
+}
   .rounded{
     height: 3rem;
   }

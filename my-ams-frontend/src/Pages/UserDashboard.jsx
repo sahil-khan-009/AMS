@@ -24,11 +24,11 @@ const UserDashboard = () => {
         {isSidebarOpen ? <FaTimes /> : <FaBars />}
       </button>
 
-      <div className="container-fluid" style={{ marginTop: "4rem" }}>
+      <div className="container-fluid" >
         <div className="row">
           {/* Sidebar */}
           <div className={`sidebar col-lg-2 col-md-4 d-flex flex-column p-3 ${isSidebarOpen ? "open" : ""}`}>
-            <Link to="/UserDashboard" className="nav-link">
+            <Link to="/UserDashboard" className="nav-link" style={{marginTop:"5rem"}}>
               <FaHome className="me-3" /> <span>Dashboard</span>
             </Link>
             <div className="button-group">

@@ -3,7 +3,7 @@ import "../PagesStyles/Notification.css"
 
 function Notification() {
   return (
-    <div className="col-md-10 col-lg-12 dashboard-content">
+    <div className="col-md-10 col-lg-12 mt-5">
       <p className="page-show">Notification</p>
       <div class="notifications">
         <div class="alert alert-light border-start border-primary border-1 p-3">

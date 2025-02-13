@@ -8,7 +8,7 @@ import { MdAutoDelete } from "react-icons/md";
 
 function Dashboard() {
   return (
-    <div className="dashboard">
+    <div className="dashboard mt-5">
       <p className="page-show">Dashboard</p>
       <div class="alert alert-warning alert-dismissible fade show" role="alert">
         <strong>User Login Successfully!</strong> 

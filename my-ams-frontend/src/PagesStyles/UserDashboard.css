@@ -1,5 +1,5 @@
 .sidebar {
-  min-height: 91vh;
+  min-height: 100vh;
   background-color: #b9c5c3;
   color: rgb(0, 0, 0);
   padding: 20px;
@@ -20,6 +20,7 @@
   z-index: 1000;
   margin-left: 35rem;
   left: auto;
+  
 }
 
 /* Hide Sidebar by Default on Small Screens */
@@ -44,16 +45,13 @@
   .sidebar .nav-link {
     color: rgb(0, 0, 0);
     margin-bottom: 10px;
+
   }
 
   .sidebar .logout-link {
     color: rgb(0, 0, 0);
   }
 }
-
-/* .rounded{
-  height: 3rem;
-} */
 
 .sidebar h3{
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;

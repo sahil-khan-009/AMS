@@ -3,6 +3,10 @@ import "../PagesStyles/AppointmentStatus.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAppointment } from "../context/AppointmentContext";
+import { Link } from "react-router-dom";
+import { AiFillDelete } from "react-icons/ai";
+import { FaEdit } from "react-icons/fa";
+
 
 function AppointmentStatus() {
   const [AppointmentDetails, SetAppointmentDetails] = useState([]);
@@ -27,7 +31,7 @@ function AppointmentStatus() {
       }
       try {
         const response = await axios.get(
-          `http://localhost:4000/api/appointments/${departmentId}`, // Use route parameter
+          `https://backend-node-5tca.onrender.com/api/appointments/${departmentId}`, // Use route parameter
           { withCredentials: true }
         );
 
@@ -35,7 +39,7 @@ function AppointmentStatus() {
         const appointments = Array.isArray(response.data) ? response.data : [response.data];
 
         SetAppointmentDetails(appointments);
-      localStorage.setItem("appointments", JSON.stringify(appointments))
+        localStorage.setItem("appointments", JSON.stringify(appointments))
       } catch (err) {
         console.log("Error fetching departments:", err.message);
       }
@@ -48,21 +52,20 @@ function AppointmentStatus() {
   }, [AppointmentDetails]); // ✅ Log when state updates
 
   return (
-    <div className="col-md-10 col-lg-12 dashboard-content">
-      <nav className="navbar-expand-lg mb-5">
-        <a className="brand">Appointment Status</a>
-      </nav>
+    <div className="col-md-10 col-lg-12 mt-5">
+      <p className="page-show">Appointment Status</p>
       <div className="table-container">
         <div className="table-responsive">
           <table className="table table-striped table-bordered">
-            <thead className="table-dark">
+            <thead className="table-secondary text-center">
               <tr>
                 <th>Sr No</th>
                 <th>Patient Name</th>
                 <th>Patient Email</th>
                 <th>Appointment Date</th>
-                <th>Description</th>
+                <th>Doctor Name</th>
                 <th>Department</th>
+                <th>Description</th>
                 <th>Status</th>
                 <th>Delete</th>
                 <th>Edit</th>
@@ -76,22 +79,27 @@ function AppointmentStatus() {
                     <td>{appointment.patientName}</td>
                     <td>{appointment.patientemail}</td>
                     <td>{appointment.appointmentDate}</td>
+                    {/* <td></td> */}
                     <td>{appointment.description}</td>
                     {/* <td>{appointment.departmentId}</td> */}
                     <td>{appointment.appointmentStatus}</td>
                     <td>
-                      <button className="bs">Delete</button>{" "}
+                      <Link className='delete' to="/" type='button'>
+                        <AiFillDelete className='delete-icon' />
+                      </Link>{" "}
                       {/* Button inside row */}
                     </td>
                     <td>
-                      <button className="bs">Edit</button>{" "}
+                      <Link className='edit' to="/" type='button'>
+                        <FaEdit className='edit-icon' />
+                      </Link>{" "}
                       {/* Button inside row */}
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="9">No appointments found</td>
+                  <td colSpan="10">No appointments found</td>
                 </tr>
               )}
             </tbody>

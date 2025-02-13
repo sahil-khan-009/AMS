@@ -19,3 +19,9 @@
     font-size: 1.5rem;
     align-items: center;
 }
+
+
+td {
+    text-align: center;
+    vertical-align: middle;
+}
