@@ -1,18 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "../PagesStyles/Appointment.css";
 import { useAppointment } from "../context/AppointmentContext";
-import axios from "axios";
+import apiService from '../Api-folder/Api';
 
 function Appointment() {
-  const {
-    selectedDepartment,
-    setSelectedDepartment,
-    selectedDoctorId,
-    setSelectedDoctorId,
-    Settesting,
-    departmentId,
-    SetdepartmentId,
-  } = useAppointment();
   const [dropDownValue, setDropDownValue] = useState([]);
 
   const [availibility, setAvailibility] = useState("");
@@ -22,22 +13,30 @@ function Appointment() {
   const [description, setDescription] = useState("");
   const [message, Setmessage] = useState("");
 
+  const {
+    selectedDepartment,
+    setSelectedDepartment,
+    selectedDoctorId,
+    setSelectedDoctorId,
+    Settesting,
+    departmentId,
+    SetdepartmentId,
+  } = useAppointment();
+ 
+
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:4000/api/doctor/Department",
-          { withCredentials: true }
-        );
-        setDropDownValue(response.data); // Store only the data part
-      } catch (err) {
-        console.log("Error fetching departments:", err.message);
-      }
+        try {
+            const response = await apiService.getDepartments();
+            setDropDownValue(response.data);
+        } catch (err) {
+            console.error("Error fetching Catch errrrorrrr--- departments:", err.message);
+        }
     };
 
     fetchData();
-  }, []);
-  // Settesting("Testing Context api");
+}, []);
+    // Settesting("Testing Context api");
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = {
@@ -51,18 +50,16 @@ function Appointment() {
       departmentId,
     };
 
-    try {
-      const response = await axios.post(
-        "http://localhost:4000/api/appointments", // Ensure the correct API endpoint
-        formData,
-        { withCredentials: true }
-      );
-      console.log("Appointment created successfully:", response);
-      Setmessage(response.data.message);
-    } catch (err) {
-      console.error("Error creating appointment this is catch error:", err);
-    }
+   try{
+    const response = await apiService.createAppointment(formData);
+    console.log("response from createAppointment:", response);
+    Setmessage("Appointment created successfully");
+   }catch(err){
+     console.error("Error creating appointment:", err.message);
+   }
   };
+
+
 
   return (
     <div className="col-md-10 col-lg-12 dashboard-content">
@@ -239,6 +236,7 @@ function Appointment() {
     </div>
   );
 }
+
 
 export default Appointment;
 
@@ -442,3 +440,19 @@ export default Appointment;
 // }
 
 // export default Appointment;
+
+
+
+
+// = await axios.get(
+//   "https://backend-node-5tca.onrender.com/api/doctor/Department",
+//   { withCredentials: true }
+// );
+// setDropDownValue(response.data); // Store only the data part
+// } catch (err) {
+// console.log("Error fetching departments:", err.message);
+// }
+// };
+
+// fetchData();
+// }, []);

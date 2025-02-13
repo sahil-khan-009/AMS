@@ -15,7 +15,7 @@ const Register = () => {
           try {
             await axios
               .post(
-                "http://localhost:4000/api/auth/register",
+                "https://backend-node-5tca.onrender.com/api/auth/register",
                 {
                   userName: name, // Map frontend state variables to backend fields
                   userEmail: email,
