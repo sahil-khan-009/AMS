@@ -6,6 +6,7 @@ import { useAppointment } from "../context/AppointmentContext";
 import { Link } from "react-router-dom";
 import { AiFillDelete } from "react-icons/ai";
 import { FaEdit } from "react-icons/fa";
+import apiService from '../Api-folder/Api';
 
 
 function AppointmentStatus() {
@@ -23,6 +24,7 @@ function AppointmentStatus() {
     }
   }, []);
 
+
   useEffect(() => {
     const fetchData = async () => {
       if (!departmentId) {
@@ -30,23 +32,16 @@ function AppointmentStatus() {
         return;
       }
       try {
-        const response = await axios.get(
-          `https://backend-node-5tca.onrender.com/api/appointments/${departmentId}`, // Use route parameter
-          { withCredentials: true }
-        );
-
-        console.log("Appointments:---------------------", response.data);
+        const response = await apiService.getAppointment(departmentId);
         const appointments = Array.isArray(response.data) ? response.data : [response.data];
-
-        SetAppointmentDetails(appointments);
-        localStorage.setItem("appointments", JSON.stringify(appointments))
+     console.log("API DATA----------------------appointments-----------------------------",appointments)  // Correctly placed
       } catch (err) {
-        console.log("Error fetching departments:", err.message);
+        console.log("Error fetching appointments:", err.message);
       }
     };
-    fetchData();
-  }, [departmentId]);
 
+    fetchData();
+  }, [departmentId])
   useEffect(() => {
     console.log("Updated AppointmentDetails:", AppointmentDetails);
   }, [AppointmentDetails]); // ✅ Log when state updates
@@ -141,3 +136,21 @@ function AppointmentStatus() {
 
 export default AppointmentStatus;
 
+
+
+
+// try {
+//   const response = await axios.get(
+//     `https://backend-node-5tca.onrender.com/api/appointments/${departmentId}`, // Use route parameter
+//     { withCredentials: true }
+//   );
+
+//   console.log("Appointments:---------------------", response.data);
+//   const appointments = Array.isArray(response.data) ? response.data : [response.data];
+
+//   SetAppointmentDetails(appointments);
+//   localStorage.setItem("appointments", JSON.stringify(appointments))
+// } catch (err) {
+//   console.log("Error fetching departments:", err.message);
+// }
+// };
