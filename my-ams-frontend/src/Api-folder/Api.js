@@ -37,6 +37,10 @@ const apiService = {
     register: async (name, email, password) => {
       return api.post("/auth/register", { userName: name, userEmail: email, userPassword: password });
     },
+
+    getAppointment: async (departmentId) => {
+      return api.get(`/appointments/${departmentId}`);
+    },
   };
   
   export default apiService;

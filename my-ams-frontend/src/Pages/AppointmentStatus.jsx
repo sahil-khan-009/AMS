@@ -1,30 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../PagesStyles/AppointmentStatus.css";
-import { useEffect, useState } from "react";
-import axios from "axios";
 import { useAppointment } from "../context/AppointmentContext";
 import { Link } from "react-router-dom";
 import { AiFillDelete } from "react-icons/ai";
 import { FaEdit } from "react-icons/fa";
-import apiService from '../Api-folder/Api';
-
+import apiService from "../Api-folder/Api";
 
 function AppointmentStatus() {
   const [AppointmentDetails, SetAppointmentDetails] = useState([]);
-  const { selectedDoctorId, testing, departmentId } = useAppointment();
+  const { departmentId } = useAppointment();
 
-  console.log("Selected Doctor Id: in appointment status---- ", selectedDoctorId);
-  // console.log("Selected Department---in appontmenstatus:------ ", selectedDepartment);
-  // console.log("Testing:----------------", testing);
+  console.log("Selected DepartmentId----:", departmentId);
 
+  // Load appointments from localStorage on mount
   useEffect(() => {
-    const savedAppointments = localStorage.getItem("appointments");
-    if (savedAppointments) {
-      SetAppointmentDetails(JSON.parse(savedAppointments));
-    }
+    const savedAppointments = JSON.parse(localStorage.getItem("appointments")) || [];
+    SetAppointmentDetails(savedAppointments);
   }, []);
 
-
+  // Fetch appointments when departmentId changes
   useEffect(() => {
     const fetchData = async () => {
       if (!departmentId) {
@@ -33,18 +27,39 @@ function AppointmentStatus() {
       }
       try {
         const response = await apiService.getAppointment(departmentId);
-        const appointments = Array.isArray(response.data) ? response.data : [response.data];
-     console.log("API DATA----------------------appointments-----------------------------",appointments)  // Correctly placed
+        const newAppointments = Array.isArray(response.data)
+          ? response.data
+          : [response.data];
+
+        console.log("API Data (New Appointments):", newAppointments);
+
+        // Retrieve existing appointments
+        const storedAppointments = JSON.parse(localStorage.getItem("appointments")) || [];
+
+        // ✅ **Remove Duplicates: Keep only unique appointments**
+        const combinedAppointments = [...storedAppointments, ...newAppointments];
+
+        // ✅ **Filter Out Duplicates**
+        const uniqueAppointments = Array.from(
+          new Map(combinedAppointments.map((item) => [item._id, item])).values()
+        );
+
+        // Store **only unique** appointments in localStorage
+        localStorage.setItem("appointments", JSON.stringify(uniqueAppointments));
+
+        // Update state
+        SetAppointmentDetails(uniqueAppointments);
       } catch (err) {
         console.log("Error fetching appointments:", err.message);
       }
     };
 
     fetchData();
-  }, [departmentId])
+  }, [departmentId]);
+
   useEffect(() => {
     console.log("Updated AppointmentDetails:", AppointmentDetails);
-  }, [AppointmentDetails]); // ✅ Log when state updates
+  }, [AppointmentDetails]);
 
   return (
     <div className="col-md-10 col-lg-12 mt-5">
@@ -58,43 +73,42 @@ function AppointmentStatus() {
                 <th>Patient Name</th>
                 <th>Patient Email</th>
                 <th>Appointment Date</th>
-                <th>Doctor Name</th>
                 <th>Department</th>
+                <th>Doctor Name</th>
                 <th>Description</th>
-                <th>Status</th>
                 <th>Delete</th>
                 <th>Edit</th>
               </tr>
             </thead>
             <tbody>
-              {AppointmentDetails && AppointmentDetails.length > 0 ? (
+              {AppointmentDetails.length > 0 ? (
                 AppointmentDetails.map((appointment, index) => (
-                  <tr key={index}>
+                  <tr key={appointment._id}>
                     <td>{index + 1}</td>
                     <td>{appointment.patientName}</td>
                     <td>{appointment.patientemail}</td>
                     <td>{appointment.appointmentDate}</td>
-                    {/* <td></td> */}
-                    <td>{appointment.description}</td>
-                    {/* <td>{appointment.departmentId}</td> */}
-                    <td>{appointment.appointmentStatus}</td>
+                    <td>{appointment.departmentId.department}</td>
                     <td>
-                      <Link className='delete' to="/" type='button'>
-                        <AiFillDelete className='delete-icon' />
-                      </Link>{" "}
-                      {/* Button inside row */}
+                      {appointment.departmentId.doctors
+                        .filter((doc) => doc._id === appointment.doctorId)
+                        .map((doc) => doc.name)}
                     </td>
                     <td>
-                      <Link className='edit' to="/" type='button'>
-                        <FaEdit className='edit-icon' />
-                      </Link>{" "}
-                      {/* Button inside row */}
+                      <Link className="delete" to="/" type="button">
+                        <AiFillDelete className="delete-icon" />
+                      </Link>
+                    </td>
+                    <td>
+                      <Link className="edit" to="/" type="button">
+                        <FaEdit className="edit-icon" />
+                      </Link>
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="10">No appointments found</td>
+                  <td colSpan="8">No appointments found</td>
                 </tr>
               )}
             </tbody>
@@ -135,9 +149,6 @@ function AppointmentStatus() {
 }
 
 export default AppointmentStatus;
-
-
-
 
 // try {
 //   const response = await axios.get(

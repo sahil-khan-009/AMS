@@ -9,6 +9,7 @@ export const AppointmentProvider = ({ children }) => {
   const [selectedDoctorId, setSelectedDoctorId] = useState("");
   const [testing, Settesting] = useState("");
   const [departmentId, SetdepartmentId] = useState("");
+  const [Doctorname,Setdoctorname]= useState("");
 
   return (
     <AppointmentContext.Provider
@@ -21,6 +22,7 @@ export const AppointmentProvider = ({ children }) => {
         Settesting,
         departmentId,
         SetdepartmentId,
+        Doctorname,Setdoctorname
       }}
     >
       {children}
