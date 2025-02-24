@@ -74,7 +74,7 @@ function Appointment() {
 
   return (
     <div className="col-md-10 col-lg-12 px-3 py-3 dashboard-content shadow" style={{ marginTop: "4rem" }}>
-      <DashboardNav />
+      <DashboardNav/>
       <p className="page-show">Make Appointment</p><hr />
       {message ? (
         <div
