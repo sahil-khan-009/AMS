@@ -1,41 +1,47 @@
 import React from 'react';
 import "../PagesStyles/Dashboard.css";
-import { MdOutlineAddToQueue } from "react-icons/md";
-import { MdApproval } from "react-icons/md";
-import { MdOutlinePendingActions } from "react-icons/md";
-import { MdAutoDelete } from "react-icons/md";
-
+import { FaLaptopMedical } from "react-icons/fa";
+import { MdApproval, MdOutlinePendingActions, MdAutoDelete } from "react-icons/md";
+import DashboardNav from '../Component/DashboardNav';
 
 function Dashboard() {
   return (
-    <div className="dashboard mt-5">
+    <div className="dashboard py-3 shadow px-3" style={{ marginTop: "5rem" }}>
+      <DashboardNav />
       <p className="page-show">Dashboard</p>
-      <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>User Login Successfully!</strong> 
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-      <div className='d-flex gap-3'>
-        <div class=" col-3 card text-white bg-secondary mb-3 p-3" >
-          <h5 class="card-title"><MdOutlineAddToQueue className='me-2' />Make Appointment</h5>
-          <p class="card-text">0</p>
+      <hr />
+
+      <div className='d-flex flex-wrap gap-3 '>
+        <div className="custom-card">
+          <FaLaptopMedical size={30} className='me-3' />
+          <div className="text-content">
+            <h6>Make Appointment</h6>
+            <strong>1</strong>
+          </div>
         </div>
-        <div class=" col-3 card text-white bg-secondary mb-3 p-3" >
-          <h5 class="card-title"><MdApproval className='me-2'/>Approved Appointment</h5>
-          <p class="card-text">0</p>
+        <div className="custom-card">
+          <MdApproval size={30} className='me-3' />
+          <div className="text-content">
+            <h6>Approved Appointment</h6>
+            <strong>1</strong>
+          </div>
         </div>
-        <div class=" col-3 card text-white bg-secondary mb-3 p-3" >
-          <h5 class="card-title"><MdOutlinePendingActions className='me-2' />Pending Appointment</h5>
-          <p class="card-text">0</p>
+        <div className="custom-card">
+          <MdOutlinePendingActions size={30} className='me-3' />
+          <div className="text-content">
+            <h6>Pending Appointment</h6>
+            <strong>1</strong>
+          </div>
         </div>
-      </div>
-      <div className='d-flex gap-3 mt-3'>
-      <div class=" col-3 card text-white bg-secondary mb-3 p-3" >
-          <h5 class="card-title"><MdAutoDelete className='me-2'/>Delete Appointment</h5>
-          <p class="card-text">0</p>
+        <div className="custom-card">
+          <MdAutoDelete size={30} className='me-2' />
+          <div className="text-content">
+            <h6>Delete Appointment</h6>
+            <strong>1</strong>
+          </div>
         </div>
       </div>
     </div>
-
   );
 }
 

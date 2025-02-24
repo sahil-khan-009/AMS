@@ -1,30 +1,19 @@
 import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../PagesStyles/AppointmentStatus.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { useAppointment } from "../context/AppointmentContext";
 import { Link } from "react-router-dom";
 import { AiFillDelete } from "react-icons/ai";
 import { FaEdit } from "react-icons/fa";
-import apiService from "../Api-folder/Api";
-import { useNavigate } from "react-router-dom";
+import apiService from '../Api-folder/Api';
+
 
 function AppointmentStatus() {
   const navigate = useNavigate();
   const [AppointmentDetails, SetAppointmentDetails] = useState([]);
-  const [DeleteReason, SetDeleteReason] = useState("");
-  const [DeleteAppointmentMessage, SetDeleteAppointmentMessage] = useState("");
-  const {
-    updateid,
-    setupdateId,
-    setSelectedDepartment,
-    selectedDepartment,
-    Setdoctorname,
-    Doctorname,
-    patientName, 
-    setPatientName,
-    email, setEmail,
-    date, setDate,
-    description, setDescription
-  } = useAppointment();
+  const { selectedDoctorId, testing, departmentId } = useAppointment();
 
   // console.log("Selected DepartmentId----:", departmentId);
   // console.log("Selected selectedDoctorId----:",selectedDoctorId);
@@ -60,64 +49,29 @@ function AppointmentStatus() {
   }, []);
 
   useEffect(() => {
-    console.log("Updated AppointmentDetails:", AppointmentDetails);
-  }, []);
+    const fetchData = async () => {
+      if (!departmentId) {
+        console.log("departmentId is not set yet!");
+        return;
+      }
+      try {
+        const response = await apiService.getAppointment(departmentId);
+        const appointments = Array.isArray(response.data) ? response.data : [response.data];
+     console.log("API DATA----------------------appointments-----------------------------",appointments)  // Correctly placed
+      } catch (err) {
+        console.log("Error fetching appointments:", err.message);
+      }
+    };
 
-  const DeleteAppointment = (deletAppointmentId) => {
-    console.log("DeleteAppointmentId------", deletAppointmentId);
-    if (deletAppointmentId) {
-      apiService
-        .deleteAppointment(deletAppointmentId)
-        .then((response) => {
-          console.log("DeleteAppointmentResponse", response);
-          if (response.data) {
-            SetDeleteAppointmentMessage(response.data.message);
-            console.log("DeleteAppointmentMessage", DeleteAppointment);
-          }
-          fetchData();
-        })
-        .catch((err) => {
-          console.log("DeleteAppointmentError", err.message);
-        });
-    }
-  };
-
+    fetchData();
+  }, [departmentId])
   useEffect(() => {
-    if (DeleteAppointmentMessage) {
-      const timer = setTimeout(() => {
-        SetDeleteAppointmentMessage("");
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [DeleteAppointmentMessage]);
-
-  const UpdateDetails = (appointment, index, appointmentId) => {
-    console.log("appointment-------------------", appointment);
-
-    setupdateId(appointmentId); //ID IS BEING SENT TO
-
-    setSelectedDepartment(appointment.department);
-    Setdoctorname(appointment.doctor.name);
-     setPatientName(appointment.patientName);
-     setEmail(appointment.patientemail);
-     setDate(appointment.appointmentDate.split("T")[0]);
-     setDescription(appointment.description);
-
-
-     console.log("description-------------------", description);
-     console.log("Appointmentdate- in-AppointmentStatus  ", date);
-    console.log("Setdoctorname-in-AppointmentStatus,DoctorName--------------------------", Doctorname);
-
-    console.log("SelectedDepartment--in-AppointmentStatus", selectedDepartment);
-    console.log("appointment.patientName--------in appointmentStatus", patientName);
-    console.log("'index-------------------in-AppointmentStatus", index);
-  
-
-    navigate("/UserDashboard/UpdateDetails");
-  };
+    console.log("Updated AppointmentDetails:", AppointmentDetails);
+  }, [AppointmentDetails]); // ✅ Log when state updates
 
   return (
-    <div className="col-md-10 col-lg-12 mt-5">
+    <div className="col-md-10 col-lg-12 mt-5 shadow px-3 py-3">
+      <DashboardNav />
       <p className="page-show">Appointment Status</p>
       <hr />
       {DeleteAppointmentMessage && (
@@ -135,11 +89,10 @@ function AppointmentStatus() {
                 <th>Patient Email</th>
                 <th>Doctor Name</th>
                 <th>Department</th>
-                <th>Appointment Date</th>
-                <th> Status</th>
-                <th>Cancel Appointment</th>
-
-                <th>Update Appointment</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Delete</th>
+                <th>Edit</th>
               </tr>
             </thead>
             <tbody>
@@ -149,105 +102,22 @@ function AppointmentStatus() {
                     <td>{index + 1}</td>
                     <td>{appointment.patientName}</td>
                     <td>{appointment.patientemail}</td>
-                    <td>
-                      {appointment.doctor.name}
-                      <br />{" "}
-                    </td>
-                    <td>{appointment.department}</td>
                     <td>{appointment.appointmentDate}</td>
+                    {/* <td></td> */}
+                    <td>{appointment.description}</td>
+                    {/* <td>{appointment.departmentId}</td> */}
                     <td>{appointment.appointmentStatus}</td>
-
                     <td>
-                      <button
-                        type="button"
-                        className="btn "
-                        data-bs-toggle="modal"
-                        data-bs-target="#exampleModal"
-                      >
-                        <AiFillDelete className="delete-icon" />
-                      </button>
-
-                      <div
-                        className="modal fade"
-                        id="exampleModal"
-                        tabindex="-1"
-                        aria-labelledby="exampleModalLabel"
-                        aria-hidden="true"
-                      >
-                        <div className="modal-dialog">
-                          <div className="modal-content">
-                            <div className="modal-header">
-                              <h1
-                                className="modal-title fs-5"
-                                id="exampleModalLabel"
-                              >
-                                Modal title
-                              </h1>
-                              <button
-                                type="button"
-                                className="btn-close"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                              ></button>
-                            </div>
-                            <div className="modal-body">
-                              <textarea
-                                style={{ resize: "none" }}
-                                id="description"
-                                className="form-control"
-                                rows="4"
-                                placeholder="Enter description here..."
-                                required
-                                onChange={(e) => {
-                                  SetDeleteReason(e.target.value),
-                                    console.log(
-                                      "DeleteReason----------------------",
-                                      DeleteReason
-                                    );
-                                }}
-                              ></textarea>
-                            </div>
-                            <div className="modal-footer">
-                              <button
-                                type="button"
-                                className="btn btn-secondary btn-sm"
-                                data-bs-dismiss="modal"
-                              >
-                                Close
-                              </button>
-                              <button
-                                type="button"
-                                className="btn btn-primary btn-sm "
-                                data-bs-dismiss="modal"
-                                onClick={() =>
-                                  DeleteAppointment(appointment._id)
-                                }
-                              >
-                                Submit Your Reason
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                      <Link className='delete' to="/" type='button'>
+                        <AiFillDelete className='delete-icon' />
+                      </Link>{" "}
+                      {/* Button inside row */}
                     </td>
-
-                    {/* 
-
-                      <td onClick={() => console.log("Delete")}>
-                        <Link className="delete" to="" type="button">
-                          <AiFillDelete className="delete-icon" />
-                        </Link>
-                      </td> */}
-
-                    <td 
-                      className="edit"
-                      // to="/UserDashboard/UpdateDetails"
-                      type="button"
-                      onClick={() =>
-                        UpdateDetails(appointment, index, appointment._id)
-                      }
-                    >
-                      <FaEdit className="edit-icon" />
+                    <td>
+                      <Link className='edit' to="/" type='button'>
+                        <FaEdit className='edit-icon' />
+                      </Link>{" "}
+                      {/* Button inside row */}
                     </td>
                   </tr>
                 ))
@@ -259,38 +129,28 @@ function AppointmentStatus() {
             </tbody>
           </table>
         </div>
-        <nav>
-          <ul className="pagination justify-content-center">
-            <li className="page-item">
-              <a className="page-link" href="#">
-                Previous
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                1
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                2
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                3
-              </a>
-            </li>
-            <li className="page-item">
-              <a className="page-link" href="#">
-                Next
-              </a>
-            </li>
-          </ul>
-        </nav>
       </div>
     </div>
   );
 }
 
 export default AppointmentStatus;
+
+
+
+
+// try {
+//   const response = await axios.get(
+//     `https://backend-node-5tca.onrender.com/api/appointments/${departmentId}`, // Use route parameter
+//     { withCredentials: true }
+//   );
+
+//   console.log("Appointments:---------------------", response.data);
+//   const appointments = Array.isArray(response.data) ? response.data : [response.data];
+
+//   SetAppointmentDetails(appointments);
+//   localStorage.setItem("appointments", JSON.stringify(appointments))
+// } catch (err) {
+//   console.log("Error fetching departments:", err.message);
+// }
+// };

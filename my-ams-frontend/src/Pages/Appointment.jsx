@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import "../PagesStyles/Appointment.css";
 import { useAppointment } from "../context/AppointmentContext";
-import apiService from "../Api-folder/Api";
+import apiService from '../Api-folder/Api';
+import DashboardNav from "../Component/DashboardNav";
 
 function Appointment() {
   const [dropDownValue, setDropDownValue] = useState([]);
 
   const [availibility, setAvailibility] = useState("");
-  
+  const [patientName, setPatientName] = useState("");
   const [email, setEmail] = useState("");
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
@@ -21,11 +22,8 @@ function Appointment() {
     Settesting,
     departmentId,
     SetdepartmentId,
-    Doctorname,
-    Setdoctorname,
-    patientName, 
-    setPatientName
   } = useAppointment();
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,10 +31,7 @@ function Appointment() {
         const response = await apiService.getDepartments();
         setDropDownValue(response.data);
       } catch (err) {
-        console.error(
-          "Error fetching Catch errrrorrrr--- departments:",
-          err.message
-        );
+        console.error("Error fetching Catch errrrorrrr--- departments:", err.message);
       }
     };
 
@@ -58,18 +53,29 @@ function Appointment() {
 
     try {
       const response = await apiService.createAppointment(formData);
-      console.log("response from createAppointment:", response);
-      Setmessage("Appointment created successfully");
+      console.log("Response from createAppointment:", response);
+
+      if (response.status === 201 || response.status === 200) {
+        Setmessage("Appointment created successfully");
+
+        // Save new appointment to localStorage
+        const existingAppointments = JSON.parse(localStorage.getItem("appointments")) || [];
+        existingAppointments.push(formData);
+        localStorage.setItem("appointments", JSON.stringify(existingAppointments));
+      } else {
+        console.error("Failed to create appointment:", response);
+      }
     } catch (err) {
       console.error("Error creating appointment:", err.message);
     }
   };
 
+
+
   return (
-    <div className="col-md-10 col-lg-12 dashboard-content">
-      <nav className="navbar-expand-lg mb-5">
-        <a className="brand">Add Appointment</a>
-      </nav>
+    <div className="col-md-10 col-lg-12 px-3 py-3 dashboard-content shadow" style={{ marginTop: "4rem" }}>
+      <DashboardNav />
+      <p className="page-show">Make Appointment</p><hr />
       {message ? (
         <div
           className="alert alert-warning alert-dismissible fade show"
@@ -93,7 +99,6 @@ function Appointment() {
               <label htmlFor="department" className="form-label">
                 Department:
               </label>
-
               <select
                 className="form-select"
                 id="department"
@@ -105,7 +110,10 @@ function Appointment() {
                   setSelectedDepartment(e.target.value);
                   if (selectedDept) {
                     SetdepartmentId(selectedDept._id); // Correctly setting departmentId
-                    console.log("Selected Department ID:", selectedDept._id);
+                    console.log(
+                      "Selected Department ID----:",
+                      selectedDept._id
+                    );
                   }
                 }}
               >
@@ -126,22 +134,8 @@ function Appointment() {
               <select
                 className="form-select"
                 id="doctor"
-              
                 required
-                onChange={(e) => {
-                  const selectedDoctor = dropDownValue
-                    .filter((dept) => dept.department === selectedDepartment)
-                    .flatMap((dept) => dept.doctors)
-                    .find((doctor) => doctor._id === e.target.value); // Find doctor by ID
-
-                  setSelectedDoctorId(e.target.value); // Set doctor ID
-                  Setdoctorname(selectedDoctor ? selectedDoctor.name : ""); // Set doctor name
-
-                  console.log(
-                    "Selected Doctor Name:",
-                    selectedDoctor ? selectedDoctor.name : "Not found"
-                  );
-                }}
+                onChange={(e) => setSelectedDoctorId(e.target.value)}
               >
                 <option value="">Select Doctor</option>
                 {dropDownValue
@@ -150,6 +144,7 @@ function Appointment() {
                   .map((doctor, ind) => (
                     <option key={ind} value={doctor._id}>
                       {doctor.name}
+                      {doctor._id}
                     </option>
                   ))}
               </select>
@@ -164,9 +159,7 @@ function Appointment() {
                 className="form-select"
                 id="availability"
                 required
-                onChange={(e) => {setAvailibility(e.target.value)
-                  console.log("Selected Availability availibility, setAvailibility:", e.target.value);}
-                }
+                onChange={(e) => setAvailibility(e.target.value)}
               >
                 <option value="">Select Availability</option>
                 {dropDownValue
@@ -253,6 +246,7 @@ function Appointment() {
     </div>
   );
 }
+
 
 export default Appointment;
 
@@ -456,6 +450,9 @@ export default Appointment;
 // }
 
 // export default Appointment;
+
+
+
 
 // = await axios.get(
 //   "https://backend-node-5tca.onrender.com/api/doctor/Department",

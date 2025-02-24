@@ -1,0 +1,46 @@
+.easy-step {
+    background-color: #2F80ED; 
+    color: white;
+    text-align: center;
+    padding: 35px;
+}
+
+.appointment-step h2 {
+    margin-bottom: 20px;
+}
+
+.appointment-step p {
+    max-width: 700px;
+    margin: 0 auto 40px;
+}
+
+.step {
+    text-align: center;
+    padding: 20px;
+}
+
+.icon-step {
+    background: white;
+    color: #2F80ED;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 24px;
+    margin: 0 auto 15px;
+}
+
+.step h5 {
+    margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+    .row {
+        flex-wrap: wrap;
+    }
+    .step {
+        margin-bottom: 20px;
+    }
+}

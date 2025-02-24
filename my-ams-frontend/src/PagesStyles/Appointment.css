@@ -1,36 +1,20 @@
-
-
-/* .dashboard-content {
-    padding: 20px;
-} */
-
 .form-container {
     max-width: 800px;
     margin: 0 auto;
-} 
-
+}
 
 .btn-submit {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-    margin-left: 10rem;
     width: 50%;
+    margin: 1rem auto;
+    display: block;
 }
+
 
 .btn-submit:hover {
     background-color: #0056b3;
 }
 
 @media (max-width: 768px) {
-    .sidebar {
-        text-align: center;
-    }
-
     .form-container {
         padding: 10px;
     }

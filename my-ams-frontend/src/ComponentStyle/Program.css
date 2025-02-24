@@ -1,0 +1,52 @@
+.programs {
+    padding: 50px 0;
+    text-align: center;
+}
+
+.programs h1{
+    text-decoration: underline;
+}
+
+.programs-box {
+    padding: 20px;
+    transition: all 0.3s ease-in-out;
+}
+
+.programs-box .card {
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: rgb(243, 240, 240);
+}
+
+.programs-box .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.programs-box i {
+    font-size: 40px;
+    color: #0d6efd;
+    margin-bottom: 15px;
+}
+
+.programs-box h5 {
+    font-weight: bold;
+    color: #0d6efd;
+}
+
+.programs-box p {
+    color: #555;
+    font-size: 14px;
+}
+
+
+@media(max-width: 650px){
+    .programs{
+        flex-direction: column;
+    }
+    .programs{
+        flex-basis: 100%;
+        padding: 30px;
+    }
+}
