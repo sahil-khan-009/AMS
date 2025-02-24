@@ -7,6 +7,7 @@ import { FaBirthdayCake } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaCity } from "react-icons/fa";
 import { FaVenusMars } from "react-icons/fa";
+import DashboardNav from '../Component/DashboardNav';
 
 
 
@@ -17,6 +18,7 @@ import { FaVenusMars } from "react-icons/fa";
 function Profile() {
     return (
         <div className="col-md-10 col-lg-12 mt-5">
+            <DashboardNav/>
             <p className="page-show">Profile</p>
             <div class="container">
                 <div class="row justify-content-center">

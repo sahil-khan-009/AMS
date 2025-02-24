@@ -37,6 +37,17 @@ const apiService = {
     register: async (name, email, password) => {
       return api.post("/auth/register", { userName: name, userEmail: email, userPassword: password });
     },
+
+    getAppointment: async () => {
+      return api.get('/appointments');
+    },
+
+
+
+    deleteAppointment: async (deletAppointmentId) => {
+      return api.delete(`/deleteAppointment/${deletAppointmentId}`);
+    },
+
   };
   
   export default apiService;

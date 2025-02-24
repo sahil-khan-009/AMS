@@ -1,9 +1,11 @@
 import React from 'react'
 import "../PagesStyles/Notification.css"
+import DashboardNav from '../Component/DashboardNav'
 
 function Notification() {
   return (
     <div className="col-md-10 col-lg-12 mt-5">
+      <DashboardNav/>
       <p className="page-show">Notification</p>
       <div class="notifications">
         <div class="alert alert-light border-start border-primary border-1 p-3">

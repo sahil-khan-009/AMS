@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../PagesStyles/Appointment.css";
 import { useAppointment } from "../context/AppointmentContext";
 import apiService from '../Api-folder/Api';
+import DashboardNav from "../Component/DashboardNav";
 
 function Appointment() {
   const [dropDownValue, setDropDownValue] = useState([]);
@@ -22,21 +23,21 @@ function Appointment() {
     departmentId,
     SetdepartmentId,
   } = useAppointment();
- 
+
 
   useEffect(() => {
     const fetchData = async () => {
-        try {
-            const response = await apiService.getDepartments();
-            setDropDownValue(response.data);
-        } catch (err) {
-            console.error("Error fetching Catch errrrorrrr--- departments:", err.message);
-        }
+      try {
+        const response = await apiService.getDepartments();
+        setDropDownValue(response.data);
+      } catch (err) {
+        console.error("Error fetching Catch errrrorrrr--- departments:", err.message);
+      }
     };
 
     fetchData();
-}, []);
-    // Settesting("Testing Context api");
+  }, []);
+  // Settesting("Testing Context api");
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = {
@@ -50,22 +51,31 @@ function Appointment() {
       departmentId,
     };
 
-   try{
-    const response = await apiService.createAppointment(formData);
-    console.log("response from createAppointment:", response);
-    Setmessage("Appointment created successfully");
-   }catch(err){
-     console.error("Error creating appointment:", err.message);
-   }
+    try {
+      const response = await apiService.createAppointment(formData);
+      console.log("Response from createAppointment:", response);
+
+      if (response.status === 201 || response.status === 200) {
+        Setmessage("Appointment created successfully");
+
+        // Save new appointment to localStorage
+        const existingAppointments = JSON.parse(localStorage.getItem("appointments")) || [];
+        existingAppointments.push(formData);
+        localStorage.setItem("appointments", JSON.stringify(existingAppointments));
+      } else {
+        console.error("Failed to create appointment:", response);
+      }
+    } catch (err) {
+      console.error("Error creating appointment:", err.message);
+    }
   };
 
 
 
   return (
-    <div className="col-md-10 col-lg-12 dashboard-content">
-      <nav className="navbar-expand-lg mb-5">
-        <a className="brand">Add Appointment</a>
-      </nav>
+    <div className="col-md-10 col-lg-12 px-3 py-3 dashboard-content shadow" style={{ marginTop: "4rem" }}>
+      <DashboardNav />
+      <p className="page-show">Make Appointment</p><hr />
       {message ? (
         <div
           className="alert alert-warning alert-dismissible fade show"

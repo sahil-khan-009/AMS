@@ -1,15 +1,16 @@
-.custom-header{
+.custom-header {
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-.delete, .edit {
+.delete,
+.edit {
     background: none;
     border: none;
-    cursor: pointer;  
+    cursor: pointer;
 }
 
 .delete-icon {
-    color: red; 
+    color: red;
     font-size: 1.5rem;
     align-items: center;
 }
@@ -20,8 +21,61 @@
     align-items: center;
 }
 
+.view-icon {
+    color: rgb(0, 0, 0);
+    font-size: 1.5rem;
+    align-items: center;
+}
+
 
 td {
     text-align: center;
     vertical-align: middle;
 }
+
+.bg-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: white;
+    display: flex;
+    
+  }
+
+  /* .model-title{
+    margin-right: 10px;
+  } */
+
+.appointment-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.detail-item {
+    display: flex;
+    flex: 1 1 45%;
+    border-bottom: 1px solid #ddd;
+    padding: 8px 0;
+    gap: 15px;
+}
+
+.detail-item strong {
+    color: #333;
+}
+
+.detail-item span {
+    color: #666;
+}
+
+.detail-item:last-child {
+    border-bottom: none;
+}
+  @media (max-width: 768px) {
+    .detail-item {
+      flex: 1 1 100%; 
+    }
+  }
+  
