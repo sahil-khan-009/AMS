@@ -7,7 +7,7 @@ function Appointment() {
   const [dropDownValue, setDropDownValue] = useState([]);
 
   const [availibility, setAvailibility] = useState("");
-  const [patientName, setPatientName] = useState("");
+  
   const [email, setEmail] = useState("");
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
@@ -23,6 +23,8 @@ function Appointment() {
     SetdepartmentId,
     Doctorname,
     Setdoctorname,
+    patientName, 
+    setPatientName
   } = useAppointment();
 
   useEffect(() => {
@@ -124,6 +126,7 @@ function Appointment() {
               <select
                 className="form-select"
                 id="doctor"
+              
                 required
                 onChange={(e) => {
                   const selectedDoctor = dropDownValue
@@ -161,7 +164,9 @@ function Appointment() {
                 className="form-select"
                 id="availability"
                 required
-                onChange={(e) => setAvailibility(e.target.value)}
+                onChange={(e) => {setAvailibility(e.target.value)
+                  console.log("Selected Availability availibility, setAvailibility:", e.target.value);}
+                }
               >
                 <option value="">Select Availability</option>
                 {dropDownValue

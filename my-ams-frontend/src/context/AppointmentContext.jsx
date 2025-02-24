@@ -10,6 +10,12 @@ export const AppointmentProvider = ({ children }) => {
   const [testing, Settesting] = useState("");
   const [departmentId, SetdepartmentId] = useState("");
   const [Doctorname,Setdoctorname]= useState("");
+  const [updateid,setupdateId] = useState("");  
+  const [patientName, setPatientName] = useState("");
+  const [email, setEmail] = useState("");
+  const [date, setDate] = useState("");
+  const [description, setDescription] = useState("");
+
 
   return (
     <AppointmentContext.Provider
@@ -22,7 +28,17 @@ export const AppointmentProvider = ({ children }) => {
         Settesting,
         departmentId,
         SetdepartmentId,
-        Doctorname,Setdoctorname
+        Doctorname,Setdoctorname,
+        setupdateId,
+        updateid,
+        patientName, 
+        setPatientName,
+        email, setEmail,
+        date, setDate,
+        description, 
+        setDescription
+
+     
       }}
     >
       {children}
