@@ -19,6 +19,7 @@
     color: blue;
     font-size: 1.5rem;
     align-items: center;
+    text-align: center;
 }
 
 .view-icon {
@@ -43,10 +44,6 @@ td {
     display: flex;
     
   }
-
-  /* .model-title{
-    margin-right: 10px;
-  } */
 
 .appointment-details {
     display: flex;
