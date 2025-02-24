@@ -22,30 +22,39 @@ api.interceptors.request.use(
   
 // API Methods
 const apiService = {
+  // Post Method Api to  Appointment
     createAppointment: async (formData) => {
       return api.post("/appointments", formData);
     },
   
+    // Get Method Api to Department and doctor
     getDepartments: async () => {
       return api.get("/doctor/Department");
     },
+    // Login Api to login
   
     login: async (email, password) => {
       return api.post("/auth/login", { userEmail: email, userPassword: password });
     },
-  
+  // Register Api to register
     register: async (name, email, password) => {
       return api.post("/auth/register", { userName: name, userEmail: email, userPassword: password });
     },
-
+// Get Method Api to get Appointment status
     getAppointment: async () => {
       return api.get('/appointments');
     },
 
 
-
+// Delete Method Api to delete Appointment
     deleteAppointment: async (deletAppointmentId) => {
       return api.delete(`/deleteAppointment/${deletAppointmentId}`);
+    },
+
+
+// Update Method Api to update Appointment
+    updateAppointment: async (formData, updateid) => {
+      return api.put(`/updateAppointment/${updateid}`,formData);
     },
 
   };

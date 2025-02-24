@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from "react-router-dom";
-import axios from "axios";
+import { Link,useNavigate } from "react-router-dom";
+import apiService from '../Api-folder/Api';
 import { useState } from "react"
 
 const Register = () => {
@@ -8,37 +8,24 @@ const Register = () => {
     const [email, Setemail] = useState("");
     const [password, Setpassword] = useState("");
     const [message, SetMessage] = useState("");
+    const navigate = useNavigate();
 
 
     const registerUser = async (e) => {
           e.preventDefault();
-          try {
-            await axios
-              .post(
-                "https://backend-node-5tca.onrender.com/api/auth/register",
-                {
-                  userName: name, // Map frontend state variables to backend fields
-                  userEmail: email,
-                  userPassword: password,
-                },
-                { withCredentials: true }
-              )
-              .then((result) => {
-                console.log("result", result);
-                if (result && result.data) {
-                  const message = result.data;
-                  SetMessage(message);
-                  console.log("user message------", message);
-                }
-              });
-          } catch (err) {
-            console.log(
-              "Error during registration",
-              err.response?.data || err.message
-            );
-            SetMessage(err.response?.data || err.message);
-            console.log(message);
+          try{
+       const result = await apiService.register(name, email, password);
+        console.log("registerResult-------",result);
+        SetMessage(result.data.message);
+        if(result.data.message === "User created successfully"){
+          navigate('/UserDashboard');
+        }
+
+          }catch(err){
+            console.log("This is catch error------",err.response?.data || err.message)
+
           }
+        
         };
 
 
@@ -65,7 +52,7 @@ const Register = () => {
                 <input  type="text" id="username" placeholder="Enter your username"
                     onChange={(e) => SetName(e.target.value)}
                                     onKeyPress={(e) => {
-                                      const regex = /^[a-zA-Z\s]$/; // Allow only letters and spaces
+                                      const regex = /^[a-zA-Z\s!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]*$/; // Allow only letters and spaces
                                       if (!regex.test(e.key)) {
                                         e.preventDefault(); // Prevent invalid characters from being typed
                                       }
@@ -214,3 +201,40 @@ export default Register;
 // }
 
 // export default Signup;
+
+
+
+
+
+
+
+
+
+
+// try {
+//   await axios
+//     .post(
+//       "https://backend-node-5tca.onrender.com/api/auth/register",
+//       {
+//         userName: name, // Map frontend state variables to backend fields
+//         userEmail: email,
+//         userPassword: password,
+//       },
+//       { withCredentials: true }
+//     )
+//     .then((result) => {
+//       console.log("result", result);
+//       if (result && result.data) {
+//         const message = result.data;
+//         SetMessage(message);
+//         console.log("user message------", message);
+//       }
+//     });
+// } catch (err) {
+//   console.log(
+//     "Error during registration",
+//     err.response?.data || err.message
+//   );
+//   SetMessage(err.response?.data || err.message);
+//   console.log(message);
+// }
