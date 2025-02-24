@@ -1,45 +1,47 @@
-import React from 'react';
-import { Link } from "react-router-dom";
-import '../ComponentStyle/Nav.css';
+import React, { useEffect, useState } from 'react';
+import '../ComponentStyle/Navbar.css';
+import logo from '../assets/logo.png';
+import { RiLoginBoxFill } from "react-icons/ri";
+import { Link } from "react-scroll";
+import { HiOutlineMenuAlt3 } from "react-icons/hi";
+import { Link as NavLink } from 'react-router-dom';
 
-export default function Navbar() {
+
+
+const Navbar = () => {
+    const [sticky, setSticky] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setSticky(window.scrollY > 50);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    const [mobileMenu, setMobileMenu] = useState(false);
+    const toggleMenu = () => {
+        mobileMenu ? setMobileMenu(false) : setMobileMenu(true);
+    }
+
     return (
-        <nav className="navbar navbar-expand-lg fixed-top">
-            <div className="container-fluid">
-                <Link className="navbar-brand d-flex align-items-center" to="/">
-                    <img src="/src/assets/logo1.png" alt="Logo 1" className="me-2 logo-img" />
-                    <img src="/src/assets/logo2.png" alt="Logo 2" className="logo-img" />
-                </Link>
-                <button
-                    className="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarContent"
-                    aria-controls="navbarContent"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-                <div className="collapse navbar-collapse" id="navbarContent">
-                    <ul className="navbar-nav ms-auto">
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/">Home</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/about">About</Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/contact">Contact</Link>
-                        </li>
-                    </ul>
-                    <Link to="/login">
-                        <button type="button" className="btn btn-primary rounded-pill px-4 ms-lg-3">
-                            Login
-                        </button>
-                    </Link>
-                </div>
-            </div>
+        <nav className={`px-5 ${sticky ? 'dark-nav' : ''}`}>
+            <img src={logo} alt='Logo' className='logo' />
+            <ul className={mobileMenu ? '' : 'hide-mobile-menu'}>
+                <li><Link to='hero' smooth={true} offset={0} duration={500}>Home</Link></li>
+                <li><Link to='programs' smooth={true} offset={-260} duration={500}>Programs</Link></li>
+                <li><Link to='aboutus' smooth={true} offset={-100} duration={500}>About Us</Link></li>
+                <li><Link to='services' smooth={true} offset={-100} duration={500}>Our Services</Link></li>
+                <li><Link to='easy-step' smooth={true} offset={-100} duration={500}>Appointment</Link></li>
+                <li><Link to='contactus' smooth={true} offset={-40} duration={500}>Contact Us</Link></li>
+                <li>
+                    <NavLink to='/Login'><button className='btn' ><RiLoginBoxFill className='me-1' /> Login</button></NavLink>
+                </li>
+            </ul>
+            <HiOutlineMenuAlt3 className='menu' onClick={toggleMenu}  size={30} />
         </nav>
     );
 }
+
+export default Navbar;

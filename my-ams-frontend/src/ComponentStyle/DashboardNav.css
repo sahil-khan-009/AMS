@@ -1,23 +1,80 @@
 .dashboard-nav {
-    padding: 1rem;
-    background-color: #b9c5c3;
-    border-bottom: 0.5px solid #6f807d;
-  }  
-.text-start{
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-
+  padding: 1rem;
+  background-color: #fff;
+  margin-left: 15.5em;
+  transition: all 0.3s ease-in-out;
+  max-width: 84%;
 }
-  .rounded{
-    height: 3rem;
+
+/* icon */
+.bar-icon {
+  height: 3rem;
+  color: black;
+ 
+}
+
+/* Brand Name */
+.brand-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* User Button */
+.user-btn {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+  .dashboard-nav {
+    margin-left: 0;
+    padding: 0.8rem;
+    max-width: 100%;
   }
-  
-  @media (max-width: 991px) {
-    .navbar-collapse {
-      text-align: center;
-    }
-  
-    .navbar-nav {
-      margin-top: 10px;
-    }
+
+  .dashboard-nav .container-fluid {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
-  
+
+  .logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .brand-name {
+    font-size: 1.25rem;
+  }
+
+  .user-btn {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .dashboard-nav {
+    padding: 0.6rem;
+  }
+
+  .bar-icon {
+    height: 2.5rem;
+  }
+
+  .brand-name {
+    font-size: 1rem;
+  }
+
+  .user-btn {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+  }
+}
