@@ -15,7 +15,7 @@ export default function DashboardNav() {
     </div>
     <div className="d-flex align-items-center text-black py-2 fs-5">
         <FaUserAlt className="me-2" style={{ fontSize: '1.25rem', lineHeight: '1' }} />
-        <span className="text-start" style={{ lineHeight: '1' }}>Sahil Khan</span>
+        <span className="text-start" style={{ lineHeight: '1' }}>Sahil khan</span>
     </div>
 </div>
 
