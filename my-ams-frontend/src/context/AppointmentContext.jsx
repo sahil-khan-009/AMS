@@ -15,6 +15,7 @@ export const AppointmentProvider = ({ children }) => {
   const [email, setEmail] = useState("");
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
+  const [GlobalStateForUpdateFrom, SetGlobalStateForUpdateFrom] = useState("");
 
 
   return (
@@ -36,7 +37,9 @@ export const AppointmentProvider = ({ children }) => {
         email, setEmail,
         date, setDate,
         description, 
-        setDescription
+        setDescription,
+        GlobalStateForUpdateFrom, 
+        SetGlobalStateForUpdateFrom
 
      
       }}

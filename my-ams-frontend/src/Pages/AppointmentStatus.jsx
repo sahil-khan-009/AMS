@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiFillDelete } from "react-icons/ai";
 import { FaEdit } from "react-icons/fa";
 import { LuView } from "react-icons/lu";
@@ -7,12 +7,16 @@ import apiService from "../Api-folder/Api";
 import DashboardNav from "../Component/DashboardNav";
 import logo from "../assets/logo2.png";
 import "../PagesStyles/AppointmentStatus.css";
+import UpdateDetails from "./UpdateDetails";
+import { useAppointment } from "../context/AppointmentContext";
 
 function AppointmentStatus() {
+  const { GlobalStateForUpdateFrom, SetGlobalStateForUpdateFrom } = useAppointment();
   const [appointments, setAppointments] = useState([]);
   const [deleteReason, setDeleteReason] = useState("");
   const [deleteMessage, setDeleteMessage] = useState("");
   const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchAppointments();
@@ -21,7 +25,9 @@ function AppointmentStatus() {
   const fetchAppointments = async () => {
     try {
       const response = await apiService.getAppointment();
-      setAppointments(Array.isArray(response.data) ? response.data : [response.data]);
+      setAppointments(
+        Array.isArray(response.data) ? response.data : [response.data]
+      );
     } catch (err) {
       console.error("Error fetching appointments:", err.message);
     }
@@ -29,7 +35,8 @@ function AppointmentStatus() {
 
   const handleDeleteAppointment = (appointmentId) => {
     if (appointmentId) {
-      apiService.deleteAppointment(appointmentId)
+      apiService
+        .deleteAppointment(appointmentId)
         .then((response) => {
           if (response.data) {
             setDeleteMessage(response.data.message);
@@ -47,18 +54,31 @@ function AppointmentStatus() {
     }
   }, [deleteMessage]);
 
+
+
+  const UpdateDetails = (appointment) => {
+    console.log("UpdateDetails=========================", appointment);
+    navigate("/UserDashboard/UpdateDetails");
+    SetGlobalStateForUpdateFrom(appointment);
+
+
+    // UpdateDetails(appointment);
+  };
+
   return (
     <div className="col-md-10 col-lg-12 mt-5 shadow px-3 py-3">
       <DashboardNav />
       <p className="page-show">Appointment Status</p>
       <hr />
 
-      {deleteMessage && <div className="alert alert-success">{deleteMessage}</div>}
+      {deleteMessage && (
+        <div className="alert alert-success">{deleteMessage}</div>
+      )}
 
       <div className="table-container">
         <div className="table-responsive">
           <table className="table table-striped table-bordered">
-            <thead className="table-secondary text-center"> 
+            <thead className="table-secondary text-center">
               <tr>
                 <th>Sr No</th>
                 <th>Patient Name</th>
@@ -82,11 +102,14 @@ function AppointmentStatus() {
                     <td>{appointment.doctor.name}</td>
                     <td>{appointment.department}</td>
                     <td>
-                      {new Date(appointment.appointmentDate).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "short",
-                        day: "2-digit",
-                      })}
+                      {new Date(appointment.appointmentDate).toLocaleDateString(
+                        "en-US",
+                        {
+                          year: "numeric",
+                          month: "short",
+                          day: "2-digit",
+                        }
+                      )}
                     </td>
                     <td>{appointment.appointmentStatus}</td>
 
@@ -116,7 +139,10 @@ function AppointmentStatus() {
 
                     {/* Edit Appointment */}
                     <td>
-                      <Link className="edit" to="/UserDashboard/UpdateDetails">
+                      <Link
+                        className="edit" to='/userDashboard/UpdateDetails'
+                        onClick={() => UpdateDetails(appointment)}
+                      >
                         <FaEdit className="edit-icon" />
                       </Link>
                     </td>
@@ -141,61 +167,78 @@ function AppointmentStatus() {
         aria-hidden="true"
       >
         <div className="bg-container">
-        <div className="modal-dialog modal-lg">
-        <div className="modal-header d-flex justify-content-center">
-              <h5 className="modal-title bg-dark p-2 text-white">Appointment Slip</h5>
-            </div>
-          <div className="modal-content">
-            <div className="modal-body">
+          <div className="modal-dialog modal-lg">
             <div className="modal-header d-flex justify-content-center">
-            <img src={logo} alt="Logo" className="logo" />
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+              <h5 className="modal-title bg-dark p-2 text-white">
+                Appointment Slip
+              </h5>
             </div>
-              {selectedAppointment ? (
-                <div className="appointment-details">
-                  <div className="detail-item">
-                    <strong>Patient Name:</strong> <span>{selectedAppointment.patientName}</span>
-                  </div>
-                  <div className="detail-item">
-                    <strong>Patient Email:</strong> <span>{selectedAppointment.patientemail}</span>
-                  </div>
-                  <div className="detail-item">
-                    <strong>Doctor:</strong> <span>{selectedAppointment.doctor.name}</span>
-                  </div>
-                  <div className="detail-item">
-                    <strong>Department:</strong> <span>{selectedAppointment.department}</span>
-                  </div>
-                  <div className="detail-item">
-                    <strong>Appointment Date:</strong>
-                    <span>
-                      {new Date(selectedAppointment.appointmentDate).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "short",
-                        day: "2-digit",
-                      })}
-                    </span>
-                  </div>
+            <div className="modal-content">
+              <div className="modal-body">
+                <div className="modal-header d-flex justify-content-center">
+                  <img src={logo} alt="Logo" className="logo" />
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
                 </div>
-              ) : (
-                <p>Loading...</p>
-              )}
+                {selectedAppointment ? (
+                  <div className="appointment-details">
+                    <div className="detail-item">
+                      <strong>Patient Name:</strong>{" "}
+                      <span>{selectedAppointment.patientName}</span>
+                    </div>
+                    <div className="detail-item">
+                      <strong>Patient Email:</strong>{" "}
+                      <span>{selectedAppointment.patientemail}</span>
+                    </div>
+                    <div className="detail-item">
+                      <strong>Doctor:</strong>{" "}
+                      <span>{selectedAppointment.doctor.name}</span>
+                    </div>
+                    <div className="detail-item">
+                      <strong>Department:</strong>{" "}
+                      <span>{selectedAppointment.department}</span>
+                    </div>
+                    <div className="detail-item">
+                      <strong>Appointment Date:</strong>
+                      <span>
+                        {new Date(
+                          selectedAppointment.appointmentDate
+                        ).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "short",
+                          day: "2-digit",
+                        })}
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <p>Loading...</p>
+                )}
+              </div>
             </div>
           </div>
         </div>
       </div>
-      </div>
       {/* Delete Appointment Modal */}
-      <div className="modal fade" id="deleteModal" tabIndex="-1" aria-hidden="true">
+      <div
+        className="modal fade"
+        id="deleteModal"
+        tabIndex="-1"
+        aria-hidden="true"
+      >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">Cancel Appointment</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+              ></button>
             </div>
             <div className="modal-body">
               <textarea
@@ -207,14 +250,20 @@ function AppointmentStatus() {
               ></textarea>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+              <button
+                type="button"
+                className="btn btn-secondary btn-sm"
+                data-bs-dismiss="modal"
+              >
                 Close
               </button>
               <button
                 type="button"
                 className="btn btn-primary btn-sm"
                 data-bs-dismiss="modal"
-                onClick={() => handleDeleteAppointment(selectedAppointment?._id)}
+                onClick={() =>
+                  handleDeleteAppointment(selectedAppointment?._id)
+                }
               >
                 Submit
               </button>

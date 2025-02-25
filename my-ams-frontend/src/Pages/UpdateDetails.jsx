@@ -4,34 +4,16 @@ import { useNavigate } from "react-router-dom";
 import { useAppointment } from "../context/AppointmentContext";
 import apiService from "../Api-folder/Api";
 import DashboardNav from "../Component/DashboardNav";
-// import { Link } from "react-router-dom";
 
 function UpdateDetails() {
   const [dropDownValue, setDropDownValue] = useState([]);
-
   const [availibility, setAvailibility] = useState("");
-
   const [message, Setmessage] = useState("");
 
   const {
-    selectedDepartment,
-    setSelectedDepartment,
-    selectedDoctorId,
-    setSelectedDoctorId,
-    Settesting,
-    departmentId,
-    SetdepartmentId,
-    Doctorname,
-    Setdoctorname,
+    GlobalStateForUpdateFrom,
+    SetGlobalStateForUpdateFrom,
     updateid,
-    updateAppointment,
-    patientName,
-    setPatientName,
-    email,
-    setEmail,
-    date,
-    setDate,
-    description, setDescription
   } = useAppointment();
 
   useEffect(() => {
@@ -40,62 +22,55 @@ function UpdateDetails() {
         const response = await apiService.getDepartments();
         setDropDownValue(response.data);
       } catch (err) {
-        console.error(
-          "Error fetching Catch errrrorrrr--- departments:",
-          err.message
-        );
+        console.error("Error fetching departments:", err.message);
       }
     };
-    console.log("updateid", updateid);
-    console.log("SelectedDepartment--", selectedDepartment);
     fetchData();
   }, []);
-  // Settesting("Testing Context api");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = {
-      department: selectedDepartment,
-      doctorId: selectedDoctorId, // Sending doctorId instead of name
+      department: GlobalStateForUpdateFrom.department,
+      doctorId: GlobalStateForUpdateFrom.selectedDoctorId,
       availability: availibility,
-      patientName,
-      patientemail: email,
-      appointmentDate: date,
-      description,
-      departmentId,
+      patientName: GlobalStateForUpdateFrom.patientName,
+      patientemail: GlobalStateForUpdateFrom.patientemail,
+      appointmentDate: GlobalStateForUpdateFrom.appointmentDate,
+      description: GlobalStateForUpdateFrom.description,
+      departmentId: GlobalStateForUpdateFrom.departmentId,
     };
 
     try {
       const response = await apiService.updateAppointment(formData, updateid);
-      console.log("response from createAppointment:", response);
-      Setmessage("appointment updated successfully");
+      console.log("Response:", response);
+      Setmessage("Appointment updated successfully");
     } catch (err) {
-      console.error("Error creating appointment:", err.message);
+      console.error("Error updating appointment:", err.message);
     }
   };
 
-  useEffect(() => {
-    console.log("Doctorname in updatDetails-----------------", Doctorname);
-    console.log("patientName in updatDetails-----------------", patientName);
-  }, [Doctorname, patientName]);
+  const handleInputChange = (e) => {
+    SetGlobalStateForUpdateFrom({
+      ...GlobalStateForUpdateFrom,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   return (
-    <div className="col-md-10 col-lg-12 px-3 py-3 dashboard-content shadow"style={{ marginTop: "4rem" }}>
-      <DashboardNav/>
-      <p className="page-show">Update Details</p><hr />
-      {message ? (
-        <div
-          className="alert alert-warning alert-dismissible fade show"
-          role="alert"
-        >
+    <div
+      className="col-md-10 col-lg-12 px-3 py-3 dashboard-content shadow"
+      style={{ marginTop: "4rem" }}
+    >
+      <DashboardNav />
+      <p className="page-show">Update Details</p>
+      <hr />
+      {message && (
+        <div className="alert alert-warning alert-dismissible fade show">
           <strong>{message}</strong> You can check your details now
-          <button
-            type="button"
-            className="btn-close"
-            data-bs-dismiss="alert"
-            aria-label="Close"
-          ></button>
+          <button type="button" className="btn-close" data-bs-dismiss="alert"></button>
         </div>
-      ) : null}
+      )}
       <div className="form-container mx-auto">
         <form onSubmit={handleSubmit}>
           {/* Department Dropdown */}
@@ -104,25 +79,21 @@ function UpdateDetails() {
               <label htmlFor="department" className="form-label">
                 Department:
               </label>
-
               <select
                 className="form-select"
                 id="department"
+                name="department"
                 required
-                value={selectedDepartment}
+                value={GlobalStateForUpdateFrom.department || ""}
                 onChange={(e) => {
                   const selectedDept = dropDownValue.find(
                     (dept) => dept.department === e.target.value
                   );
-                  setSelectedDepartment(e.target.value);
-                  if (selectedDept) {
-                    SetdepartmentId(selectedDept._id); // Correctly setting departmentId
-                    console.log("Selected Department ID:", selectedDept._id);
-                    console.log(
-                      "e.target.value.length> 0 ? e.target.value :updateAppointment.department------------------------",
-                      updateAppointment.department
-                    );
-                  }
+                  SetGlobalStateForUpdateFrom({
+                    ...GlobalStateForUpdateFrom,
+                    department: e.target.value,
+                    departmentId: selectedDept?._id || "",
+                  });
                 }}
               >
                 <option value="">Select Department</option>
@@ -142,28 +113,25 @@ function UpdateDetails() {
               <select
                 className="form-select"
                 id="doctor"
+                name="selectedDoctorId"
                 required
-                value={Doctorname}
+                value={GlobalStateForUpdateFrom.selectedDoctorId || ""}
                 onChange={(e) => {
                   const selectedDoctor = dropDownValue
-                    .filter((dept) => dept.department === selectedDepartment)
-                    .flatMap((dept) => dept.doctors)
-                    .find((doctor) => doctor._id === e.target.value); // Find doctor by ID
+                    .find((dept) => dept.department === GlobalStateForUpdateFrom.department)
+                    ?.doctors.find((doctor) => doctor._id === e.target.value);
 
-                  setSelectedDoctorId(e.target.value); // Set doctor ID
-                  Setdoctorname(selectedDoctor ? selectedDoctor.name : ""); // Set doctor name
-
-                  console.log(
-                    "Selected Doctor Name:",
-                    selectedDoctor ? selectedDoctor.name : "Not found"
-                  );
+                  SetGlobalStateForUpdateFrom({
+                    ...GlobalStateForUpdateFrom,
+                    selectedDoctorId: e.target.value,
+                    doctorName: selectedDoctor?.name || "",
+                  });
                 }}
               >
                 <option value="">Select Doctor</option>
                 {dropDownValue
-                  .filter((dept) => dept.department === selectedDepartment)
-                  .flatMap((dept) => dept.doctors)
-                  .map((doctor, ind) => (
+                  .find((dept) => dept.department === GlobalStateForUpdateFrom.department)
+                  ?.doctors.map((doctor, ind) => (
                     <option key={ind} value={doctor._id}>
                       {doctor.name}
                     </option>
@@ -179,15 +147,16 @@ function UpdateDetails() {
               <select
                 className="form-select"
                 id="availability"
+                name="availability"
                 required
+                value={availibility || ""}
                 onChange={(e) => setAvailibility(e.target.value)}
               >
                 <option value="">Select Availability</option>
                 {dropDownValue
                   .flatMap((dept) => dept.doctors)
-                  .filter((doctor) => doctor._id === selectedDoctorId)
-                  .flatMap((doctor) => doctor.availability)
-                  .map((day, ind) => (
+                  .find((doctor) => doctor._id === GlobalStateForUpdateFrom.selectedDoctorId)
+                  ?.availability.map((day, ind) => (
                     <option key={ind} value={day}>
                       {day}
                     </option>
@@ -205,25 +174,27 @@ function UpdateDetails() {
               <input
                 type="text"
                 id="patientName"
+                name="patientName"
                 className="form-control"
                 placeholder="Enter Patient's Name"
-                value={patientName}
-                onChange={(e) => setPatientName(e.target.value)}
+                value={GlobalStateForUpdateFrom.patientName || ""}
+                onChange={handleInputChange}
                 required
               />
             </div>
             <div className="col-12 col-md-6">
-              <label htmlFor="patientEmail" className="form-label">
+              <label htmlFor="patientemail" className="form-label">
                 Patient's Email:
               </label>
               <input
                 type="email"
-                id="patientEmail"
+                id="patientemail"
+                name="patientemail"
                 className="form-control"
                 placeholder="Enter Patient's Email"
-                onChange={(e) => setEmail(e.target.value)}
+                value={GlobalStateForUpdateFrom.patientemail || ""}
+                onChange={handleInputChange}
                 required
-                value={email}
               />
             </div>
           </div>
@@ -237,10 +208,11 @@ function UpdateDetails() {
               <input
                 type="date"
                 id="appointmentDate"
+                name="appointmentDate"
                 className="form-control"
-                onChange={(e) => setDate(e.target.value)}
+                value={GlobalStateForUpdateFrom.appointmentDate?.split("T")[0] || ""}
+                onChange={handleInputChange}
                 required
-                value={date}
               />
             </div>
             <div className="col-12">
@@ -248,21 +220,21 @@ function UpdateDetails() {
                 Description:
               </label>
               <textarea
-                style={{ resize: "none" }}
                 id="description"
+                name="description"
                 className="form-control"
                 rows="4"
-                placeholder="Enter description here..."
+                placeholder="Enter description..."
+                value={GlobalStateForUpdateFrom.description || ""}
+                onChange={handleInputChange}
                 required
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
               ></textarea>
             </div>
           </div>
 
           {/* Submit Button */}
           <div className="d-grid">
-            <button type="update" className="btn btn-submit w-50 btn-primary">
+            <button type="submit" className="btn btn-primary w-50">
               Update
             </button>
           </div>
