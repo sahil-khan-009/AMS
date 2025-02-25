@@ -11,8 +11,8 @@ import UpdateDetails from "./UpdateDetails";
 import { useAppointment } from "../context/AppointmentContext";
 
 function AppointmentStatus() {
-  const { GlobalStateForUpdateFrom, SetGlobalStateForUpdateFrom } = useAppointment();
-  const [appointments, setAppointments] = useState([]);
+  const { GlobalStateForUpdateFrom, SetGlobalStateForUpdateFrom,appointments, setAppointments } = useAppointment();
+ 
   const [deleteReason, setDeleteReason] = useState("");
   const [deleteMessage, setDeleteMessage] = useState("");
   const [selectedAppointment, setSelectedAppointment] = useState(null);
@@ -228,7 +228,8 @@ function AppointmentStatus() {
         className="modal fade"
         id="deleteModal"
         tabIndex="-1"
-        aria-hidden="true"
+        aria-labelledby="deleteModallabel"
+        aria-hidden="false"
       >
         <div className="modal-dialog">
           <div className="modal-content">
