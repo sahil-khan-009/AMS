@@ -1,0 +1,15 @@
+.custom-card {
+    background: linear-gradient(rgba(8, 0, 58, 0.7), rgba(8, 0, 58, 0.7));
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    min-width: 200px;
+}
+
+@media (max-width: 768px) {
+    .custom-card {
+        width: 100%;
+    }
+}

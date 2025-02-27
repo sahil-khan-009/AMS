@@ -1,4 +1,18 @@
-.navbar-brand {
-    font-weight: bold;
-    font-size: 1.5rem;
+.navbar {
+    width: calc(100% - 250px);
+    transition: 0.3s;
+   
+}
+
+
+.navbar .ms-auto {
+    margin-left: auto !important; /* Pushes the item to the right */
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        width: 100%;
+    }
 }

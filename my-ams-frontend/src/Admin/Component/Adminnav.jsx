@@ -4,20 +4,21 @@ import { FaUserAlt } from "react-icons/fa";
 
 
 const Adminnav = () => {
-    return (
-        <div className="container-fluid">
-            <nav className="d-flex navbar fixed-top bg-white shadow w-100" style={{ marginLeft: '15.5em' }}>
-            <div className="d-flex align-items-center text-black py-2 px-2 fs-5">
-                    <span className="navbar-brand"style={{ lineHeight: '1' }}>
-                        AMS
-                    </span>
-                    <FaUserAlt className="me-2" style={{ fontSize: '1.25rem', lineHeight: '1' ,marginLeft:'53em' }} />
-                    <span className="text-start" style={{ lineHeight: '1'}}>Sahil khan</span>
-                </div>
-            </nav>
-        </div>
-
-    );
+  return (
+    <div className="d-flex justify-content-end">
+      <div className="w-75">
+        <nav className="navbar navbar-expand-lg navbar-light bg-white shadow fixed-top" style={{marginLeft:"15.5em"}}>
+          <div className="container-fluid">
+            <span className="navbar-brand fw-bold">AMS</span>
+            <div className="ms-auto d-flex align-items-center text-dark">
+              <FaUserAlt className="me-2" />
+              <span>Sahil Khan</span>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+  );
 };
 
 export default Adminnav;
