@@ -42,8 +42,7 @@ const UserDashboard = () => {
             <Link
               to="/UserDashboard"
               className="nav-link"
-              style={{ marginTop: "1rem" }}
-            >
+              style={{ marginTop: "1rem" }}>
               <FaHome className="me-3" /> <span>Dashboard</span>
             </Link>
             <Link to="Appointment" className="nav-link">
