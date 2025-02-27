@@ -12,6 +12,8 @@ import Notification from './Pages/Notification.jsx';
 import { AppointmentProvider } from './context/AppointmentContext.jsx';
 // import AdminSideBar from './Admin/Component/AdminSideBar.jsx';
 import AdminDashboard from './Admin/Page/AdminDashboard.jsx';
+import AdminDepartment from './Admin/Page/AdminDepartment.jsx';
+import AdminSideBar from './Admin/Page/AdminDashboard.jsx';
 
 function App() {
   return (
@@ -31,8 +33,12 @@ function App() {
             <Route path="Notification" element={<Notification />} />
           </Route>
 
-          {/* <Route path='/AdminSideBar' element={<AdminSideBar/>} /> */}
+          <Route path='/AdminSideBar' element={<AdminSideBar/>} />
+
           <Route path='/AdminDashboard' element={<AdminDashboard/>} />
+      <Route path="/AdminDepartment" element={<AdminDepartment/>} />
+    
+
         </Routes>
       </Router>
     </AppointmentProvider>
