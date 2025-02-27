@@ -1,13 +1,13 @@
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
 const data = [
-  { name: "Cancelled", value: 30 },
-  { name: "Appointments", value: 50 },
-  { name: "Deleted", value: 20 },
-  { name: "Approved", value: 40 },
+  { name: "Cancelled", value: 30 , label: 'series A'},
+  { name: "Appointments", value: 50, label: 'series A' },
+  { name: "Deleted", value: 20 , label: 'series A'},
+  { name: "Approved", value: 40, label: 'series A' },
 ];
 
-const COLORS = ["#FF0000", "#0088FE", "#FFBB28","#198754"]; // Red, Blue, Yellow, Green
+const COLORS = ["#FF0000", "#0088FE", "#FFBB28","#198754"]; // Red, Blue, Yellow,Green
 
 const AppointmentPieChart = () => {
   return (

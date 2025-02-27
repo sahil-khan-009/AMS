@@ -8,6 +8,13 @@
     min-width: 200px;
 }
 
+.custom-card h6{
+    color: white;
+}
+.custom-card strong{
+    color: white;
+}
+
 @media (max-width: 768px) {
     .custom-card {
         width: 100%;

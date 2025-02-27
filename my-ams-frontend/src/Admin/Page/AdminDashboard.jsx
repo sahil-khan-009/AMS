@@ -12,35 +12,35 @@ const AdminDashboard = () => {
         <AdminSideBar />
         <main className="col-md-10 ms-sm-auto px-md-4 mt-5">
           <Adminnav />
-          <h2 className="mt-5">Dashboard</h2>
+          <h2 className="mt-4">Dashboard</h2>
           <hr />
           <div className="row g-3">
             <div className="col-md-6 col-lg-3">
-              <div className="card shadow p-3">
+              <div className="custom-card card shadow p-3">
                 <h6>Appointments</h6>
                 <strong>0</strong>
               </div>
             </div>
             <div className="col-md-6 col-lg-3">
-              <div className="card shadow p-3">
+              <div className="custom-card card shadow p-3">
                 <h6>Approved </h6>
-                <strong>1</strong>
+                <strong>0</strong>
               </div>
             </div>
             <div className="col-md-6 col-lg-3">
-              <div className="card shadow p-3">
+              <div className="custom-card card shadow p-3">
                 <h6>Rejected </h6>
-                <strong>1</strong>
+                <strong>0</strong>
               </div>
             </div>
             <div className="col-md-6 col-lg-3">
-              <div className="card shadow p-3">
+              <div className="custom-card card shadow p-3">
                 <h6>Deleted </h6>
-                <strong>8</strong>
+                <strong>0</strong>
               </div>
             </div>
           </div>
-          <AppointmentPieChart/>
+          <AppointmentPieChart />
         </main>
       </div>
     </div>
