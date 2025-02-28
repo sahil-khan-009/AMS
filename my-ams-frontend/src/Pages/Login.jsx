@@ -30,7 +30,7 @@ const Login = () => { // Correctly define the component here
         }
 
       }catch(err){
-        console.log("Login failded: this is catch error----------",err);
+        console.log("Login Failded: this is catch error----------",err);
 
       }
       
