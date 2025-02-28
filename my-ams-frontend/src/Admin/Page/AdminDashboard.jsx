@@ -1,7 +1,7 @@
 import React from 'react'
 import '../../Admin/PageStyle/AdminDashboard.css'
 import AdminSideBar from '../Component/AdminSideBar'
-import Adminnav from '../Component/Adminnav'
+// import Adminnav from '../Component/Adminnav'
 import AppointmentPieChart from '../Charts/AppointmentPieChart'
 
 
