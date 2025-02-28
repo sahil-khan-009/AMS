@@ -5,12 +5,12 @@ import { FaUserAlt } from "react-icons/fa";
 
 const Adminnav = () => {
   return (
-    <div className="d-flex justify-content-end">
-      <div className="w-75">
-        <nav className="navbar navbar-expand-lg navbar-light bg-white shadow fixed-top" style={{marginLeft:"15.5em"}}>
+    <div className="d-flex">
+      <div className=" me-auto p-0 m-0">
+        <nav className="navbar col-lg-10 navbar-light bg-white shadow fixed-top ms-auto">
           <div className="container-fluid">
             <span className="navbar-brand fw-bold">AMS</span>
-            <div className="ms-auto d-flex align-items-center text-dark">
+            <div className=" d-flex align-items-center text-dark">
               <FaUserAlt className="me-2" />
               <span>Sahil Khan</span>
             </div>

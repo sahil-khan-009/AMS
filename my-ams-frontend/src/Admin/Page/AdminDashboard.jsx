@@ -10,7 +10,7 @@ const AdminDashboard = () => {
     <div className="container-fluid">
       <div className="row">
         <AdminSideBar />
-        <main className="col-md-10 ms-sm-auto px-md-4 mt-5">
+        <main className="col-lg-12 col-md-8 px-md-3 ">
         
           <h2 className="mt-4">Dashboard</h2>
           <hr />

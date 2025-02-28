@@ -20,7 +20,7 @@ const UserDashboard = () => {
   const logOutUser = () => {
     sessionStorage.removeItem("token"); // Remove token
     navigate('/'); // Redirect to homepage
-};
+  };
 
   return (
     <div>
@@ -33,9 +33,8 @@ const UserDashboard = () => {
 
           {/* Sidebar */}
           <div
-            className={`sidebar col-lg-2 col-md-4 d-flex flex-column p-3 shadow ${
-              isSidebarOpen ? "open" : ""
-            }`}
+            className={`sidebar col-lg-2 col-md-4 d-flex flex-column p-3 shadow ${isSidebarOpen ? "open" : ""
+              }`}
           >
             <img src={logo} alt="Logo" className="logo" />
             <hr />
@@ -66,11 +65,11 @@ const UserDashboard = () => {
               <FaVideo className="me-3" /> <span>Video Call</span>
             </Link>
             <Link to="/" className="nav-link logout-link" onClick={(e) => {
-            e.preventDefault();
-            logOutUser();
-        }}>
-            <FiLogOut className='me-3'/> <span>Logout</span>
-        </Link>
+              e.preventDefault();
+              logOutUser();
+            }}>
+              <FiLogOut className='me-3' /> <span>Logout</span>
+            </Link>
           </div>
 
           {/* Main Content */}
