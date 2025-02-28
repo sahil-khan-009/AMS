@@ -1,9 +1,11 @@
-import React from 'react'
-import { Outlet, Link } from 'react-router-dom'
-import '../../Admin/ComponentStyles/AdminSideBar.css'
-import logo from '../../assets/logo.png';
+import React, { useState } from "react";
+import { Outlet, Link } from "react-router-dom";
+import "../../Admin/ComponentStyles/AdminSideBar.css";
+import logo from "../../assets/logo.png";
 
 const AdminSideBar = () => {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   return (
     <div>
       <nav className="col-md-2 d-md-block bg-dark sidebar vh-100 p-3">
@@ -18,15 +20,36 @@ const AdminSideBar = () => {
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/doctor" className="nav-link text-white">
+            <Link to="AddDoctor" className="nav-link text-white">
               Doctor
             </Link>
           </li>
-          <li className="nav-item">
-            <Link to="AdminDepartment" className="nav-link text-white">
+
+          {/* Department Dropdown */}
+          <li
+            className={`nav-item dropdown ${isDropdownOpen ? "show" : ""}`}
+            onMouseEnter={() => setIsDropdownOpen(true)}
+            onMouseLeave={() => setIsDropdownOpen(false)}
+          >
+            <Link
+              to="AdminDepartment"
+              className="nav-link dropdown-toggle text-white"
+              id="departmentDropdown"
+              role="button"
+              aria-expanded={isDropdownOpen}
+            >
               Department
             </Link>
+            <ul className={`dropdown-menu ${isDropdownOpen ? "show" : ""}`} aria-labelledby="departmentDropdown">
+              {/* <li>
+                <Link to="/AdminDepartment" className="dropdown-item">View Departments</Link>
+              </li> */}
+              <li>
+                <Link to="AddDepartment" className="dropdown-item">Add Department</Link>
+              </li>
+            </ul>
           </li>
+
           <li className="nav-item">
             <Link to="/appointments" className="nav-link text-white">
               Appointments
@@ -55,4 +78,5 @@ const AdminSideBar = () => {
     </div>
   );
 };
-export default AdminSideBar
+
+export default AdminSideBar;

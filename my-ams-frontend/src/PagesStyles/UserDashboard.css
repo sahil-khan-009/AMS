@@ -15,7 +15,7 @@
   transition: transform 0.3s ease-in-out, background 0.3s;
   position: fixed;
   z-index: 1000;
-  transform: translateX(-10px); /* Initially slightly hidden */
+  /* transform: translateX(-9px);  */
 }
 
 
