@@ -11,7 +11,7 @@ const AdminDashboard = () => {
       <div className="row">
         <AdminSideBar />
         <main className="col-md-10 ms-sm-auto px-md-4 mt-5">
-          <Adminnav />
+        
           <h2 className="mt-4">Dashboard</h2>
           <hr />
           <div className="row g-3">
@@ -40,6 +40,7 @@ const AdminDashboard = () => {
               </div>
             </div>
           </div>
+          {/* Appointment Pie Chart Start From here */}
           <AppointmentPieChart />
         </main>
       </div>

@@ -12,7 +12,7 @@ const AdminSideBar = () => {
       <hr />
       <ul className="nav flex-column">
         <li className="nav-item">
-          <Link to="/AdminDepartment" className="nav-link text-white">
+          <Link to="/dashboard" className="nav-link text-white">
             Dashboard
           </Link>
         </li>
