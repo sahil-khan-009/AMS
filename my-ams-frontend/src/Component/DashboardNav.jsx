@@ -6,7 +6,7 @@ import { FaBars } from "react-icons/fa";
 
 export default function DashboardNav() {
     return (
-        <nav className="dashboard-nav navbar fixed-top shadow">
+        <nav className="navbar col-lg-10 navbar-light bg-white shadow fixed-top ms-auto">
             <div className="container-fluid">
                 <div className="d-flex justify-content-between align-items-center w-100">
                     <div className="d-flex align-items-center gap-3 logo-container">
