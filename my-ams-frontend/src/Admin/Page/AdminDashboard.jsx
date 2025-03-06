@@ -7,12 +7,14 @@ import AppointmentPieChart from '../Charts/AppointmentPieChart'
 
 const AdminDashboard = () => {
   return (
-    <div className="container-fluid">
+    <div className="container-fluid full-height-bg p-4">
+      <Adminnav/>
       <div className="row">
+
         <AdminSideBar />
         <main className="col-lg-12 col-md-8 px-md-3 ">
         
-          <h2 className="mt-4">Dashboard</h2>
+          <h3 className="mt-5">Dashboard</h3>
           <hr />
           <div className="row g-3">
             <div className="col-md-6 col-lg-3">

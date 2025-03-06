@@ -32,7 +32,7 @@ const AdminSideBar = () => {
             onMouseLeave={() => setIsDropdownOpen(false)}
           >
             <Link
-              to="AdminDepartment"
+              to="Department"
               className="nav-link dropdown-toggle text-white"
               id="departmentDropdown"
               role="button"
@@ -51,7 +51,7 @@ const AdminSideBar = () => {
           </li>
 
           <li className="nav-item">
-            <Link to="/appointments" className="nav-link text-white">
+            <Link to="UserAppointment" className="nav-link text-white">
               Appointments
             </Link>
           </li>
@@ -72,7 +72,7 @@ const AdminSideBar = () => {
           </li>
         </ul>
       </nav>
-      <div className="col-lg-10 col-md-8 main-content p-3">
+      <div className="col-lg-10 col-md-8 main-content">
         <Outlet />
       </div>
     </div>

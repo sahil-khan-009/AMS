@@ -1,14 +1,179 @@
-import React from 'react'
-import Adminnav from '../Component/Adminnav'
+import React, { useState } from "react";
+import Select from "react-select";
+import Adminnav from "../Component/Adminnav";
+import { IoMdAdd } from "react-icons/io";
+import { BiEdit } from "react-icons/bi";
+import { AiFillDelete } from "react-icons/ai";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 const AddDepartment = () => {
-  return (
-    <div>
-      <Adminnav/>
-      <h2 className="mt-5 p-3">Add Department</h2>
-      <hr />
-    </div>
-  )
-}
+  const [selectedDoctors, setSelectedDoctors] = useState([]);
+  // const [departments, setDepartments] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const appointmentsPerPage = 10;
 
-export default AddDepartment
+  const [departments, setDepartments] = useState([
+    {
+      id: 1,
+      name: "Cardiology",
+      doctors: ["Dr. Smith", "Dr. Jones"],
+    },
+  ]);
+
+
+  // Sample doctor list
+  const doctorOptions = [
+    { value: "dr_smith", label: "Dr. Smith" },
+    { value: "dr_jones", label: "Dr. Jones" },
+    { value: "dr_brown", label: "Dr. Brown" },
+    { value: "dr_davis", label: "Dr. Davis" },
+  ];
+
+  // Pagination Calculation
+  const indexOfLastAppointment = currentPage * appointmentsPerPage;
+  const indexOfFirstAppointment = indexOfLastAppointment - appointmentsPerPage;
+  const currentAppointments = departments.slice(indexOfFirstAppointment, indexOfLastAppointment);
+  const totalPages = Math.ceil(departments.length / appointmentsPerPage);
+
+  // Function to handle adding a department
+  const handleAddDepartment = () => {
+    const departmentName = document.getElementById("departmentName").value;
+    if (!departmentName) return alert("Please enter a department name");
+
+    const newDepartment = {
+      id: departments.length + 1,
+      name: departmentName,
+      doctors: selectedDoctors.map((doctor) => doctor.label),
+    };
+
+    setDepartments([...departments, newDepartment]);
+    setSelectedDoctors([]);
+    document.getElementById("departmentName").value = "";
+  };
+
+  return (
+    <div className='full-height-bg p-4'>
+      <Adminnav />
+      <h3 className="mt-5">Add Department</h3>
+      <hr />
+      <div className="mt-1">
+        <button
+          type="button"
+          className="btn btn-primary d-flex align-items-center me-auto"
+          data-bs-toggle="modal"
+          data-bs-target="#doctorModal"
+        >
+          <IoMdAdd className="me-1 " />
+          Add Department
+        </button>
+
+        {/* Modal for Adding Department */}
+        <div className="modal fade" id="doctorModal" tabIndex="-1" aria-labelledby="doctorModalLabel" aria-hidden="true">
+          <div className="modal-dialog">
+            <div className="modal-content bg-light shadow">
+              <div className="modal-header">
+                <h5 className="modal-title" id="doctorModalLabel">Add New Department</h5>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                <form>
+                  <div className="mb-3">
+                    <label htmlFor="departmentName" className="form-label">Department Name</label>
+                    <input type="text" className="form-control" id="departmentName" placeholder="Enter department name" />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="doctorSelect" className="form-label">Select Doctor(s)</label>
+                    <Select
+                      id="doctorSelect"
+                      options={doctorOptions}
+                      isMulti
+                      className="basic-multi-select"
+                      classNamePrefix="select"
+                      onChange={setSelectedDoctors}
+                      value={selectedDoctors}
+                      placeholder="Choose doctors..."
+                    />
+                  </div>
+                </form>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-primary" onClick={handleAddDepartment} data-bs-dismiss="modal">
+                  Save Department
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Table Section */}
+      <div>
+        <table className="table table-bordered table-responsive mt-3 text-center">
+          <thead className="thead">
+            <tr>
+              <th scope="col">Sr</th>
+              <th scope="col">Department Name</th>
+              <th scope="col">Doctor's Name</th>
+              <th scope="col">Update</th>
+              <th scope="col">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentAppointments.length > 0 ? (
+              currentAppointments.map((dept, index) => (
+                <tr key={dept.id}>
+                  <td>{index + 1}</td>
+                  <td>{dept.name}</td>
+                  <td>{dept.doctors.join(", ") || "No Doctors Assigned"}</td>
+                  <td><i className="text-dark" type="button"><BiEdit size={20} /></i></td>
+                  <td>
+                    <i className="text-danger" type="button" onClick={() =>
+                      setDepartments(departments.filter(d => d.id !== dept.id))
+                    }>
+                      <AiFillDelete size={20} />
+                    </i>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5">No Departments Available</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+
+        {/* Pagination */}
+        <div className="p-3 d-flex justify-content-center">
+          <div className="d-flex align-items-center gap-2">
+            <button
+              className="btn btn-secondary px-2 py-1 rounded-circle"
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+            >
+              <IoIosArrowBack className="text-white" />
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i + 1}
+                className={`btn px-3 py-2 rounded-circle ${currentPage === i + 1 ? "btn-primary" : "btn-secondary"}`}
+                onClick={() => setCurrentPage(i + 1)}
+              >
+                {i + 1}
+              </button>
+            ))}
+            <button
+              className="btn btn-secondary px-2 py-1 rounded-circle"
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages || departments.length === 0}
+            >
+              <IoIosArrowForward className="text-white" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AddDepartment;

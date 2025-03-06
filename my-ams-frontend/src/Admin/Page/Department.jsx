@@ -2,15 +2,15 @@ import React from 'react'
 import BarchartAdmin from '../Charts/BarchartAdmin'
 import Adminnav from '../Component/Adminnav'
 
-function AdminDepartment() {
+function Department() {
   return (
-    <div>
+    <div className='full-height-bg p-4'>
       <Adminnav />
-      <h2 className="mt-5 p-3">Department</h2>
+      <h3 className="mt-5">Department</h3>
       <hr />
       <BarchartAdmin />
     </div>
   )
 }
 
-export default AdminDepartment
+export default Department

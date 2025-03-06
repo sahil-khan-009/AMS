@@ -1,0 +1,41 @@
+/* Improve table header visibility */
+table .thead th {
+    background-color: gray !important;
+    color: white;
+    text-align: center;
+}
+
+/* Ensure modal fits better on all screens */
+.modal-dialog {
+    max-width: 600px; /* Default for larger screens */
+    width: 90%;
+}
+
+@media (max-width: 768px) {
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    /* Stack buttons on small screens */
+    .modal-footer {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    /* Adjust modal width for very small screens */
+    .modal-dialog {
+        width: 100%;
+        max-width: 95%;
+    }
+
+    /* Make form fields full-width */
+    .form-control, .input-group {
+        width: 100%;
+    }
+}
+
+/* Ensure select dropdown is responsive */
+.css-2b097c-container {
+    width: 100% !important;
+}
