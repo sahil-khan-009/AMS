@@ -16,10 +16,12 @@ import Department from './Admin/Page/Department.jsx';
 import AddDepartment from './Admin/Page/AddDepartment.jsx';
 import AddDoctor from './Admin/Page/AddDoctor.jsx';
 import UserAppointment from './Admin/Page/UserAppointment.jsx';
+import Collapse from './Admin/Page/Collapse.jsx';
 
 function App() {
   return (
     <AppointmentProvider>
+      <Collapse/>
       <Router>
         <Routes>
           <Route path="/" element={<Layout />}></Route>

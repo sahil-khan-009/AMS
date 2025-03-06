@@ -4,11 +4,16 @@ import { Link,useNavigate } from "react-router-dom";
 // import axios from 'axios'
 import { useState } from "react"
 import apiService from '../Api-folder/Api';
+import { useAppointment } from '../context/AppointmentContext';
+
 
 
 const Login = () => { // Correctly define the component here
   const [email, Setemail] = useState("");
   const [password, Setpassword] = useState("");
+  const {role,Setrole} = useAppointment()
+
+
   const navigate = useNavigate();
 
   const loginUser = async (e) => {
@@ -18,12 +23,14 @@ const Login = () => { // Correctly define the component here
         console.log("loginResult-------",result);
 
         sessionStorage.setItem("token", result.data.token);
-        if(result.data.token){
-          navigate('/UserDashboard');
+        if(result.data.role="admin"){
+          navigate('/AdminSideBar');
+        }else{
+          navigate("/UserDashboard")
         }
 
       }catch(err){
-        console.log("Login failded: this is catch error----------",err);
+        console.log("Login Failded: this is catch error----------",err);
 
       }
       
