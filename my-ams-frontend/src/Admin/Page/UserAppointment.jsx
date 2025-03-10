@@ -51,7 +51,7 @@ const UserAppointment = () => {
     return (
         <div className='full-height-bg p-4'>
             <Adminnav />
-            <h3 className="mt-5">Appointments</h3>
+            <h4 className="mt-5">Appointments</h4>
             <hr />
 
             <div className="d-flex items-center mb-3 gap-3">
@@ -138,7 +138,7 @@ const UserAppointment = () => {
                     ))}
                 </tbody>
             </table>
-            <div className="d-flex justify-content-center fixed-bottom">
+            <div className="d-flex justify-content-center">
                 <div className="d-flex align-items-center gap-2">
                     <button
                         className="btn btn-secondary px-2 py-1 rounded-circle"

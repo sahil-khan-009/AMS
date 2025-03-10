@@ -1,17 +1,22 @@
 import Select from "react-select";
 import { useState } from "react";
-import Adminnav from '../Component/Adminnav'
+import Adminnav from '../Component/Adminnav';
 import { IoMdAdd } from "react-icons/io";
-import '../PageStyle/AddDoctor.css';
 import { FiEdit } from "react-icons/fi";
 import { RiDeleteBin7Fill } from "react-icons/ri";
-
-
-
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import '../PageStyle/AddDoctor.css';
 
 const AddDoctor = () => {
-
     const [selectedOptions, setSelectedOptions] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const DoctorsPerPage = 10;
+
+    // Sample doctors array to prevent errors (Replace with actual data)
+    const [departments, setDepartments] = useState([
+        { id: 1, name: "Dr. John Doe", email: "john.doe@example.com", phone: "+1234567890", availableDays: "Mon, Wed, Fri", timing: "10:00 AM - 2:00 PM" },
+        { id: 2, name: "Dr. Jane Smith", email: "jane.smith@example.com", phone: "+9876543210", availableDays: "Tue, Thu", timing: "9:00 AM - 1:00 PM" },
+    ]);
 
     const options = [
         { value: "Monday", label: "Monday" },
@@ -23,10 +28,15 @@ const AddDoctor = () => {
         { value: "Sunday", label: "Sunday" }
     ];
 
+    // Pagination Calculation
+    const indexOfLastDoctor = currentPage * DoctorsPerPage;
+    const indexOfFirstDoctor = indexOfLastDoctor - DoctorsPerPage;
+    const currentDoctors = departments.slice(indexOfFirstDoctor, indexOfLastDoctor);
+    const totalPages = Math.ceil(departments.length / DoctorsPerPage);
+
     const handleChange = (selected) => {
         setSelectedOptions(selected);
     };
-
 
     return (
         <div className='full-height-bg p-4'>
@@ -34,14 +44,14 @@ const AddDoctor = () => {
             <h3 className="mt-5">Add Doctor</h3>
             <hr />
             <div className="mt-1">
-                <button type="button" className="btn btn-primary  d-flex align-items-center me-auto" data-bs-toggle="modal" data-bs-target="#doctorModal">
+                <button type="button" className="btn btn-primary d-flex align-items-center me-auto" data-bs-toggle="modal" data-bs-target="#doctorModal">
                     <IoMdAdd className="me-1" />
                     Add Doctor
                 </button>
             </div>
 
             {/* Doctor Modal */}
-            <div className="modal fade" id="doctorModal" tabindex="-1" aria-labelledby="doctorModalLabel" aria-hidden="true">
+            <div className="modal fade" id="doctorModal" tabIndex="-1" aria-labelledby="doctorModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content bg-light shadow">
                         <div className="modal-header ">
@@ -77,7 +87,7 @@ const AddDoctor = () => {
                                             value={selectedOptions}
                                             onChange={handleChange}
                                             placeholder='Select days'
-                                            menuPortalTarget={document.body}  // Ensures dropdown is rendered inside body but not clipped
+                                            menuPortalTarget={document.body}
                                             styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
                                             getOptionLabel={(e) => (
                                                 <div>
@@ -102,13 +112,14 @@ const AddDoctor = () => {
                                 </div>
                             </form>
                         </div>
-                        <div className="modal-footer ">
+                        <div className="modal-footer">
                             <button type="button" className="btn btn-primary">Save Doctor</button>
                         </div>
                     </div>
                 </div>
-            </div >
-            {/* table structure start */}
+            </div>
+
+            {/* Table Structure */}
             <div>
                 <table className="table table-bordered table-responsive mt-3 text-center">
                     <thead className='thead'>
@@ -124,23 +135,40 @@ const AddDoctor = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Dr. John Doe</td>
-                            <td>john.doe@example.com</td>
-                            <td>+1234567890</td>
-                            <td>Mon, Wed, Fri</td>
-                            <td>10:00 AM - 2:00 PM</td>
-                            <td><i className="text-warning" type="button"><FiEdit size={20}/></i></td>
-                            <td><i className="text-danger" type="button"><RiDeleteBin7Fill size={20}/></i></td>
-                        </tr>
+                        {currentDoctors.map((doctor, index) => (
+                            <tr key={doctor.id}>
+                                <td>{index + 1}</td>
+                                <td>{doctor.name}</td>
+                                <td>{doctor.email}</td>
+                                <td>{doctor.phone}</td>
+                                <td>{doctor.availableDays}</td>
+                                <td>{doctor.timing}</td>
+                                <td><i className="text-warning" type="button"><FiEdit size={20} /></i></td>
+                                <td><i className="text-danger" type="button"><RiDeleteBin7Fill size={20} /></i></td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
-            {/* table structure end */}
-        </div >
 
-    )
-}
+            {/* Pagination */}
+            <div className=" d-flex justify-content-center">
+                <div className="d-flex align-items-center gap-2 ">
+                    <button className="btn btn-secondary px-2 py-1 rounded-circle" onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
+                        <IoIosArrowBack className="text-white" />
+                    </button>
+                    {Array.from({ length: totalPages }, (_, i) => (
+                        <button key={i + 1} className={`btn px-3 py-2 rounded-circle ${currentPage === i + 1 ? "btn-primary" : "btn-secondary"}`} onClick={() => setCurrentPage(i + 1)}>
+                            {i + 1}
+                        </button>
+                    ))}
+                    <button className="btn btn-secondary px-2 py-1 rounded-circle" onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}>
+                        <IoIosArrowForward className="text-white" />
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
 
-export default AddDoctor
+export default AddDoctor;

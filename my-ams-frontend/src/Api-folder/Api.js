@@ -1,62 +1,77 @@
-import axios from 'axios';
+import axios from "axios";
 
 const api = axios.create({
-    baseURL: 'https://backend-node-5tca.onrender.com/api',
-    withCredentials: true,
-    headers:{
-        "Content-Type": "application/json",
-    },
+  baseURL: "https://backend-node-5tca.onrender.com/api",
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 // Request interceptor To add the token to the request header
 api.interceptors.request.use(
-    (config) => {
-      const token = sessionStorage.getItem("token");
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-      return config;
-    },
-    (error) => Promise.reject(error)
-  );
-  
+  (config) => {
+    const token = sessionStorage.getItem("token");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
 // API Methods
-const apiService = {
+export const apiService = {
   // Post Method Api to  Appointment
-    createAppointment: async (formData) => {
-      return api.post("/appointments", formData);
-    },
-  
-    // Get Method Api to Department and doctor
-    getDepartments: async () => {
-      return api.get("/doctor/Department");
-    },
-    // Login Api to login
-  
-    login: async (email, password) => {
-      return api.post("/auth/login", { userEmail: email, userPassword: password });
-    },
+  createAppointment: async (formData) => {
+    return api.post("/appointments", formData);
+  },
+
+  // Get Method Api to Department and doctor
+  getDepartments: async () => {
+    return api.get("/doctor/Department");
+  },
+  // Login Api to login
+
+  login: async (email, password) => {
+    return api.post("/auth/login", {
+      userEmail: email,
+      userPassword: password,
+    });
+  },
   // Register Api to register
-    register: async (name, email, password) => {
-      return api.post("/auth/register", { userName: name, userEmail: email, userPassword: password });
-    },
-// Get Method Api to get Appointment status
-    getAppointment: async () => {
-      return api.get('/appointments');
-    },
+  register: async (name, email, password) => {
+    return api.post("/auth/register", {
+      userName: name,
+      userEmail: email,
+      userPassword: password,
+    });
+  },
+  // Get Method Api to get Appointment status
+  getAppointment: async () => {
+    return api.get("/appointments");
+  },
 
+  // Delete Method Api to delete Appointment
+  deleteAppointment: async (deletAppointmentId) => {
+    return api.delete(`/deleteAppointment/${deletAppointmentId}`);
+  },
 
-// Delete Method Api to delete Appointment
-    deleteAppointment: async (deletAppointmentId) => {
-      return api.delete(`/deleteAppointment/${deletAppointmentId}`);
-    },
+  // Update Method Api to update Appointment
+  updateAppointment: async (formData, updateid) => {
+    return api.put(`/updateAppointment/${updateid}`, formData);
+  },
+};
 
+// <------------------------------------- Admin Api--------------------------------->
 
-// Update Method Api to update Appointment
-    updateAppointment: async (formData, updateid) => {
-      return api.put(`/updateAppointment/${updateid}`,formData);
-    },
+export const adminApi = {
+  addDepartment: async (createDepartment) => {
+    return api.post("/department/Createdepartment",
+      {name:createDepartment}
+    );
+  },
+};
 
-  };
-  
-  export default apiService;
+// export default adminApi;
+//   export default apiService;

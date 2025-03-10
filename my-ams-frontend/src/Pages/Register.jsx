@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link,useNavigate } from "react-router-dom";
-import apiService from '../Api-folder/Api';
+import {apiService} from '../Api-folder/Api';
 import { useState } from "react"
 
 const Register = () => {

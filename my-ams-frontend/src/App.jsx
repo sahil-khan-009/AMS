@@ -16,17 +16,17 @@ import Department from './Admin/Page/Department.jsx';
 import AddDepartment from './Admin/Page/AddDepartment.jsx';
 import AddDoctor from './Admin/Page/AddDoctor.jsx';
 import UserAppointment from './Admin/Page/UserAppointment.jsx';
-import Collapse from './Admin/Page/Collapse.jsx';
+import Doctor from './Admin/Page/Doctor.jsx';
 
 function App() {
   return (
     <AppointmentProvider>
-      <Collapse/>
       <Router>
         <Routes>
           <Route path="/" element={<Layout />}></Route>
           <Route path="register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+         
 
           <Route path='/UserDashboard' element={<UserDashboard />}>
             <Route index element={<Dashboard />} />
@@ -40,6 +40,7 @@ function App() {
           <Route path='/AdminSideBar' element={<AdminSideBar />} >
             <Route index element={<AdminDashboard />} />
             <Route path='Department' element={<Department/>}/>
+            <Route path='Doctor' element={<Doctor/>}/>
             <Route path='AddDepartment' element={<AddDepartment/>}/>
             <Route path='AddDoctor' element={<AddDoctor/>}/>
             <Route path='UserAppointment' element={<UserAppointment/>}/>

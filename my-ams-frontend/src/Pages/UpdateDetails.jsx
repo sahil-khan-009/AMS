@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../PagesStyles/Appointment.css";
 import { useNavigate } from "react-router-dom";
 import { useAppointment } from "../context/AppointmentContext";
-import apiService from "../Api-folder/Api";
+import {apiService} from "../Api-folder/Api";
 import DashboardNav from "../Component/DashboardNav";
 
 function UpdateDetails() {
