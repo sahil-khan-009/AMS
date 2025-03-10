@@ -1,18 +1,19 @@
 .navbar {
-    width: calc(100% - 250px);
+    width: 100%;
     transition: 0.3s;
-   
+    padding: 10px 20px;
 }
 
-
-.navbar .ms-auto {
-    margin-left: auto !important; /* Pushes the item to the right */
-    display: flex;
-    align-items: center;
+@media (min-width: 992px) { /* Desktop Mode */
+    .navbar {
+        width: calc(100% - 250px);
+        margin-left: auto;
+    }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 768px) { /* Mobile View */
     .navbar {
         width: 100%;
     }
 }
+

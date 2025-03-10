@@ -74,4 +74,8 @@ export const adminApi = {
 };
 
 // export default adminApi;
+<<<<<<< HEAD
 //   export default apiService;
+=======
+//   export default apiService;
+>>>>>>> efd48e425d6e8ea05d43323002705026e5e1adfc

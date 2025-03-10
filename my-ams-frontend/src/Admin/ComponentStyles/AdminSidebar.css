@@ -1,15 +1,18 @@
+
 .sidebar {
   position: fixed;
   width: 250px;
   height: 100vh;
-  background: linear-gradient(rgba(8, 0, 58, 0.7), rgba(8, 0, 58, 0.7));
+  background: rgb(32, 9, 77);
   color: white;
+  transition: all 0.3s ease-in-out;
 }
 
 .sidebar .nav-link {
   color: white;
   padding: 10px;
   transition: 0.3s;
+  font-size: 15px;
 }
 
 .sidebar .nav-link:hover {
@@ -17,7 +20,7 @@
   border-radius: 5px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   .sidebar {
       width: 100%;
       height: auto;
