@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AiFillDelete } from "react-icons/ai";
 import { FaEdit } from "react-icons/fa";
 import { LuView } from "react-icons/lu";
-import apiService from "../Api-folder/Api";
+import {apiService} from "../Api-folder/Api";
 import DashboardNav from "../Component/DashboardNav";
 import logo from "../assets/logo2.png";
 import "../PagesStyles/AppointmentStatus.css";

@@ -5,7 +5,7 @@ import { FaLaptopMedical } from "react-icons/fa";
 import { MdApproval, MdOutlinePendingActions, MdAutoDelete } from "react-icons/md";
 import DashboardNav from '../Component/DashboardNav';
 // import { useAppointment } from '../context/AppointmentContext';
-import apiService from "../Api-folder/Api";
+import {apiService} from "../Api-folder/Api";
 
 function Dashboard() {
   const [appointmentsCounts, setAppointmentsCounts] = useState([]);

@@ -3,7 +3,7 @@ import '../PagesStyles/Login.css';
 import { Link,useNavigate } from "react-router-dom";
 // import axios from 'axios'
 import { useState } from "react"
-import apiService from '../Api-folder/Api';
+import {apiService} from '../Api-folder/Api';
 import { useAppointment } from '../context/AppointmentContext';
 
 
@@ -23,7 +23,7 @@ const Login = () => { // Correctly define the component here
         console.log("loginResult-------",result);
 
         sessionStorage.setItem("token", result.data.token);
-        if(result.data.role="admin"){
+        if(result.data.role==="admin"){
           navigate('/AdminSideBar');
         }else{
           navigate("/UserDashboard")
