@@ -5,8 +5,15 @@ import { IoMdAdd } from "react-icons/io";
 import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { adminApi } from "../../Api-folder/Api";
 
 const AddDepartment = () => {
+
+  
+
+
+
+  const [createDepartment, SetcreateDepartment]= useState('')
   const [selectedDoctors, setSelectedDoctors] = useState([]);
   // const [departments, setDepartments] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -51,6 +58,20 @@ const AddDepartment = () => {
     document.getElementById("departmentName").value = "";
   };
 
+
+//Onchange Add Department------------------>
+
+const AddDepartment = (value)=>{  
+  // console.log("this is e  aue-----------",value);
+  SetcreateDepartment(value);
+  console.log("createDepartment==================",createDepartment)
+
+
+
+}
+
+
+
   return (
     <div className='full-height-bg p-4'>
       <Adminnav />
@@ -79,10 +100,10 @@ const AddDepartment = () => {
                 <form>
                   <div className="mb-3">
                     <label htmlFor="departmentName" className="form-label">Department Name</label>
-                    <input type="text" className="form-control" id="departmentName" placeholder="Enter department name" />
+                    <input type="text" className="form-control" id="departmentName" placeholder="Enter department name" onChange={(e)=> AddDepartment(e.target.value)}/>
                   </div>
-                  <div className="mb-3">
-                    <label htmlFor="doctorSelect" className="form-label">Select Doctor(s)</label>
+                  {/* <div className="mb-3"> */}
+                    {/* <label htmlFor="doctorSelect" className="form-label">Select Doctor(s)</label>
                     <Select
                       id="doctorSelect"
                       options={doctorOptions}
@@ -92,13 +113,13 @@ const AddDepartment = () => {
                       onChange={setSelectedDoctors}
                       value={selectedDoctors}
                       placeholder="Choose doctors..."
-                    />
-                  </div>
+                    /> */}
+                  {/* </div> */}
                 </form>
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-primary" onClick={handleAddDepartment} data-bs-dismiss="modal">
-                  Save Department
+                  Create Department
                 </button>
               </div>
             </div>
