@@ -54,7 +54,7 @@ const UserAppointment = () => {
             <h4 className="mt-5">Appointments</h4>
             <hr />
 
-            <div className="d-flex items-center mb-3 gap-3">
+            <div className="d-flex flex-wrap items-center gap-3">
                 {/* <div>
                     <button class="bg-blue-500 text-white px-4 py-2 rounded-3 flex items-center">
                         <i className='me-2'><FaFilter /></i>
@@ -100,44 +100,45 @@ const UserAppointment = () => {
                     />
                 </div>
             </div>
-
-            <table className="table table-bordered table-responsive mt-3 text-center" >
-                <thead className="thead">
-                    <tr>
-                        <th scope="col">Sr. No</th>
-                        <th scope="col">Patient Name</th>
-                        <th scope="col">Patient Email</th>
-                        <th scope="col">Doctor Name</th>
-                        <th scope="col">Department</th>
-                        <th scope="col">Appointment Date</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {currentAppointments.map((appt, index) => (
-                        <tr key={appt.id}>
-                            <td >{indexOfFirstAppointment + index + 1}</td>
-                            <td >{appt.name}</td>
-                            <td >{appt.email}</td>
-                            <td >{appt.doctor}</td>
-                            <td>{appt.department}</td>
-                            <td >{appt.date}</td>
-                            <td className={`${appt.status === "Pending" ? "text-warning" : "text-success"}`}>{appt.status}</td>
-                            <td>
-                                {appt.status === "Pending" ? (
-                                    <div>
-                                        <i className="me-3 text-success " type="button"><FaCheck size={20} /></i>
-                                        <i className="text-danger " type="button"><ImCancelCircle size={20} /></i>
-                                    </div>
-                                ) : (
-                                    <i className="text-dark" type="button"><LuView size={20} /></i>
-                                )}
-                            </td>
+            <div className='table-responsive mt-2'>
+                <table className="table table-bordered text-center" >
+                    <thead className="thead">
+                        <tr>
+                            <th scope="col">Sr. No</th>
+                            <th scope="col">Patient Name</th>
+                            <th scope="col">Patient Email</th>
+                            <th scope="col">Doctor Name</th>
+                            <th scope="col">Department</th>
+                            <th scope="col">Appointment Date</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Action</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {currentAppointments.map((appt, index) => (
+                            <tr key={appt.id}>
+                                <td >{indexOfFirstAppointment + index + 1}</td>
+                                <td >{appt.name}</td>
+                                <td >{appt.email}</td>
+                                <td >{appt.doctor}</td>
+                                <td>{appt.department}</td>
+                                <td >{appt.date}</td>
+                                <td className={`${appt.status === "Pending" ? "text-warning" : "text-success"}`}>{appt.status}</td>
+                                <td>
+                                    {appt.status === "Pending" ? (
+                                        <div>
+                                            <i className="me-3 text-success " type="button"><FaCheck size={20} /></i>
+                                            <i className="text-danger " type="button"><ImCancelCircle size={20} /></i>
+                                        </div>
+                                    ) : (
+                                        <i className="text-dark" type="button"><LuView size={20} /></i>
+                                    )}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
             <div className="d-flex justify-content-center">
                 <div className="d-flex align-items-center gap-2">
                     <button

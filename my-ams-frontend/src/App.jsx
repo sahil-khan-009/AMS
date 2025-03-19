@@ -10,8 +10,8 @@ import UpdateDetails from './Pages/UpdateDetails.jsx';
 import Dashboard from './Pages/Dashboard.jsx';
 import Notification from './Pages/Notification.jsx';
 import { AppointmentProvider } from './context/AppointmentContext.jsx';
-import AdminSideBar from './Admin/Component/AdminSideBar.jsx';
-import AdminDashboard from './Admin/Page/AdminDashboard.jsx';
+import AdminDashboard from './Admin/Component/AdminDashboard.jsx';
+import AdminSideBar from './Admin/Page/AdminSidebar.jsx';
 import Department from './Admin/Page/Department.jsx';
 import AddDepartment from './Admin/Page/AddDepartment.jsx';
 import AddDoctor from './Admin/Page/AddDoctor.jsx';
@@ -37,8 +37,8 @@ function App() {
             <Route path="Notification" element={<Notification />} />
           </Route>
 
-          <Route path='/AdminSideBar' element={<AdminSideBar />} >
-            <Route index element={<AdminDashboard />} />
+          <Route path='/AdminDashboard' element={<AdminDashboard />} >
+            <Route index element={<AdminSideBar/>} />
             <Route path='Department' element={<Department/>}/>
             <Route path='Doctor' element={<Doctor/>}/>
             <Route path='AddDepartment' element={<AddDepartment/>}/>

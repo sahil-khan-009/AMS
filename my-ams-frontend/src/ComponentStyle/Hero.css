@@ -31,6 +31,11 @@
     font-size: 18px;
 }
 
+.hero-text .btn{ 
+        background-color: white;
+        border-radius: 50px;
+}
+
 /* Tablets and smaller screens */
 @media (max-width: 800px) {
     .hero-text h1 {

@@ -217,7 +217,7 @@ function Appointment() {
                 Appointment Date:
               </label>
               <input
-                type="date"
+                type="datetime-local"
                 id="appointmentDate"
                 className="form-control"
                 onChange={(e) => setDate(e.target.value)}

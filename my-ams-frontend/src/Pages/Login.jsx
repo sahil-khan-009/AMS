@@ -24,7 +24,7 @@ const Login = () => { // Correctly define the component here
 
         sessionStorage.setItem("token", result.data.token);
         if(result.data.role==="admin"){
-          navigate('/AdminSideBar');
+          navigate('/AdminDashboard');
         }else{
           navigate("/UserDashboard")
         }

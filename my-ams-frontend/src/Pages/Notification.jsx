@@ -6,7 +6,7 @@ function Notification() {
   return (
     <div className="col-md-10 col-lg-12 mt-5">
       <DashboardNav/>
-      <p className="page-show">Notification</p>
+      <h3 className="page-show">Notification</h3><hr/>
       <div class="notifications">
         <div class="alert alert-light border-start border-primary border-1 p-3">
           <strong>New Appointment:</strong> John Doe has scheduled an appointment for 10 AM.

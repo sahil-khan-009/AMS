@@ -75,26 +75,6 @@ body, html {
     
 } 
  
-/* {
-    width: 100%;
-    padding: 12px;
-    background: #667eea;
-    color: white;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-    transition: 0.3s ease-in-out;
- 
-
-} */
-
-button:hover {
-    background: #5a67d8;
-}
-
-
-
-
 .right-panel {
     flex: 1;
     background: linear-gradient(135deg, #667eea, #764ba2);

@@ -1,4 +1,39 @@
 .full-height-bg {
     min-height: 100vh;
-    max-width: 1000vh;
+    width: 100%;
+    padding: 1rem;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+/* Responsive filter section */
+@media (max-width: 768px) {
+    .d-flex {
+        flex-wrap: wrap;
+    }
+    
+    .table {
+        font-size: 14px;
+    }
+    
+    th, td {
+        padding: 10px;
+    }
+}
+
+/* Pagination Buttons */
+.btn {
+    min-width: 30px;
+    text-align: center;
+}
+
+/* Hide some columns on small screens */
+@media (max-width: 576px) {
+    th:nth-child(3), td:nth-child(3), 
+    th:nth-child(5), td:nth-child(5) {
+        display: none;
+    }
 }

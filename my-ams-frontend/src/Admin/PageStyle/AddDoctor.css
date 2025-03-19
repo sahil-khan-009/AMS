@@ -1,32 +1,40 @@
+.table-responsive {
+    overflow-x: auto;
+}
+
 table .thead th {
     background-color: gray !important;
     color: white;
     text-align: center;
 }
 
-
 .modal-dialog {
-    max-width: 600px; 
+    max-width: 600px;
     width: 90%;
 }
 
 @media (max-width: 768px) {
-    .table-responsive {
-        overflow-x: auto;
+    .modal-dialog {
+        max-width: 95%;
+        width: 100%;
     }
+
     .modal-footer {
-        display: flex;
         flex-direction: column;
         gap: 10px;
     }
 
-    .modal-dialog {
-        width: 100%;
-        max-width: 95%;
-    }
-
     .form-control, .input-group {
         width: 100%;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+    
+    .d-flex.align-items-center.gap-2 {
+        flex-wrap: wrap;
+        justify-content: center;
     }
 }
 
