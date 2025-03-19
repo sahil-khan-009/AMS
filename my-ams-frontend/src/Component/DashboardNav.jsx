@@ -1,8 +1,6 @@
 import React from 'react';
 import '../ComponentStyle/DashboardNav.css';
 import { FaUserAlt } from "react-icons/fa";
-import { FaBars } from "react-icons/fa";
-
 
 export default function DashboardNav() {
     return (
@@ -10,7 +8,6 @@ export default function DashboardNav() {
             <div className="container-fluid">
                 <div className="d-flex justify-content-between align-items-center w-100">
                     <div className="d-flex align-items-center gap-3 logo-container">
-                        <FaBars className="bar-icon fs-5" />
                         <h3 className="brand-name m-0" style={{ lineHeight: '1' }}>AMS</h3>
                     </div>
                     <div className="d-flex align-items-center text-black py-2 fs-5">

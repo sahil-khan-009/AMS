@@ -1,36 +1,40 @@
-.page-show {
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  font-size: 30px;
+.dashboard{
+  min-height: 85vh;
 }
-
 .custom-card {
-  display: flex;
-  align-items: center;
-  background-color: rgba(8, 0, 58, 0.7);
-  color: white;
-  padding: 15px;
+  padding: 20px;
   border-radius: 10px;
-  width: 100%;
-  max-width: 280px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+  transition: transform 0.2s ease-in-out;
 }
 
-.custom-card .text-content {
+.custom-card:hover {
+  transform: translateY(-5px);
+}
+
+.custom-card h6,
+.custom-card strong {
+  color: white;
+  font-size: 1.2rem;
+}
+
+.chart-container {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
 }
 
-.custom-card .text-content h6 {
-  margin: 0;
-  font-size: 20px;
-  font-weight: normal;
-}
-
-.custom-card .text-content strong {
-  font-size: 18px;
-}
-
+/* Responsive Design */
 @media (max-width: 768px) {
   .custom-card {
-    width: 90%;
+      width: 100%;
+  }
+
+  .custom-card h6,
+  .custom-card strong {
+      font-size: 1rem;
   }
 }

@@ -91,12 +91,12 @@ useEffect(()=>{
   };
 
   return (
-    <div className="full-height-bg p-4">
+    <div className="full-height-bg p-4 container-fluid">
       <Adminnav />
 
       <h3 className="mt-5">Add Department</h3>
       <hr />
-      <div className="mt-1">
+      <div className="mt-1 d-flex">
         {message && message ? (
           <div className="alert alert-primary" role="alert">
             {message}

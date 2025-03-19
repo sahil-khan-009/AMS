@@ -1,16 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import "../PagesStyles/Dashboard.css";
-import { useState,useEffect } from 'react';
-import { FaLaptopMedical } from "react-icons/fa";
-import { MdApproval, MdOutlinePendingActions, MdAutoDelete } from "react-icons/md";
 import DashboardNav from '../Component/DashboardNav';
-// import { useAppointment } from '../context/AppointmentContext';
-import {apiService} from "../Api-folder/Api";
+import { apiService } from "../Api-folder/Api";
 
 function Dashboard() {
   const [appointmentsCounts, setAppointmentsCounts] = useState([]);
-
-
 
   useEffect(() => {
     fetchAppointments();
@@ -27,45 +21,27 @@ function Dashboard() {
     }
   };
 
-
-
-
   return (
-    <div className="dashboard py-3 shadow px-3" style={{ marginTop: "5rem" }}>
+    <div className="dashboard py-2 mt-5 vh-90">
       <DashboardNav />
-      <p className="page-show">Dashboard</p>
+      <h3 className="page-show">Dashboard</h3>
       <hr />
-
-      <div className='d-flex flex-wrap gap-3 '>
-        <div className="custom-card">
-          <FaLaptopMedical size={30} className='me-3' />
-          <div className="text-content">
-            <h6>Make Appointment</h6>
-            <strong>{appointmentsCounts.length+1}</strong>
+      
+      <div className="row g-3 d-flex justify-content-center">
+            {[
+              { label: 'Make Appointments', count: 0, color: 'primary' },
+              { label: 'Approved', count: 0, color: 'success' },
+              { label: 'Pending', count: 0, color: 'danger' },
+              { label: 'Deleted', count: 0, color: 'warning' },
+            ].map((item, index) => (
+              <div key={index} className="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div className={`custom-card card shadow p-3 bg-${item.color}`}>
+                  <h6>{item.label}</h6>
+                  <strong>{item.count}</strong>
+                </div>
+              </div>
+            ))}
           </div>
-        </div>
-        <div className="custom-card">
-          <MdApproval size={30} className='me-3' />
-          <div className="text-content">
-            <h6>Approved Appointment</h6>
-            <strong>1</strong>
-          </div>
-        </div>
-        <div className="custom-card">
-          <MdOutlinePendingActions size={30} className='me-3' />
-          <div className="text-content">
-            <h6>Pending Appointment</h6>
-            <strong>1</strong>
-          </div>
-        </div>
-        <div className="custom-card">
-          <MdAutoDelete size={30} className='me-2' />
-          <div className="text-content">
-            <h6>Delete Appointment</h6>
-            <strong>8</strong>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

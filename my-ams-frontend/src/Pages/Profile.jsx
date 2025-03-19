@@ -19,7 +19,7 @@ function Profile() {
     return (
         <div className="col-md-10 col-lg-12 mt-5">
             <DashboardNav/>
-            <p className="page-show">Profile</p>
+            <h3 className="page-show">Profile</h3><hr/>
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-6">

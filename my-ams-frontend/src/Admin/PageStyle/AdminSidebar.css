@@ -1,0 +1,37 @@
+.custom-card {
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    min-width: 200px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.custom-card:hover {
+    transform: translateY(-5px);
+}
+
+.custom-card h6,
+.custom-card strong {
+    color: white;
+    font-size: 1.2rem;
+}
+
+.chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .custom-card {
+        width: 100%;
+    }
+
+    .custom-card h6,
+    .custom-card strong {
+        font-size: 1rem;
+    }
+}
