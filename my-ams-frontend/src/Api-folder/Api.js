@@ -66,16 +66,34 @@ export const apiService = {
 // <------------------------------------- Admin Api--------------------------------->
 
 export const adminApi = {
+  // add department api
   addDepartment: async (createDepartment) => {
     return api.post("/department/Createdepartment",
       {name:createDepartment}
     );
   },
+
+//<------------ Get department api ---------------->
+
+getDoctorDepartment : async () =>{
+  return api.get('/department/Getdepartment')
+
+},
+
+//<------------------------Add doctor api--------------------->
+
+addDoctor : async (formData)=>{
+  return api.post('/doctor/Createdoctor', formData)
+}
+,
+//<------------------get doctor api ------------------------------->
+ getAllDoctor : async () =>{
+  
+  return api.get('/doctor/Alldoctors')
+
+ }
+
 };
 
 // export default adminApi;
-<<<<<<< HEAD
 //   export default apiService;
-=======
-//   export default apiService;
->>>>>>> efd48e425d6e8ea05d43323002705026e5e1adfc
