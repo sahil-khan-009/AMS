@@ -21,6 +21,7 @@ import Doctor from './Admin/Page/Doctor.jsx';
 function App() {
   return (
     <AppointmentProvider>
+      {/* <Collapse/> */}
       <Router>
         <Routes>
           <Route path="/" element={<Layout />}></Route>
