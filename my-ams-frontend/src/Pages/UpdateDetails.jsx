@@ -20,6 +20,7 @@ function UpdateDetails() {
     const fetchData = async () => {
       try {
         const response = await apiService.getDepartments();
+        console.log("response.data-------",response.data)
         setDropDownValue(response.data);
       } catch (err) {
         console.error("Error fetching departments:", err.message);
@@ -31,7 +32,7 @@ function UpdateDetails() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = {
-      department: GlobalStateForUpdateFrom.department,
+      // department: GlobalStateForUpdateFrom.department,
       doctorId: GlobalStateForUpdateFrom.selectedDoctorId,
       availability: availibility,
       patientName: GlobalStateForUpdateFrom.patientName,
@@ -41,6 +42,8 @@ function UpdateDetails() {
       departmentId: GlobalStateForUpdateFrom.departmentId,
     };
 
+
+    console.log("formData>>>>>>>>>>>>>>>>>>>>>>>>>",formData)
     try {
       const response = await apiService.updateAppointment(formData, updateid);
       console.log("Response:", response);
@@ -87,19 +90,21 @@ function UpdateDetails() {
                 value={GlobalStateForUpdateFrom.department || ""}
                 onChange={(e) => {
                   const selectedDept = dropDownValue.find(
-                    (dept) => dept.department === e.target.value
+                    (dept) => dept.name === e.target.value
                   );
+                  console.log("Selected department:", selectedDept); // Debugging
                   SetGlobalStateForUpdateFrom({
                     ...GlobalStateForUpdateFrom,
                     department: e.target.value,
-                    departmentId: selectedDept?._id || "",
+                    departmentId: selectedDept ? selectedDept._id : "", // Ensure it's assigned correctly
                   });
                 }}
+                
               >
                 <option value="">Select Department</option>
                 {dropDownValue.map((dept, ind) => (
-                  <option key={ind} value={dept.department}>
-                    {dept.department}
+                  <option key={ind} value={dept.name}>
+                    {dept.name}
                   </option>
                 ))}
               </select>
@@ -118,7 +123,7 @@ function UpdateDetails() {
                 value={GlobalStateForUpdateFrom.selectedDoctorId || ""}
                 onChange={(e) => {
                   const selectedDoctor = dropDownValue
-                    .find((dept) => dept.department === GlobalStateForUpdateFrom.department)
+                    .find((dept) => dept.name === GlobalStateForUpdateFrom.department)
                     ?.doctors.find((doctor) => doctor._id === e.target.value);
 
                   SetGlobalStateForUpdateFrom({
@@ -130,7 +135,7 @@ function UpdateDetails() {
               >
                 <option value="">Select Doctor</option>
                 {dropDownValue
-                  .find((dept) => dept.department === GlobalStateForUpdateFrom.department)
+                  .find((dept) => dept.name === GlobalStateForUpdateFrom.department)
                   ?.doctors.map((doctor, ind) => (
                     <option key={ind} value={doctor._id}>
                       {doctor.name}
@@ -152,10 +157,10 @@ function UpdateDetails() {
                 value={availibility || ""}
                 onChange={(e) => setAvailibility(e.target.value)}
               >
-                <option value="">Select Availability</option>
+                        <option value="">Select Availability</option>
                 {dropDownValue
-                  .flatMap((dept) => dept.doctors)
-                  .find((doctor) => doctor._id === GlobalStateForUpdateFrom.selectedDoctorId)
+                  .find((dept) => dept.name === GlobalStateForUpdateFrom.department)
+                  ?.doctors.find((doctor) => doctor._id === GlobalStateForUpdateFrom.selectedDoctorId)
                   ?.availability.map((day, ind) => (
                     <option key={ind} value={day}>
                       {day}
