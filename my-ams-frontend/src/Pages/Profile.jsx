@@ -17,14 +17,14 @@ import DashboardNav from '../Component/DashboardNav';
 
 function Profile() {
     return (
-        <div className="col-md-10 col-lg-12 mt-5">
+        <div className="full-height-bg" style={{paddingTop:'5em'}}>
             <DashboardNav/>
-            <h3 className="page-show">Profile</h3><hr/>
+            <h3>Profile</h3><hr/>
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-6">
                         <div class="profile-card p-4">
-                            <img src={Cover} alt="Profile Picture" class="profile-img" />
+                            {/* <img src={Cover} alt="Profile Picture" class="profile-img" /> */}
                             <h3 class="mt-3">SAHIL KHAN</h3>
                             <p class="text-muted"><MdEmail className='me-2'/>
                                 Sahilkhan@gmail.com</p>

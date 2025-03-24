@@ -45,6 +45,9 @@
     .programs{
         flex-direction: column;
     }
+    .programs .programs-box{
+        padding-left: 2em;
+    }
     .programs{
         flex-basis: 100%;
         padding: 30px;

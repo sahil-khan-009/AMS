@@ -39,6 +39,7 @@
 @media (max-width: 768px) {
     .row {
         flex-wrap: wrap;
+        max-width: 100%;
     }
     .step {
         margin-bottom: 20px;

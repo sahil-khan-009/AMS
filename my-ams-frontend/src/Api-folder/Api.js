@@ -29,7 +29,7 @@ export const apiService = {
 
   // Get Method Api to Department and doctor
   getDepartments: async () => {
-    return api.get("/doctor/Department");
+    return api.get('/department/Getdepartment');
   },
   // Login Api to login
 
@@ -96,8 +96,4 @@ addDoctor : async (formData)=>{
 };
 
 // export default adminApi;
-<<<<<<< HEAD
 //   export default apiService;
-=======
-//   export default apiService;
->>>>>>> efd48e425d6e8ea05d43323002705026e5e1adfc

@@ -22,9 +22,9 @@ function Dashboard() {
   };
 
   return (
-    <div className="dashboard py-2 mt-5 vh-90">
+    <div  className="full-height-bg" style={{paddingTop:'5em'}}>
       <DashboardNav />
-      <h3 className="page-show">Dashboard</h3>
+      <h3>Dashboard</h3>
       <hr />
       
       <div className="row g-3 d-flex justify-content-center">

@@ -4,9 +4,9 @@ import DoctorAppointmentsChart from '../Charts/DoctorAppointmentChart'
 
 const Doctor = () => {
   return (
-    <div className='full-height-bg p-4'>
+    <div className='full-height-bg'style={{paddingTop:'5em'}}>
     <Adminnav/>
-    <h3 className="mt-5">Department</h3>
+    <h3 >Department</h3>
     <hr />
     <DoctorAppointmentsChart/>
   </div>

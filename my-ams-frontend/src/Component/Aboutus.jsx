@@ -23,7 +23,7 @@ const Aboutus = () => {
           </div>
           <div className="col-md-6 position-relative">
             <div className="info-box" style={{ top: '10px', left: '20px', background: '#eef' }}><strong>24hr Emergency</strong><br />Emergency available all day and night</div>
-            <img src={image1} className="img-fluid rounded w-60 h-60 " style={{ marginLeft: '50px' }} alt="Doctors Consultation" />
+            <img src={image1} className="img-fluid rounded w-60 h-60 " alt="Doctors Consultation" />
             <div className="info-box" style={{ bottom: '10px', right: '20px', background: '#fee' }}><strong>Free Consultation</strong><br />Consultation with the best</div>
           </div>
         </div>

@@ -5,10 +5,10 @@ import AppointmentPieChart from '../Charts/AppointmentPieChart';
 
 const AdminSidebar = () => {
   return (
-    <div className="container-fluid full-height-bg p-4">
+    <div className="full-height-bg" style={{paddingTop:'5em'}}>
       <Adminnav />
-      <h3 className="mt-5">Dashboard</h3>
-          <hr />
+      <h3>Dashboard</h3>
+      <hr />
       <div className="row">
         <main className="col-lg-12 col-md-10 px-md-3">
           <div className="row g-3 d-flex ">
@@ -28,10 +28,10 @@ const AdminSidebar = () => {
           </div>
 
           {/* Appointment Pie Chart */}
-          <div className="chart-container">
-            <AppointmentPieChart />
-          </div>
         </main>
+        <div className="chart-container">
+          <AppointmentPieChart />
+        </div>
       </div>
     </div>
   );

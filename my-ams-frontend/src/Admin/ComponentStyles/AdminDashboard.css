@@ -12,12 +12,14 @@
 .sidebar.open {
   left: 0;
 }
+
 .sidebar .nav-link {
   color: white;
   padding: 5px 15px;
   transition: 0.3s;
   font-size: 15px;
 }
+
 
 .sidebar .nav-link:hover {
   background-color: rgba(255, 255, 255, 0.2);
@@ -26,38 +28,39 @@
 
 .sidebar-toggle {
   position: fixed;
-  top: 60px;
-  left: 15px;
+  padding-top: 3em;
   border: none;
   color: rgb(0, 0, 0);
   font-size: 24px;
   cursor: pointer;
   z-index: 1000;
   width: 25% !important;
-  margin-left: 13em;
-  background-color: white;
-}
+  margin-left: 14em;
 
+}
 
 @media (max-width: 768px) {
   .sidebar {
-      left: -250px; 
+    left: -250px;
   }
+
   .sidebar.open {
-      left: 0;
-      max-width: 200px;
-      transition: left 0.4s ease-in-out;
+    left: 0;
+    max-width: 200px;
+    transition: left 0.4s ease-in-out;
   }
+
   .sidebar-toggle {
-      display: block; 
+    display: block;
   }
 }
 
 @media (min-width: 992px) {
   .sidebar {
-      left: 0; 
+    left: 0;
   }
+
   .sidebar-toggle {
-      display: none; 
+    display: none;
   }
 }

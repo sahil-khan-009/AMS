@@ -96,7 +96,7 @@ const UserDashboard = () => {
         </div>
 
         {/* Main Content */}
-        <div className="col-lg-10 col-md-8 main-content p-4">
+        <div className="col-lg-10 col-md-8 main-content">
           <Outlet />
         </div>
       </div>

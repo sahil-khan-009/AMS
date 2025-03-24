@@ -17,7 +17,7 @@ const AddDoctor = () => {
   const [email, Setemail] = useState("");
   const [contactNumber, SetcontactNumber] = useState("");
   //<------------------------ get api doctor state ----------------------------->
-  const [getApiDoctors,SetgetApiDoctors] = useState([]);
+  const [getApiDoctors, SetgetApiDoctors] = useState([]);
 
   const [startDate, SetStartDate] = useState("");
   const [endDate, SetEndDate] = useState("");
@@ -111,24 +111,24 @@ const AddDoctor = () => {
   }
 
 
-//<-------------------------------------  get all doctors api ------------------------------------>
+  //<-------------------------------------  get all doctors api ------------------------------------>
 
-useEffect(()=>{
-  const fetchDoctor = async ()=>{
-    try {
-      const response = await adminApi.getAllDoctor();
-     console.log("this is get api response of doctors------", response.data);
-     SetgetApiDoctors(response.data)
+  useEffect(() => {
+    const fetchDoctor = async () => {
+      try {
+        const response = await adminApi.getAllDoctor();
+        console.log("this is get api response of doctors------", response.data);
+        SetgetApiDoctors(response.data)
 
-    }catch(err){
-      console.log("this is catch error",err)
+      } catch (err) {
+        console.log("this is catch error", err)
 
+      }
     }
-  }
 
-  fetchDoctor();
+    fetchDoctor();
 
-},[])
+  }, [])
 
   //   <-------------------------------Unique id logic--------------------------->
 
@@ -155,9 +155,9 @@ useEffect(()=>{
   };
 
   return (
-    <div className="full-height-bg p-4">
+    <div className="full-height-bg" style={{ paddingTop: '4em' }}>
       <Adminnav />
-      <h3 className="mt-5">Add Doctor</h3>
+      <h3 >Add Doctor</h3>
       <hr />
       <div className="mt-1">
         <button
@@ -172,62 +172,42 @@ useEffect(()=>{
       </div>
 
       {/* Doctor Modal */}
-      <div
-        className="modal fade"
-        id="doctorModal"
-        tabIndex="-1"
-        aria-labelledby="doctorModalLabel"
-        aria-hidden="true"
-      >
+      <div className="modal fade" id="doctorModal" tabIndex="-1" aria-labelledby="doctorModalLabel" aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content bg-light shadow">
-            <div className="modal-header ">
-              <h5 className="modal-title" id="doctorModalLabel">
-                Add New Doctor
-              </h5>
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+            <div className="modal-header">
+              <h5 className="modal-title" id="doctorModalLabel">Add New Doctor</h5>
+              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
               <form>
-                <div className="d-flex gap-1">
-                  <div className="mb-3">
-                    <label htmlFor="doctorName" className="form-label">
-                      Doctor Name
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="doctorName"
-                      placeholder="Enter doctor's name"
-                      onChange={(e) => Setname(e.target.value)}
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <input type="text" value={uniqueId} readOnly />
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const newId = generateUniqueId();
-                        setUniqueId(newId);
-                        console.log("Generated Unique ID:", newId); // Log new value instead of old state
-                      }}
-                    >
-                      Generate
-                    </button>
-                  </div>
-                  <div className="mb-3">
+                <div className="mb-3">
+                  <label htmlFor="doctorName" className="form-label">Doctor Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="doctorName"
+                    placeholder="Enter doctor's name"
+                    onChange={(e) => Setname(e.target.value)}
+                  />
+                </div>
+
+                <div className="d-flex gap-2">
+                  <div className="mb-3 flex-grow-1">
+                    <label htmlFor="selectDepartment" className="form-label">Department</label>
                     <select
                       name="department"
-                      id="doctorName"
+                      id="doctorDepartment"
+                      className="form-select"
                       onChange={(e) => {
-                        SetdepartmentId(e.target.value),
-                          console.log("departmentId====", departmentId);
-                      }} // Update state on selection
+                        SetdepartmentId(e.target.value);
+                        if (e.target.value) {
+                          const newId = generateUniqueId(); // Automatically generate ID when department is selected
+                          setUniqueId(newId);
+                          console.log("Generated Unique ID:", newId);
+                        }
+                        console.log("departmentId====", e.target.value);
+                      }}
                     >
                       <option value="">Select Department</option>
                       {departmentDropdown &&
@@ -238,13 +218,19 @@ useEffect(()=>{
                         ))}
                     </select>
                   </div>
+
+                  {/* Conditionally display the input with the generated unique ID if departmentId exists */}
+                  {departmentId && uniqueId && (
+                    <div className="mb-3 flex-grow-1">
+                      <label htmlFor="generatedId" className="form-label">Generated Unique ID</label>
+                      <input type="text" id="generatedId" value={uniqueId} readOnly className="form-control" />
+                    </div>
+                  )}
                 </div>
 
                 <div className="d-flex gap-2">
-                  <div className="mb-3">
-                    <label htmlFor="doctorEmail" className="form-label">
-                      Email
-                    </label>
+                  <div className="mb-3 flex-grow-1">
+                    <label htmlFor="doctorEmail" className="form-label">Email</label>
                     <input
                       type="email"
                       className="form-control"
@@ -253,10 +239,9 @@ useEffect(()=>{
                       onChange={(e) => Setemail(e.target.value)}
                     />
                   </div>
-                  <div className="mb-3">
-                    <label htmlFor="doctorPhone" className="form-label">
-                      Phone
-                    </label>
+
+                  <div className="mb-3 flex-grow-1">
+                    <label htmlFor="doctorPhone" className="form-label">Phone</label>
                     <input
                       type="text"
                       className="form-control"
@@ -266,19 +251,16 @@ useEffect(()=>{
                     />
                   </div>
                 </div>
+
                 <div className="d-flex gap-2">
                   <div className="mb-3" style={{ width: "280px" }}>
-                    <label htmlFor="doctorAvailability" className="form-label">
-                      Availability
-                    </label>
+                    <label htmlFor="doctorAvailability" className="form-label">Availability</label>
                     <Select
                       options={options}
                       isMulti
                       closeMenuOnSelect={false}
                       hideSelectedOptions={false}
-                      value={options.filter((option) =>
-                        selectedOptions.includes(option.value)
-                      )}
+                      value={options.filter((option) => selectedOptions.includes(option.value))}
                       onChange={handleChange}
                       placeholder="Select days"
                       menuPortalTarget={document.body}
@@ -287,20 +269,14 @@ useEffect(()=>{
                       }}
                       getOptionLabel={(e) => (
                         <div>
-                          <input
-                            type="checkbox"
-                            checked={selectedOptions.includes(e.value)}
-                            readOnly
-                          />{" "}
-                          {e.label}
+                          <input type="checkbox" checked={selectedOptions.includes(e.value)} readOnly /> {e.label}
                         </div>
                       )}
                     />
                   </div>
+
                   <div className="mb-3">
-                    <label htmlFor="timeRange" className="form-label">
-                      Available Timing
-                    </label>
+                    <label htmlFor="timeRange" className="form-label">Available Timing</label>
                     <div className="input-group">
                       <input
                         type="time"
@@ -308,11 +284,8 @@ useEffect(()=>{
                         id="startTime"
                         name="startTime"
                         onChange={(e) => {
-                          SetStartDate(e.target.value),
-                            console.log(
-                              "startDate-------------------",
-                              startDate
-                            );
+                          SetStartDate(e.target.value);
+                          console.log("startDate-------------------", e.target.value);
                         }}
                       />
                       <span className="input-group-text">-</span>
@@ -322,8 +295,8 @@ useEffect(()=>{
                         id="endTime"
                         name="endTime"
                         onChange={(e) => {
-                          SetEndDate(e.target.value),
-                            console.log("endDate=======", endDate);
+                          SetEndDate(e.target.value);
+                          console.log("endDate=======", e.target.value);
                         }}
                       />
                     </div>
@@ -331,6 +304,7 @@ useEffect(()=>{
                 </div>
               </form>
             </div>
+
             <div className="modal-footer">
               <button
                 type="button"
@@ -345,8 +319,9 @@ useEffect(()=>{
         </div>
       </div>
 
+
       {/* Table Structure */}
-      <div>
+      <div className="table-responsive mt-2">
         <table className="table table-bordered table-responsive mt-3 text-center">
           <thead className="thead">
             <tr>
@@ -354,6 +329,7 @@ useEffect(()=>{
               <th scope="col">Doctor Name</th>
               <th scope="col">Email</th>
               <th scope="col">Phone</th>
+              {/* <th scope="col">Department</th> */}
               <th scope="col">Available Days</th>
               <th scope="col">Available Timing</th>
               <th scope="col">Update</th>
@@ -361,74 +337,76 @@ useEffect(()=>{
             </tr>
           </thead>
           <tbody>
-  {getApiDoctors.length > 0 ? (
-    getApiDoctors.map((doctor, index) => (
-      <tr key={doctor._id}>
-        <td>{index + 1}</td>
-        <td>{doctor.name}</td>
-        <td>{doctor.email}</td>
-        <td>{doctor.phone}</td>
-        <td>{doctor.availability?.join(", ") || "N/A"}</td>
-        <td>{doctor.timings?.start || "N/A"} - {doctor.timings?.end || "N/A"}</td>
-        <td>
-          <i className="text-warning" type="button">
-            <FiEdit size={20} />
-          </i>
-        </td>
-        <td>
-          <i className="text-danger" type="button">
-            <RiDeleteBin7Fill size={20} />
-          </i>
-        </td>
-      </tr>
-    ))
-  ) : (
-    <tr>
-      <td colSpan="8" className="text-center">
-        <div className="d-flex align-items-center">
-          <strong>Loading...</strong>
-          <div className="spinner-border ms-auto" role="status" aria-hidden="true"></div>
-        </div>
-      </td>
-    </tr>
-  )}
-</tbody>
+            {getApiDoctors.length > 0 ? (
+              getApiDoctors.map((doctor, index) => (
+                <tr key={doctor._id}>
+                  <td>{index + 1}</td>
+                  <td>{doctor.name}</td>
+                  <td>{doctor.email}</td>
+                  <td>{doctor.phone}</td>
+                  <td>{doctor.availability?.join(", ") || "N/A"}</td>
+                  <td>{doctor.timings?.start || "N/A"} - {doctor.timings?.end || "N/A"}</td>
+                  <td>
+                    <i className="text-warning" type="button">
+                      <FiEdit size={20} />
+                    </i>
+                  </td>
+                  <td>
+                    <i className="text-danger" type="button">
+                      <RiDeleteBin7Fill size={20} />
+                    </i>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="8" className="text-center">
+                  <div className="d-flex align-items-center">
+                    <strong>Loading...</strong>
+                    <div className="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+                  </div>
+                </td>
+              </tr>
+            )}
+          </tbody>
 
         </table>
       </div>
 
       {/* Pagination */}
-      <div className=" d-flex justify-content-center">
-        <div className="d-flex align-items-center gap-2 ">
+     <div className="d-flex justify-content-center">
+      <div className="d-flex align-items-center gap-2">
+        <button
+          className="btn btn-secondary px-2 py-1 rounded-circle"
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+        >
+          <IoIosArrowBack className="text-white" />
+        </button>
+
+        {Array.from({ length: totalPages }, (_, i) => (
           <button
-            className="btn btn-secondary px-2 py-1 rounded-circle"
-            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            disabled={currentPage === 1}
+            key={i + 1}
+            className={`btn px-3 py-2 rounded-circle ${
+              currentPage === i + 1 ? "btn-primary" : "btn-secondary"
+            }`}
+            onClick={() => setCurrentPage(i + 1)}
           >
-            <IoIosArrowBack className="text-white" />
+            {i + 1}
           </button>
-          {Array.from({ length: totalPages }, (_, i) => (
-            <button
-              key={i + 1}
-              className={`btn px-3 py-2 rounded-circle ${
-                currentPage === i + 1 ? "btn-primary" : "btn-secondary"
-              }`}
-              onClick={() => setCurrentPage(i + 1)}
-            >
-              {i + 1}
-            </button>
-          ))}
-          <button
-            className="btn btn-secondary px-2 py-1 rounded-circle"
-            onClick={() =>
-              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-            }
-            disabled={currentPage === totalPages}
-          >
-            <IoIosArrowForward className="text-white" />
-          </button>
-        </div>
+        ))}
+
+        <button
+          className="btn btn-secondary px-2 py-1 rounded-circle"
+          onClick={() =>
+            setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+          }
+          disabled={currentPage === totalPages}
+        >
+          <IoIosArrowForward className="text-white" />
+        </button>
       </div>
+    </div>
     </div>
   );
 };

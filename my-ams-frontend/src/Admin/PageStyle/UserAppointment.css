@@ -1,7 +1,6 @@
 .full-height-bg {
     min-height: 100vh;
     width: 100%;
-    padding: 1rem;
 }
 
 .table-responsive {
@@ -10,17 +9,25 @@
 }
 
 /* Responsive filter section */
-@media (max-width: 768px) {
+@media (max-width: 1050px) {
     .d-flex {
         flex-wrap: wrap;
+        margin-top: 2px;
     }
     
     .table {
-        font-size: 14px;
+        font-size: 8px;
     }
-    
-    th, td {
-        padding: 10px;
+    .status{
+       font-size: 10px;
+    }
+    .bySearch{
+        font-size: 10px;
+        width:100%;
+    }
+    .byDate{
+        font-size: 10px;
+        min-width: 50%;
     }
 }
 
@@ -30,10 +37,3 @@
     text-align: center;
 }
 
-/* Hide some columns on small screens */
-@media (max-width: 576px) {
-    th:nth-child(3), td:nth-child(3), 
-    th:nth-child(5), td:nth-child(5) {
-        display: none;
-    }
-}

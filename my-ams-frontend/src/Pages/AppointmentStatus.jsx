@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AiFillDelete } from "react-icons/ai";
 import { FaEdit } from "react-icons/fa";
 import { LuView } from "react-icons/lu";
-import {apiService} from "../Api-folder/Api";
+import { apiService } from "../Api-folder/Api";
 import DashboardNav from "../Component/DashboardNav";
 import logo from "../assets/logo2.png";
 import "../PagesStyles/AppointmentStatus.css";
@@ -11,20 +11,24 @@ import UpdateDetails from "./UpdateDetails";
 import { useAppointment } from "../context/AppointmentContext";
 
 function AppointmentStatus() {
-  const { GlobalStateForUpdateFrom, SetGlobalStateForUpdateFrom,appointments, setAppointments } = useAppointment();
- 
+  const {
+    GlobalStateForUpdateFrom,
+    SetGlobalStateForUpdateFrom,
+    appointments,
+    setAppointments,
+    setupdateId
+  } = useAppointment();
+
   const [deleteReason, setDeleteReason] = useState("");
   const [deleteMessage, setDeleteMessage] = useState("");
   const [selectedAppointment, setSelectedAppointment] = useState(null);
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchAppointments();
-  }, []);
+  const navigate = useNavigate();
 
   const fetchAppointments = async () => {
     try {
       const response = await apiService.getAppointment();
+      console.log("response-------------------", response.data);
       setAppointments(
         Array.isArray(response.data) ? response.data : [response.data]
       );
@@ -33,7 +37,12 @@ function AppointmentStatus() {
     }
   };
 
+  useEffect(() => {
+    fetchAppointments();
+  }, []);
+
   const handleDeleteAppointment = (appointmentId) => {
+    console.log("appointmentId====00000=====", appointmentId);
     if (appointmentId) {
       apiService
         .deleteAppointment(appointmentId)
@@ -54,16 +63,18 @@ function AppointmentStatus() {
     }
   }, [deleteMessage]);
 
-
-
   const UpdateDetails = (appointment) => {
-    console.log("UpdateDetails=========================", appointment);
-    navigate("/UserDashboard/UpdateDetails");
+    if (!appointment || !appointment._id) {
+      console.error("Invalid appointment data:", appointment);
+      return;
+    }
+  
+    console.log("Setting state with appointment:", appointment);
     SetGlobalStateForUpdateFrom(appointment);
-
-
-    // UpdateDetails(appointment);
+    setupdateId(appointment._id);
+    navigate("/UserDashboard/UpdateDetails");
   };
+  
 
   return (
     <div className="col-md-10 col-lg-12 mt-5 shadow px-3 py-3">
@@ -99,7 +110,7 @@ function AppointmentStatus() {
                     <td>{index + 1}</td>
                     <td>{appointment.patientName}</td>
                     <td>{appointment.patientemail}</td>
-                    <td>{appointment.doctor.name}</td>
+                    <td>{appointment.doctorName}</td>
                     <td>{appointment.department}</td>
                     <td>
                       {new Date(appointment.appointmentDate).toLocaleDateString(
@@ -119,7 +130,6 @@ function AppointmentStatus() {
                         className="btn  btn-sm"
                         data-bs-toggle="modal"
                         data-bs-target="#viewAppointmentModal"
-                        onClick={() => setSelectedAppointment(appointment)}
                       >
                         <LuView className="view-icon" />
                       </button>
@@ -132,6 +142,13 @@ function AppointmentStatus() {
                         className="btn"
                         data-bs-toggle="modal"
                         data-bs-target="#deleteModal"
+                        onClick={() => {
+                          setSelectedAppointment(appointment),
+                            console.log(
+                              "selectedAppointment---",
+                              selectedAppointment
+                            );
+                        }}
                       >
                         <AiFillDelete className="delete-icon" />
                       </button>
@@ -140,8 +157,16 @@ function AppointmentStatus() {
                     {/* Edit Appointment */}
                     <td>
                       <Link
-                        className="edit" to='/userDashboard/UpdateDetails'
-                        onClick={() => UpdateDetails(appointment)}
+                        className="edit"
+                        to="/userDashboard/UpdateDetails"
+                        onClick={(e) => {
+                          e.preventDefault(); // Prevent default navigation behavior
+                          if (appointment?._id) {
+                            UpdateDetails(appointment);
+                          } else {
+                            console.error("Appointment data is missing!");
+                          }
+                        }}
                       >
                         <FaEdit className="edit-icon" />
                       </Link>
@@ -196,7 +221,7 @@ function AppointmentStatus() {
                     </div>
                     <div className="detail-item">
                       <strong>Doctor:</strong>{" "}
-                      <span>{selectedAppointment.doctor.name}</span>
+                      <span>{selectedAppointment.doctorName}</span>
                     </div>
                     <div className="detail-item">
                       <strong>Department:</strong>{" "}

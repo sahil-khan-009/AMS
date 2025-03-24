@@ -91,10 +91,10 @@ useEffect(()=>{
   };
 
   return (
-    <div className="full-height-bg p-4 container-fluid">
+    <div className="full-height-bg"style={{paddingTop:'5em'}}>
       <Adminnav />
 
-      <h3 className="mt-5">Add Department</h3>
+      <h3>Add Department</h3>
       <hr />
       <div className="mt-1 d-flex">
         {message && message ? (
@@ -179,7 +179,7 @@ useEffect(()=>{
       </div>
 
       {/* Table Section */}
-      <div>
+      <div className="table-responsive mt-2">
         <table className="table table-bordered table-responsive mt-3 text-center">
           <thead className="thead">
             <tr>

@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "../PagesStyles/Appointment.css";
 import { useAppointment } from "../context/AppointmentContext";
-import {apiService} from '../Api-folder/Api';
+import { apiService } from "../Api-folder/Api";
 import DashboardNav from "../Component/DashboardNav";
 
 function Appointment() {
   const [dropDownValue, setDropDownValue] = useState([]);
-
   const [availibility, setAvailibility] = useState("");
-  
   const [email, setEmail] = useState("");
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
@@ -19,34 +17,30 @@ function Appointment() {
     setSelectedDepartment,
     selectedDoctorId,
     setSelectedDoctorId,
-    Settesting,
     departmentId,
     SetdepartmentId,
-    Doctorname,
-    Setdoctorname,
-    patientName, 
-    setPatientName
+    setPatientName,
+    patientName,
   } = useAppointment();
- 
 
   useEffect(() => {
     const fetchData = async () => {
-        try {
-            const response = await apiService.getDepartments();
-            setDropDownValue(response.data);
-        } catch (err) {
-            console.error("Error fetching Catch errrrorrrr--- departments:", err.message);
-        }
+      try {
+        const response = await apiService.getDepartments();
+        console.log("response -----", response.data);
+        setDropDownValue(response.data);
+      } catch (err) {
+        console.error("Error fetching departments:", err.message);
+      }
     };
-
     fetchData();
   }, []);
-  // Settesting("Testing Context api");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = {
-      department: selectedDepartment,
-      doctorId: selectedDoctorId, // Sending doctorId instead of name
+      // department: selectedDepartment,
+      doctorId: selectedDoctorId,
       availability: availibility,
       patientName,
       patientemail: email,
@@ -54,21 +48,33 @@ function Appointment() {
       description,
       departmentId,
     };
-
-   try{
-    const response = await apiService.createAppointment(formData);
-    console.log("response from createAppointment:", response);
-    Setmessage("Appointment created successfully");
-   }catch(err){
-     console.error("Error creating appointment:", err.message);
-   }
+    try {
+      const response = await apiService.createAppointment(formData);
+      console.log("response------", response.data);
+      Setmessage(response.data.message);
+    } catch (err) {
+      console.error("Error creating appointment:", err.message);
+    }
   };
 
+  //<------- Clearing message after 3 second ----------->
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      Setmessage("");
+    }, 4000);
+
+    return () => clearTimeout(timer);
+  }, [message]);
+
   return (
-    <div className="col-md-10 col-lg-12 px-3 py-3 dashboard-content shadow" style={{ marginTop: "4rem" }}>
-      <DashboardNav/>
-      <p className="page-show">Make Appointment</p><hr />
-      {message ? (
+    <div
+      className="col-md-10 col-lg-12 px-3 py-3 dashboard-content shadow"
+      style={{ marginTop: "4rem" }}
+    >
+      <DashboardNav />
+      <p className="page-show">Make Appointment</p>
+      <hr />
+      {message && (
         <div
           className="alert alert-warning alert-dismissible fade show"
           role="alert"
@@ -81,90 +87,68 @@ function Appointment() {
             aria-label="Close"
           ></button>
         </div>
-      ) : null}
-
+      )}
       <div className="form-container mx-auto">
         <form onSubmit={handleSubmit}>
-          {/* Department Dropdown */}
           <div className="row g-3 mb-3">
             <div className="col-6 col-md-12">
               <label htmlFor="department" className="form-label">
                 Department:
               </label>
-
               <select
-                className="form-select"
                 id="department"
-                required
+                className="form-select"
+                value={selectedDepartment}
                 onChange={(e) => {
                   const selectedDept = dropDownValue.find(
-                    (dept) => dept.department === e.target.value
+                    (dept) => dept.name === e.target.value
                   );
                   setSelectedDepartment(e.target.value);
-                  if (selectedDept) {
-                    SetdepartmentId(selectedDept._id); // Correctly setting departmentId
-                    console.log("Selected Department ID:", selectedDept._id);
-                  }
+                  SetdepartmentId(selectedDept ? selectedDept._id : "");
+                  console.log("departmentId===============", departmentId);
                 }}
               >
                 <option value="">Select Department</option>
-                {dropDownValue.map((dept, ind) => (
-                  <option key={ind} value={dept.department}>
-                    {dept.department}
+                {dropDownValue.map((value) => (
+                  <option key={value._id} value={value.name}>
+                    {value.name}
                   </option>
                 ))}
               </select>
             </div>
 
-            {/* Doctor Dropdown */}
             <div className="col-12 col-md-6">
               <label htmlFor="doctor" className="form-label">
                 Doctor Name:
               </label>
               <select
-                className="form-select"
                 id="doctor"
-              
-                required
+                className="form-select"
+                value={selectedDoctorId}
                 onChange={(e) => {
-                  const selectedDoctor = dropDownValue
-                    .filter((dept) => dept.department === selectedDepartment)
-                    .flatMap((dept) => dept.doctors)
-                    .find((doctor) => doctor._id === e.target.value); // Find doctor by ID
-
-                  setSelectedDoctorId(e.target.value); // Set doctor ID
-                  Setdoctorname(selectedDoctor ? selectedDoctor.name : ""); // Set doctor name
-
-                  console.log(
-                    "Selected Doctor Name:",
-                    selectedDoctor ? selectedDoctor.name : "Not found"
-                  );
+                  setSelectedDoctorId(e.target.value),
+                    console.log("selectedDoctorId----", selectedDoctorId);
                 }}
               >
                 <option value="">Select Doctor</option>
                 {dropDownValue
-                  .filter((dept) => dept.department === selectedDepartment)
-                  .flatMap((dept) => dept.doctors)
-                  .map((doctor, ind) => (
-                    <option key={ind} value={doctor._id}>
+                  .find((dept) => dept.name === selectedDepartment)
+                  ?.doctors?.map((doctor) => (
+                    <option key={doctor._id} value={doctor._id}>
                       {doctor.name}
                     </option>
                   ))}
               </select>
             </div>
 
-            {/* Availability Dropdown */}
             <div className="col-12 col-md-6">
               <label htmlFor="availability" className="form-label">
                 Availability:
               </label>
               <select
-                className="form-select"
                 id="availability"
-                required
-                onChange={(e) => {setAvailibility(e.target.value)
-                  console.log("Selected Availability availibility, setAvailibility:", e.target.value);}
-                }
+                className="form-select"
+                onChange={(e) => setAvailibility(e.target.value)}
               >
                 <option value="">Select Availability</option>
                 {dropDownValue
@@ -180,7 +164,6 @@ function Appointment() {
             </div>
           </div>
 
-          {/* Patient Details */}
           <div className="row g-3 mb-3">
             <div className="col-12 col-md-6">
               <label htmlFor="patientName" className="form-label">
@@ -210,14 +193,13 @@ function Appointment() {
             </div>
           </div>
 
-          {/* Appointment Date and Description */}
           <div className="row g-3 mb-3">
             <div className="col-12 col-md-6">
               <label htmlFor="appointmentDate" className="form-label">
                 Appointment Date:
               </label>
               <input
-                type="datetime-local"
+                type="date"
                 id="appointmentDate"
                 className="form-control"
                 onChange={(e) => setDate(e.target.value)}
@@ -229,18 +211,17 @@ function Appointment() {
                 Description:
               </label>
               <textarea
-                style={{ resize: "none" }}
                 id="description"
-                className="form-control"
+                className="form-control "
                 rows="4"
                 placeholder="Enter description here..."
-                required
                 onChange={(e) => setDescription(e.target.value)}
+                required
+                style={{ resize: "none" }}
               ></textarea>
             </div>
           </div>
 
-          {/* Submit Button */}
           <div className="d-grid">
             <button type="submit" className="btn btn-submit btn-primary">
               Submit

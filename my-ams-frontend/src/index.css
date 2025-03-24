@@ -18,8 +18,8 @@ a {
   cursor: pointer;
 }
 
-/* .container{
-  padding-left: 10%;
+/* .container-fluid{
+  padding-right: 10%;
 } */
 
 .btn {
@@ -41,6 +41,7 @@ a {
   .container {
     padding-left: 5%;
     padding-right: 5%;
+    
   }
   .btn{
     padding: 14px 22px;

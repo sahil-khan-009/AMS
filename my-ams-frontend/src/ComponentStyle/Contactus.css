@@ -18,14 +18,21 @@
 
 .contact-form {
     background: #fff;
-    padding: 30px;
+    padding: 5px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-.btn-custom {
+/* .btn-custom {
     background-color: #007bff;
     color: white;
-}
-.btn-custom:hover {
+} */
+/* .btn-custom:hover {
     background-color: #0056b3;
+} */
+
+
+
+@media(max-width: 650px){
+    .contact-form {
+        padding-left: 1.5em;
+    }
 }

@@ -14,10 +14,10 @@ const Contactus = () => {
   return (
     <div className='contactus'>
       {/* <h1 className="text-decoration-underline text-center">Contact Us</h1> */}
-    <div className="container py-5">
-        <div className="row justify-content-center">
-            <div className="col-lg-10">
-                <div className="contact-form p-4">
+    <div className="container py-5 ">
+        <div className="row contact-form justify-content-center">
+            <div className="col-lg-10 shadow">
+                <div className="p-4">
                     <h2 className="text-center mb-4">Contact Us</h2>
                     <p className="text-center">We would love to hear from you! Feel free to reach out.</p>
                     <div className="row">
@@ -25,7 +25,7 @@ const Contactus = () => {
                             <img src="https://storage.googleapis.com/a1aa/image/R4u1_h13uekYM2Ri_bIzPLLi0THLxdZSEw3tagK0xzA.jpg" className="img-fluid rounded mb-4" alt="Illustration of a person scheduling an appointment"/>
                         </div>
                         <div className="col-md-6">
-                            <form>
+                            <form className='contact-form'>
                                 <div className="mb-3">
                                     <label htmlFor="name" className="form-label">Name</label>
                                     <input type="text" className="form-control" id="name" name="name" required/>
@@ -47,7 +47,7 @@ const Contactus = () => {
                                     <textarea className="form-control" id="message" name="message" rows="4" required></textarea>
                                 </div>
                                 <div className="d-grid">
-                                    <button type="submit" className="btn btn-custom">Submit</button>
+                                    <button type="submit" className="btn btn-primary">Submit</button>
                                 </div>
                             </form>
                         </div>

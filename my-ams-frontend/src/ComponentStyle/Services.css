@@ -2,3 +2,11 @@
     width: 600px;
     height: 450px;
 }
+
+
+
+@media(max-width: 650px){
+    .services {
+        padding-left: 1.5em;
+    }
+}

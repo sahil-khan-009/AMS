@@ -49,19 +49,13 @@ const UserAppointment = () => {
     const totalPages = Math.ceil(filteredAppointments.length / appointmentsPerPage);
 
     return (
-        <div className='full-height-bg p-4'>
+        <div className='full-height-bg'style={{paddingTop:'5em'}}>
             <Adminnav />
-            <h4 className="mt-5">Appointments</h4>
+            <h4 >Appointments</h4>
             <hr />
 
             <div className="d-flex flex-wrap items-center gap-3">
-                {/* <div>
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded-3 flex items-center">
-                        <i className='me-2'><FaFilter /></i>
-                        Filter
-                    </button>
-                </div> */}
-                <div>
+                <div className='status'>
                     <label className='me-2'>Status:</label>
                     <select
                         className="border px-3 py-2 rounded"
@@ -80,25 +74,26 @@ const UserAppointment = () => {
                     </select>
 
                 </div>
-                <div>
-                    <label className='me-2'>By Search:</label>
-                    <input
-                        type="text"
-                        placeholder="Search by Name, Doctor, or Department..."
-                        className="border px-3 py-2 rounded"
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                    />
-                </div>
-                <div>
+                <div className='byDate'>
                     <label className='me-2'>By Date:</label>
                     <input
                         type="date"
-                        className="border px-3 py-2 rounded"
+                        className=" byDate border px-3 py-2 rounded"
                         value={selectedDate}
                         onChange={(e) => setSelectedDate(e.target.value)}
                     />
                 </div>
+                <div className='bySearch'>
+                    <label className='me-2'>By Search:</label>
+                    <input
+                        type="text"
+                        placeholder="Search by Name, Doctor, or Department..."
+                        className="bySearch border px-3 py-2 rounded"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                </div>
+                
             </div>
             <div className='table-responsive mt-2'>
                 <table className="table table-bordered text-center" >
@@ -139,7 +134,7 @@ const UserAppointment = () => {
                     </tbody>
                 </table>
             </div>
-            <div className="d-flex justify-content-center">
+            <div className="d-flex justify-content-center ">
                 <div className="d-flex align-items-center gap-2">
                     <button
                         className="btn btn-secondary px-2 py-1 rounded-circle"

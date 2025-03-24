@@ -26,13 +26,13 @@ ul li .btn{
 nav ul li{
     display: inline-block;
     list-style: none;
-    margin: 5px 20px;
+    margin: 10px 15px;
     font-size: 16px;
 }
 
 .dark-nav{
     background: #212ea0;
-    transition: 0.5s;
+    transition: 0.35s;
 }
 
 .menu{

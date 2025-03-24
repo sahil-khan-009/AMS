@@ -52,7 +52,7 @@ const Navbar = () => {
     }, [mobileMenu]);
 
     return (
-        <nav className={`px-5 ${sticky ? 'dark-nav' : ''}`} ref={menuRef}>
+        <nav className={`px-1 py-1 ${sticky ? 'dark-nav' : ''}`} ref={menuRef}>
             <img src={logo} alt='Logo' className='logo' />
 
             {/* Mobile menu toggle */}
