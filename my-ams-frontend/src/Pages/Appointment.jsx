@@ -67,12 +67,9 @@ function Appointment() {
   }, [message]);
 
   return (
-    <div
-      className="col-md-10 col-lg-12 px-3 py-3 dashboard-content shadow"
-      style={{ marginTop: "4rem" }}
-    >
+    <div className="full-height-bg" style={{paddingTop:'5em'}}>
       <DashboardNav />
-      <p className="page-show">Make Appointment</p>
+      <h3>Make Appointment</h3>
       <hr />
       {message && (
         <div
@@ -88,12 +85,12 @@ function Appointment() {
           ></button>
         </div>
       )}
-      <div className="form-container mx-auto">
+      <div className="form-container mx-auto p-2">
         <form onSubmit={handleSubmit}>
           <div className="row g-3 mb-3">
-            <div className="col-6 col-md-12">
+            <div className="col-12 col-md-6">
               <label htmlFor="department" className="form-label">
-                Department:
+                Department
               </label>
               <select
                 id="department"
@@ -116,10 +113,22 @@ function Appointment() {
                 ))}
               </select>
             </div>
+            <div className="col-12 col-md-6">
+              <label htmlFor="appointmentDate" className="form-label">
+                Appointment Date
+              </label>
+              <input
+                type="date"
+                id="appointmentDate"
+                className="form-control"
+                onChange={(e) => setDate(e.target.value)}
+                required
+              />
+            </div>
 
             <div className="col-12 col-md-6">
               <label htmlFor="doctor" className="form-label">
-                Doctor Name:
+                Doctor Name
               </label>
               <select
                 id="doctor"
@@ -143,7 +152,7 @@ function Appointment() {
 
             <div className="col-12 col-md-6">
               <label htmlFor="availability" className="form-label">
-                Availability:
+                Availability
               </label>
               <select
                 id="availability"
@@ -167,7 +176,7 @@ function Appointment() {
           <div className="row g-3 mb-3">
             <div className="col-12 col-md-6">
               <label htmlFor="patientName" className="form-label">
-                Patient's Name:
+                Patient's Name
               </label>
               <input
                 type="text"
@@ -180,7 +189,7 @@ function Appointment() {
             </div>
             <div className="col-12 col-md-6">
               <label htmlFor="patientEmail" className="form-label">
-                Patient's Email:
+                Patient's Email
               </label>
               <input
                 type="email"
@@ -194,21 +203,9 @@ function Appointment() {
           </div>
 
           <div className="row g-3 mb-3">
-            <div className="col-12 col-md-6">
-              <label htmlFor="appointmentDate" className="form-label">
-                Appointment Date:
-              </label>
-              <input
-                type="date"
-                id="appointmentDate"
-                className="form-control"
-                onChange={(e) => setDate(e.target.value)}
-                required
-              />
-            </div>
             <div className="col-12">
               <label htmlFor="description" className="form-label">
-                Description:
+                Description
               </label>
               <textarea
                 id="description"

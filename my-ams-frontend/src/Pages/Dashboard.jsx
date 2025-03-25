@@ -4,7 +4,12 @@ import DashboardNav from '../Component/DashboardNav';
 import { apiService } from "../Api-folder/Api";
 
 function Dashboard() {
-  const [appointmentsCounts, setAppointmentsCounts] = useState([]);
+  const [appointmentsCounts, setAppointmentsCounts] = useState({
+    make: 0,
+    approved: 0,
+    pending: 0,
+    deleted: 0,
+  });
 
   useEffect(() => {
     fetchAppointments();
@@ -13,35 +18,43 @@ function Dashboard() {
   const fetchAppointments = async () => {
     try {
       const response = await apiService.getAppointment();
-      setAppointmentsCounts(
-        Array.isArray(response.data) ? response.data : [response.data]
-      );
+      const appointments = Array.isArray(response.data) ? response.data : [response.data];
+
+      // Calculate counts based on appointment status
+      const counts = {
+        make: appointments.length, // Total appointments
+        approved: appointments.filter(app => app.status === 'approved').length,
+        pending: appointments.filter(app => app.status === 'pending').length,
+        deleted: appointments.filter(app => app.status === 'deleted').length,
+      };
+
+      setAppointmentsCounts(counts);
     } catch (err) {
       console.error("Error fetching appointments:", err.message);
     }
   };
 
   return (
-    <div  className="full-height-bg" style={{paddingTop:'5em'}}>
+    <div className="full-height-bg" style={{ paddingTop: '5em' }}>
       <DashboardNav />
       <h3>Dashboard</h3>
       <hr />
-      
+
       <div className="row g-3 d-flex justify-content-center">
-            {[
-              { label: 'Make Appointments', count: 0, color: 'primary' },
-              { label: 'Approved', count: 0, color: 'success' },
-              { label: 'Pending', count: 0, color: 'danger' },
-              { label: 'Deleted', count: 0, color: 'warning' },
-            ].map((item, index) => (
-              <div key={index} className="col-12 col-sm-6 col-md-4 col-lg-3">
-                <div className={`custom-card card shadow p-3 bg-${item.color}`}>
-                  <h6>{item.label}</h6>
-                  <strong>{item.count}</strong>
-                </div>
-              </div>
-            ))}
+        {[
+          { label: 'Make Appointments', count: appointmentsCounts.make, color: 'primary' },
+          { label: 'Approved', count: appointmentsCounts.approved, color: 'success' },
+          { label: 'Pending', count: appointmentsCounts.pending, color: 'danger' },
+          { label: 'Deleted', count: appointmentsCounts.deleted, color: 'warning' },
+        ].map((item, index) => (
+          <div key={index} className="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div className={`custom-card card shadow p-3 bg-${item.color}`}>
+              <h6>{item.label}</h6>
+              <strong>{item.count}</strong>
+            </div>
           </div>
+        ))}
+      </div>
     </div>
   );
 }

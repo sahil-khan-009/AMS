@@ -68,28 +68,28 @@ function AppointmentStatus() {
       console.error("Invalid appointment data:", appointment);
       return;
     }
-  
+
     console.log("Setting state with appointment:", appointment);
     SetGlobalStateForUpdateFrom(appointment);
     setupdateId(appointment._id);
     navigate("/UserDashboard/UpdateDetails");
   };
-  
+
 
   return (
-    <div className="col-md-10 col-lg-12 mt-5 shadow px-3 py-3">
+    <div className="full-height-bg" style={{ paddingTop: '5em' }}>
       <DashboardNav />
-      <p className="page-show">Appointment Status</p>
+      <h3>Appointment Status</h3>
       <hr />
 
       {deleteMessage && (
         <div className="alert alert-success">{deleteMessage}</div>
       )}
 
-      <div className="table-container">
-        <div className="table-responsive">
-          <table className="table table-striped table-bordered">
-            <thead className="table-secondary text-center">
+      <div className="table-container py-2 m-0">
+        <div className="table-responsive p-0 m-0">
+          <table className="table table-bordered m-0 p-0">
+            <thead className="table-header text-center">
               <tr>
                 <th>Sr No</th>
                 <th>Patient Name</th>
@@ -107,12 +107,12 @@ function AppointmentStatus() {
               {appointments.length > 0 ? (
                 appointments.map((appointment, index) => (
                   <tr key={appointment._id}>
-                    <td>{index + 1}</td>
-                    <td>{appointment.patientName}</td>
-                    <td>{appointment.patientemail}</td>
-                    <td>{appointment.doctorName}</td>
-                    <td>{appointment.department}</td>
-                    <td>
+                    <td className="py-2">{index + 1}</td>
+                    <td >{appointment.patientName}</td>
+                    <td >{appointment.patientemail}</td>
+                    <td >{appointment.doctorName}</td>
+                    <td >{appointment.department}</td>
+                    <td >
                       {new Date(appointment.appointmentDate).toLocaleDateString(
                         "en-US",
                         {
@@ -122,32 +122,31 @@ function AppointmentStatus() {
                         }
                       )}
                     </td>
-                    <td>{appointment.appointmentStatus}</td>
+                    <td >{appointment.appointmentStatus}</td>
 
                     {/* View Appointment */}
                     <td>
                       <button
-                        className="btn  btn-sm"
+                        className="btn btn-sm p-0 m-0"
                         data-bs-toggle="modal"
                         data-bs-target="#viewAppointmentModal"
+                        onClick={() => setSelectedAppointment(appointment)} // Set appointment here
                       >
                         <LuView className="view-icon" />
                       </button>
                     </td>
 
+
                     {/* Delete Appointment */}
-                    <td>
+                    <td >
                       <button
                         type="button"
-                        className="btn"
+                        className="btn p-0 m-0"
                         data-bs-toggle="modal"
                         data-bs-target="#deleteModal"
                         onClick={() => {
                           setSelectedAppointment(appointment),
-                            console.log(
-                              "selectedAppointment---",
-                              selectedAppointment
-                            );
+                            console.log("selectedAppointment---", selectedAppointment);
                         }}
                       >
                         <AiFillDelete className="delete-icon" />
@@ -155,12 +154,12 @@ function AppointmentStatus() {
                     </td>
 
                     {/* Edit Appointment */}
-                    <td>
+                    <td className="p-0 m-0">
                       <Link
                         className="edit"
                         to="/userDashboard/UpdateDetails"
                         onClick={(e) => {
-                          e.preventDefault(); // Prevent default navigation behavior
+                          e.preventDefault();
                           if (appointment?._id) {
                             UpdateDetails(appointment);
                           } else {
@@ -175,13 +174,16 @@ function AppointmentStatus() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="10">No appointments found</td>
+                  <td colSpan="10" className="text-center p-0 m-0">
+                    No appointments found
+                  </td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
       </div>
+
 
       {/* View Appointment Modal */}
       <div
@@ -209,42 +211,40 @@ function AppointmentStatus() {
                     aria-label="Close"
                   ></button>
                 </div>
+
+                {/* Conditional rendering */}
                 {selectedAppointment ? (
                   <div className="appointment-details">
                     <div className="detail-item">
-                      <strong>Patient Name:</strong>{" "}
-                      <span>{selectedAppointment.patientName}</span>
+                      <strong>Patient Name:</strong> {selectedAppointment.patientName}
                     </div>
                     <div className="detail-item">
-                      <strong>Patient Email:</strong>{" "}
-                      <span>{selectedAppointment.patientemail}</span>
+                      <strong>Patient Email:</strong> {selectedAppointment.patientemail}
                     </div>
                     <div className="detail-item">
-                      <strong>Doctor:</strong>{" "}
-                      <span>{selectedAppointment.doctorName}</span>
+                      <strong>Doctor:</strong> {selectedAppointment.doctorName}
                     </div>
                     <div className="detail-item">
-                      <strong>Department:</strong>{" "}
-                      <span>{selectedAppointment.department}</span>
+                      <strong>Department:</strong> {selectedAppointment.department}
                     </div>
                     <div className="detail-item">
                       <strong>Appointment Date:</strong>
-                      <span>
-                        {new Date(
-                          selectedAppointment.appointmentDate
-                        ).toLocaleDateString("en-US", {
+                      {new Date(selectedAppointment.appointmentDate).toLocaleDateString(
+                        "en-US",
+                        {
                           year: "numeric",
                           month: "short",
                           day: "2-digit",
-                        })}
-                      </span>
+                        }
+                      )}
                     </div>
                   </div>
                 ) : (
-                  <p>Loading...</p>
+                  <p>Loading appointment details...</p>
                 )}
               </div>
             </div>
+
           </div>
         </div>
       </div>

@@ -35,7 +35,7 @@
   cursor: pointer;
   z-index: 1000;
   width: 25% !important;
-  margin-left: 14em;
+  margin-left: 13em;
 
 }
 
@@ -52,6 +52,7 @@
 
   .sidebar-toggle {
     display: block;
+    
   }
 }
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../PagesStyles/Appointment.css";
 import { useNavigate } from "react-router-dom";
 import { useAppointment } from "../context/AppointmentContext";
-import {apiService} from "../Api-folder/Api";
+import { apiService } from "../Api-folder/Api";
 import DashboardNav from "../Component/DashboardNav";
 
 function UpdateDetails() {
@@ -20,7 +20,7 @@ function UpdateDetails() {
     const fetchData = async () => {
       try {
         const response = await apiService.getDepartments();
-        console.log("response.data-------",response.data)
+        console.log("response.data-------", response.data)
         setDropDownValue(response.data);
       } catch (err) {
         console.error("Error fetching departments:", err.message);
@@ -43,7 +43,7 @@ function UpdateDetails() {
     };
 
 
-    console.log("formData>>>>>>>>>>>>>>>>>>>>>>>>>",formData)
+    console.log("formData>>>>>>>>>>>>>>>>>>>>>>>>>", formData)
     try {
       const response = await apiService.updateAppointment(formData, updateid);
       console.log("Response:", response);
@@ -61,12 +61,9 @@ function UpdateDetails() {
   };
 
   return (
-    <div
-      className="col-md-10 col-lg-12 px-3 py-3 dashboard-content shadow"
-      style={{ marginTop: "4rem" }}
-    >
+    <div className="full-height-bg" style={{ paddingTop: '5em' }}>
       <DashboardNav />
-      <p className="page-show">Update Details</p>
+      <h3>Update Details</h3>
       <hr />
       {message && (
         <div className="alert alert-warning alert-dismissible fade show">
@@ -78,7 +75,7 @@ function UpdateDetails() {
         <form onSubmit={handleSubmit}>
           {/* Department Dropdown */}
           <div className="row g-3 mb-3">
-            <div className="col-6 col-md-12">
+            <div className="col-12 col-md-6">
               <label htmlFor="department" className="form-label">
                 Department:
               </label>
@@ -99,7 +96,7 @@ function UpdateDetails() {
                     departmentId: selectedDept ? selectedDept._id : "", // Ensure it's assigned correctly
                   });
                 }}
-                
+
               >
                 <option value="">Select Department</option>
                 {dropDownValue.map((dept, ind) => (
@@ -108,6 +105,20 @@ function UpdateDetails() {
                   </option>
                 ))}
               </select>
+            </div>
+            <div className="col-12 col-md-6">
+              <label htmlFor="appointmentDate" className="form-label">
+                Appointment Date:
+              </label>
+              <input
+                type="date"
+                id="appointmentDate"
+                name="appointmentDate"
+                className="form-control"
+                value={GlobalStateForUpdateFrom.appointmentDate?.split("T")[0] || ""}
+                onChange={handleInputChange}
+                required
+              />
             </div>
 
             {/* Doctor Dropdown */}
@@ -157,7 +168,7 @@ function UpdateDetails() {
                 value={availibility || ""}
                 onChange={(e) => setAvailibility(e.target.value)}
               >
-                        <option value="">Select Availability</option>
+                <option value="">Select Availability</option>
                 {dropDownValue
                   .find((dept) => dept.name === GlobalStateForUpdateFrom.department)
                   ?.doctors.find((doctor) => doctor._id === GlobalStateForUpdateFrom.selectedDoctorId)
@@ -206,20 +217,6 @@ function UpdateDetails() {
 
           {/* Appointment Date and Description */}
           <div className="row g-3 mb-3">
-            <div className="col-12 col-md-6">
-              <label htmlFor="appointmentDate" className="form-label">
-                Appointment Date:
-              </label>
-              <input
-                type="date"
-                id="appointmentDate"
-                name="appointmentDate"
-                className="form-control"
-                value={GlobalStateForUpdateFrom.appointmentDate?.split("T")[0] || ""}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
             <div className="col-12">
               <label htmlFor="description" className="form-label">
                 Description:
@@ -238,11 +235,12 @@ function UpdateDetails() {
           </div>
 
           {/* Submit Button */}
-          <div className="d-grid">
+          <div className="d-flex justify-content-center">
             <button type="submit" className="btn btn-primary w-50">
               Update
             </button>
           </div>
+
         </form>
       </div>
     </div>
