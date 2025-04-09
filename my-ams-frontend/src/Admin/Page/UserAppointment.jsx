@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import Adminnav from '../Component/Adminnav';
 import { FaCheck, FaFilter } from "react-icons/fa";
 import { ImCancelCircle } from "react-icons/im";
-import { IoIosArrowBack } from "react-icons/io";
-import { IoIosArrowForward } from "react-icons/io";
+// import { IoIosArrowBack } from "react-icons/io";
+// import { IoIosArrowForward } from "react-icons/io";
 import { LuView } from "react-icons/lu";
 import '../PageStyle/UserAppointment.css'
 
@@ -135,29 +135,29 @@ const UserAppointment = () => {
                 </table>
             </div>
             <div className="d-flex justify-content-center ">
-                <div className="d-flex align-items-center gap-2">
+                <div className="pagination-controls d-flex justify-content-center mt-3">
                     <button
-                        className="btn btn-secondary px-2 py-1 rounded-circle"
+                        className="btn btn-sm btn-outline-primary me-2"
                         onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                         disabled={currentPage === 1}
-                    >
-                        <IoIosArrowBack className="text-white" />
+                    >Prev
+                        {/* <IoIosArrowBack className="text-white" /> */}
                     </button>
                     {Array.from({ length: totalPages }, (_, i) => (
                         <button
                             key={i + 1}
-                            className={`btn px-3 py-2 rounded-circle ${currentPage === i + 1 ? "btn-primary" : "btn-secondary"}`}
+                            className={`btn btn-sm me-1  ${currentPage === i + 1 ? 'btn-primary' : 'btn-outline-primary'}`}
                             onClick={() => setCurrentPage(i + 1)}
                         >
                             {i + 1}
                         </button>
                     ))}
                     <button
-                        className="btn btn-secondary px-2 py-1 rounded-circle"
+                        className="btn btn-sm btn-outline-primary ms-2"
                         onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                         disabled={currentPage === totalPages}
                     >
-                        <IoIosArrowForward className="text-white" />
+                       Next {/* <IoIosArrowForward className="text-white" /> */}
                     </button>
                 </div>
             </div>

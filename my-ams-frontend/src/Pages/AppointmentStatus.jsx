@@ -75,6 +75,17 @@ function AppointmentStatus() {
     navigate("/UserDashboard/UpdateDetails");
   };
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; // You can change this to any number
+
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentAppointments = appointments.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(appointments.length / itemsPerPage);
+
+
 
   return (
     <div className="full-height-bg" style={{ paddingTop: '5em' }}>
@@ -104,10 +115,10 @@ function AppointmentStatus() {
               </tr>
             </thead>
             <tbody>
-              {appointments.length > 0 ? (
-                appointments.map((appointment, index) => (
+              {currentAppointments.length > 0 ? (
+                currentAppointments.map((appointment, index) => (
                   <tr key={appointment._id}>
-                    <td className="py-2">{index + 1}</td>
+                    <td className="py-2">{indexOfFirstItem + index + 1}</td>
                     <td >{appointment.patientName}</td>
                     <td >{appointment.patientemail}</td>
                     <td >{appointment.doctorName}</td>
@@ -183,7 +194,34 @@ function AppointmentStatus() {
           </table>
         </div>
       </div>
+      <div>
+        <div className="pagination-controls d-flex justify-content-center mt-3">
+          <button
+            className="btn btn-sm btn-outline-primary me-2"
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            Prev
+          </button>
+          {[...Array(totalPages)].map((_, i) => (
+            <button
+              key={i}
+              className={`btn btn-sm me-1 ${currentPage === i + 1 ? 'btn-primary' : 'btn-outline-primary'}`}
+              onClick={() => setCurrentPage(i + 1)}
+            >
+              {i + 1}
+            </button>
+          ))}
+          <button
+            className="btn btn-sm btn-outline-primary ms-2"
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
 
+      </div>
 
       {/* View Appointment Modal */}
       <div

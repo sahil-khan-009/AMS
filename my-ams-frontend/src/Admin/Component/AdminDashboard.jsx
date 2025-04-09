@@ -48,17 +48,17 @@ const AdminDashboard = () => {
     <div className="container-fluid">
       <div className="row">
         {/* Toggle Button for Small Screens */}
-        <div 
-          className="sidebar-toggle d-lg-none" 
+        <div
+          className="sidebar-toggle d-lg-none"
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         >
           {isSidebarOpen ? "" : <FaBars />}
         </div>
 
         {/* Sidebar Column */}
-        <div 
+        <div
           ref={sidebarRef}
-          className={`col-lg-2 col-md-3 sidebar text-white p-3 ${isSidebarOpen ? "open" : ""}`} 
+          className={`col-lg-2 col-md-3 sidebar text-white p-3 ${isSidebarOpen ? "open" : ""}`}
           id="sidebar"
         >
           <img src={logo} alt="Logo" className="logo" />
@@ -68,7 +68,7 @@ const AdminDashboard = () => {
           <ul className="nav flex-column">
             <li className="nav-item">
               <Link className="nav-link text-white" to="/AdminDashboard" onClick={handleLinkClick}>
-              <AiOutlineDashboard /><span className="ms-2">Dashboard</span>
+                <AiOutlineDashboard /><span className="ms-2">Dashboard</span>
               </Link>
             </li>
 
@@ -143,9 +143,9 @@ const AdminDashboard = () => {
             </li>
             <li className="nav-item">
               <Link className="nav-link text-white" to="#logout" onClick={(e) => {
-              e.preventDefault();
-              logOutUser();
-            }} >
+                e.preventDefault();
+                logOutUser();
+              }} >
                 <FiLogOut /> <span className="ms-2">Logout</span>
               </Link>
             </li>
