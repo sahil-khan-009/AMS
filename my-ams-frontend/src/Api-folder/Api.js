@@ -8,6 +8,18 @@ const api = axios.create({
   },
 });
 
+// <--------------------------------------Local base url--------------------------------->
+
+
+const localApi = axios.create({
+  baseURL: "http://localhost:4000/api",
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+
 // Request interceptor To add the token to the request header
 api.interceptors.request.use(
   (config) => {
@@ -91,7 +103,30 @@ addDoctor : async (formData)=>{
   
   return api.get('/doctor/Alldoctors')
 
- }
+ },
+
+// <----------- Total Appointment ----------------->
+
+totalAppointment : async ()=>{
+
+  return api.get('/admin/totalAppointment');
+
+},
+
+// Approved Appointment api
+
+approvedAppointment : async (id,status)=>{
+  return api.patch(`/admin/appointments/${id}/${status}`)
+},
+// canceld appointment api 
+cancelAppointment : async (id,status)=>{
+  return api.patch(`/admin/appointments/${id}/${status}`)
+},
+
+// Payment method
+appointmentPayment : async (body)=>{
+  return api.post('/admin/payment',body)
+}
 
 };
 
