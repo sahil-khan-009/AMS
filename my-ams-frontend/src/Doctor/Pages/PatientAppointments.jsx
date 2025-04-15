@@ -5,6 +5,9 @@ import { IoVideocam } from "react-icons/io5";
 const PatientAppointments = () => {
   const [status, setStatus] = useState("All");
   const [selectedDate, setSelectedDate] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [meetingLink, setMeetingLink] = useState("");
+
 
   const appointments = [
     {
@@ -14,6 +17,7 @@ const PatientAppointments = () => {
       date: "2025-04-10",
       time: "10:00 AM",
       description: "Follow-up consultation for test results",
+       meetingLink: "https://meet.example.com/johndoe"
     },
     {
       id: 2,
@@ -169,7 +173,15 @@ const PatientAppointments = () => {
                     <td>{app.description}</td>
                     <td>
                       {app.type === "Online" ? (
-                        <IoVideocam size={25} style={{ cursor: 'pointer', color: 'blue' }} />
+                        <IoVideocam 
+                        size={25} 
+                        style={{ cursor: 'pointer', color: 'blue' }} 
+                        onClick={() => {
+                          setMeetingLink(app.meetingLink || "No link available");
+                          setIsModalOpen(true);
+                        }} 
+                      />
+                      
                       ) : (
                         "N/A"
                       )}
@@ -184,6 +196,29 @@ const PatientAppointments = () => {
             </tbody>
           </table>
         </div>
+        {isModalOpen && (
+  <div className="modal d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+    <div className="modal-dialog">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h5 className="modal-title">Video Meeting Link</h5>
+          <button type="button" className="btn-close" onClick={() => setIsModalOpen(false)}></button>
+        </div>
+        <div className="modal-body">
+          <p>Click the link below to join the meeting:</p>
+          <a href={meetingLink} target="_blank" rel="noopener noreferrer">
+            {meetingLink}
+          </a>
+        </div>
+        <div className="modal-footer">
+          <button type="button" className="btn btn-secondary" onClick={() => setIsModalOpen(false)}>Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+        
         <div>
           <div className="pagination-controls d-flex justify-content-center">
             <button

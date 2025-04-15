@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "../PagesStyles/Appointment.css";
 import { useAppointment } from "../context/AppointmentContext";
-import { apiService ,adminApi} from "../Api-folder/Api";
+import { apiService, adminApi } from "../Api-folder/Api";
 import DashboardNav from "../Component/DashboardNav";
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
-
 
 function Appointment() {
   const [dropDownValue, setDropDownValue] = useState([]);
@@ -13,13 +12,13 @@ function Appointment() {
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
   const [message, Setmessage] = useState("");
+  const [mode, setMode] = useState(""); // ITS FOR ONLINE OR OFFLINE
   const [departmentPay, SetdepartmentPay] = useState({
     name: "react for fb",
     price: 10,
     product: " HOSPITAL",
   }); // New state for department
 
-  
   const {
     selectedDepartment,
     setSelectedDepartment,
@@ -46,6 +45,7 @@ function Appointment() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const formData = {
       // department: selectedDepartment,
       doctorId: selectedDoctorId,
@@ -55,8 +55,12 @@ function Appointment() {
       appointmentDate: date,
       description,
       departmentId,
+      mode,
     };
     try {
+      if (mode === "") {
+        return alert("Please select mode of appointment");
+      }
       const response = await apiService.createAppointment(formData);
       console.log("response------", response.data);
       Setmessage(response.data.message);
@@ -74,18 +78,66 @@ function Appointment() {
     return () => clearTimeout(timer);
   }, [message]);
 
+  //Automation of date logic
 
-  // Payment=======================
-  
-  
+  useEffect(() => {
+    if (availibility) {
+      const nextDate = getNextWeekdayDate(availibility);
+      setDate(nextDate);
+    }
+  }, [availibility]);
 
+  function getNextWeekdayDate(dayName) {
+    const weekdays = {
+      Sunday: 0,
+      Monday: 1,
+      Tuesday: 2,
+      Wednesday: 3,
+      Thursday: 4,
+      Friday: 5,
+      Saturday: 6,
+    };
+    const targetDay = weekdays[dayName];
+    if (targetDay === undefined) return null;
+
+    const today = new Date();
+    const currentDay = today.getDay();
+    const diff = (targetDay + 7 - currentDay) % 7 || 7;
+    today.setDate(today.getDate() + diff);
+    return today.toISOString().split("T")[0]; // Format as YYYY-MM-DD
+  }
+  console.log("mode----------------", mode);
   return (
     <div className="full-height-bg" style={{ paddingTop: "5em" }}>
       <DashboardNav />
       <h3>Make Appointment</h3>
-      
-
       <hr />
+      <span
+        className="d-flex justify-content-center fs-5 gap-3"
+        style={{ display: " block" }}
+      >
+        <input
+          type="radio"
+          id="Online"
+          name="Mode"
+          value="online"
+          onChange={(e) => setMode(e.target.value)}
+        />
+
+        <label for="Online" className="">
+          Online
+        </label>
+        <br />
+        <input
+          type="radio"
+          id="Offline"
+          name="Mode"
+          value="offline"
+          onChange={(e) => setMode(e.target.value)}
+        />
+        <label for="Offline">Offline</label>
+      </span>
+
       {message && (
         <div
           className="alert alert-warning alert-dismissible fade show"
@@ -134,8 +186,10 @@ function Appointment() {
               </label>
               <input
                 type="date"
+                disabled={availibility ? false : true}
                 id="appointmentDate"
                 className="form-control"
+                value={date}
                 onChange={(e) => setDate(e.target.value)}
                 required
               />

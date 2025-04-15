@@ -48,10 +48,10 @@ const DoctorDashboard = () => {
                                         <Link className="nav-link text-white" to="PatientDetails">Patients Details</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link className="nav-link text-white" to="/">Past Appointments</Link>
+                                        <Link className="nav-link text-white" to="AppointmentNotes">Past Appointments</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link className="nav-link text-white" to="/">Patients Reports</Link>
+                                        <Link className="nav-link text-white" to="PatientReport">Patients Reports</Link>
                                     </li>
                                 </ul>
                             )}
@@ -75,7 +75,7 @@ const DoctorDashboard = () => {
                             {isSettingOpen && (
                                 <ul className="nav flex-column ps-4">
                                     <li className="nav-item">
-                                        <Link className="nav-link text-white" to="/">Availability</Link>
+                                        <Link className="nav-link text-white" to="Availability">Availability</Link>
                                     </li>
                                     <li className="nav-item">
                                         <Link className="nav-link text-white" to="/">Profile</Link>

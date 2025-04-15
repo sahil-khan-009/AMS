@@ -21,19 +21,21 @@ import DoctorDashboard from './Doctor/Components/DoctorDashboard.jsx';
 import DoctorSidebar from './Doctor/Pages/DoctorSidebar.jsx';
 import PatientAppointments from './Doctor/Pages/PatientAppointments.jsx';
 import PatientDetails from './Doctor/Pages/PatientDetails.jsx';
+import PatientReport from './Doctor/Pages/PatientReport.jsx';
+import AppointmentNotes from './Doctor/Pages/AppointmentNotes.jsx';
+import Availability from './Doctor/Pages/Availability.jsx';
 
 function App() {
   return (
     <AppointmentProvider>
       {/* <Collapse/> */}
       <Router>
-        {/* <DoctorDashboard/> */}
         <Routes>
           <Route path="/" element={<Layout />}></Route>
           <Route path="register" element={<Register />} />
           <Route path="/login" element={<Login />} />
 
-
+          {/* User Dashboard */}
           <Route path='/UserDashboard' element={<UserDashboard />}>
             <Route index element={<Dashboard />} />
             <Route path="Appointment" element={<Appointment />} />
@@ -43,6 +45,7 @@ function App() {
             <Route path="Notification" element={<Notification />} />
           </Route>
 
+          {/* Admin Dashboard */}
           <Route path='/AdminDashboard' element={<AdminDashboard />} >
             <Route index element={<AdminSideBar />} />
             <Route path='Department' element={<Department />} />
@@ -51,11 +54,15 @@ function App() {
             <Route path='AddDoctor' element={<AddDoctor />} />
             <Route path='UserAppointment' element={<UserAppointment />} />
           </Route>
-
+          
+          {/* Doctor Dashboard */}
           <Route path="/DoctorDashboard" element={<DoctorDashboard />}>
             <Route index element={<DoctorSidebar />} />
-            <Route path='PatientAppointments' element={<PatientAppointments/>}/>
-            <Route path='PatientDetails' element={<PatientDetails/>}/>
+            <Route path='PatientAppointments' element={<PatientAppointments />} />
+            <Route path='PatientDetails' element={<PatientDetails />} />
+            <Route path='PatientReport' element={<PatientReport />} />
+            <Route path='AppointmentNotes' element={<AppointmentNotes />} />
+            <Route path='Availability' element={<Availability />} />
           </Route>
 
 
