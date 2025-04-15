@@ -16,14 +16,29 @@ const AddDepartment = () => {
 
   const appointmentsPerPage = 10;
 
-  const [departments, setDepartments] = useState([
-    {
-      id: 1,
-      name: "Cardiology",
-      doctors: ["Dr. Smith", "Dr. Jones"],
-    },
-  ]);
+  const [departments, setDepartments] = useState([]);
 
+  // fetching department with doctor
+
+  useEffect(() => {
+    fetchDepartmentWithDoctor();
+  }, []);
+  const fetchDepartmentWithDoctor = async () => {
+    try {
+      const response = await adminApi.GetDepartment();
+      console.log("Get department with doctor response----", response.data);
+      if (response.status === 200) {
+        setDepartments(response.data);
+      } else {
+        console.log("Error in fetching department with doctor");
+      }
+    } catch (err) {
+      console.log(
+        "Error in fetching department with doctor this is  catch error ",
+        err.message
+      );
+    }
+  };
   // Sample doctor list
   const doctorOptions = [
     { value: "dr_smith", label: "Dr. Smith" },
@@ -59,15 +74,14 @@ const AddDepartment = () => {
 
   //Onchange Add Department------------------>
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      Setmesseage("");
+    }, 2000);
 
-useEffect(()=>{
-  const timer = setTimeout(()=>{
-    Setmesseage("")
-  },2000)
-
-  return () => clearTimeout(timer) 
-},[message])
-
+    return () => clearTimeout(timer);
+  }, [message]);
+  // Adding department
 
   const handleCreateDepartment = async () => {
     try {
@@ -91,7 +105,7 @@ useEffect(()=>{
   };
 
   return (
-    <div className="full-height-bg"style={{paddingTop:'5em'}}>
+    <div className="full-height-bg" style={{ paddingTop: "5em" }}>
       <Adminnav />
 
       <h3>Add Department</h3>
@@ -138,7 +152,8 @@ useEffect(()=>{
                 <form>
                   <div className="mb-3">
                     <label htmlFor="departmentName" className="form-label">
-                      Department Name
+                      Department Name ||{" "}
+                      <span>(Please Enter First Letter Capital)</span>
                     </label>
                     <input
                       type="text"
@@ -193,10 +208,18 @@ useEffect(()=>{
           <tbody>
             {currentAppointments.length > 0 ? (
               currentAppointments.map((dept, index) => (
-                <tr key={dept.id}>
-                  <td>{index + 1}</td>
+                <tr key={dept._id}>
+                <td>{indexOfFirstAppointment + index + 1}</td>
+
                   <td>{dept.name}</td>
-                  <td>{dept.doctors.join(", ") || "No Doctors Assigned"}</td>
+                  <td>
+                    {dept.doctors.length > 0 ? (
+                      dept.doctors.map((doc) => doc.name).join(", ")
+                    ) : (
+                      <span className="text-danger">No Doctors Assigned</span>
+                    )}
+                  </td>
+
                   <td>
                     <i className="text-dark" type="button">
                       <BiEdit size={20} />

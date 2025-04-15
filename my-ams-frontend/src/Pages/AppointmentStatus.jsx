@@ -265,6 +265,10 @@ function AppointmentStatus() {
                     <div className="detail-item">
                       <strong>Department:</strong> {selectedAppointment.department}
                     </div>
+                    <div className="detail-item fw-bold">
+                      <strong>Status:</strong> {selectedAppointment.appointmentStatus}
+                    </div>
+
                     <div className="detail-item">
                       <strong>Appointment Date:</strong>
                       {new Date(selectedAppointment.appointmentDate).toLocaleDateString(

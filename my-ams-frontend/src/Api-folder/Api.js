@@ -123,11 +123,19 @@ cancelAppointment : async (id,status)=>{
   return api.patch(`/admin/appointments/${id}/${status}`)
 },
 
+
+GetDepartment : async ()=>{
+  return api.get('/admin/getDepartment');
+
+},
+
+
 // Payment method
 appointmentPayment : async (body)=>{
   return api.post('/admin/payment',body)
 }
 
+ 
 };
 
 // export default adminApi;
