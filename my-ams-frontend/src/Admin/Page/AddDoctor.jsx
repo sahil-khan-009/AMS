@@ -332,7 +332,7 @@ const AddDoctor = () => {
               {/* <th scope="col">Department</th> */}
               <th scope="col">Available Days</th>
               <th scope="col">Available Timing</th>
-              <th scope="col">Update</th>
+              <th scope="col">Unique Id</th>
               <th scope="col">Delete</th>
             </tr>
           </thead>
@@ -347,9 +347,7 @@ const AddDoctor = () => {
                   <td>{doctor.availability?.join(", ") || "N/A"}</td>
                   <td>{doctor.timings?.start || "N/A"} - {doctor.timings?.end || "N/A"}</td>
                   <td>
-                    <i className="text-warning" type="button">
-                      <FiEdit size={20} />
-                    </i>
+                    {doctor.uniqueId || "N/A"}
                   </td>
                   <td>
                     <i className="text-danger" type="button">
