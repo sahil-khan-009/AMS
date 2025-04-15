@@ -18,7 +18,7 @@ function AppointmentStatus() {
     setAppointments,
     setupdateId
   } = useAppointment();
-
+ 
   const [deleteReason, setDeleteReason] = useState("");
   const [deleteMessage, setDeleteMessage] = useState("");
   const [selectedAppointment, setSelectedAppointment] = useState(null);

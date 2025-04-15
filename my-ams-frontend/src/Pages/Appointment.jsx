@@ -3,7 +3,7 @@ import "../PagesStyles/Appointment.css";
 import { useAppointment } from "../context/AppointmentContext";
 import { apiService, adminApi } from "../Api-folder/Api";
 import DashboardNav from "../Component/DashboardNav";
-import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
+// import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 
 function Appointment() {
   const [dropDownValue, setDropDownValue] = useState([]);
