@@ -44,17 +44,40 @@ const AddDoctor = () => {
     },
   ]);
 
+
+
+  const formatTimeTo12Hour = (time24) => {
+    if (!time24) return "";
+    const [hour, minute] = time24.split(":");
+    const hours = parseInt(hour, 10);
+    const ampm = hours >= 12 ? "PM" : "AM";
+    const formattedHour = hours % 12 || 12; // convert 0 to 12
+    return `${formattedHour}:${minute} ${ampm}`;
+  };
+  
+
+  // const formData = {
+  //   availability: selectedOptions, //Week  days
+  //   uniqueId,
+  //   name,
+  //   department: departmentId,
+  //   email,
+  //   phone: contactNumber,
+  //   endDate,
+  //   start: startDate,
+  //   end: endDate,
+  // };
   const formData = {
-    availability: selectedOptions, //Week  days
+    availability: selectedOptions, // Weekdays
     uniqueId,
     name,
     department: departmentId,
     email,
     phone: contactNumber,
-    endDate,
-    start: startDate,
-    end: endDate,
+    start: formatTimeTo12Hour(startDate),
+    end: formatTimeTo12Hour(endDate),
   };
+  
 
   const options = [
     { value: "Monday", label: "Monday" },

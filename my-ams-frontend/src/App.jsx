@@ -24,7 +24,7 @@ import PatientDetails from './Doctor/Pages/PatientDetails.jsx';
 import PatientReport from './Doctor/Pages/PatientReport.jsx';
 import AppointmentNotes from './Doctor/Pages/AppointmentNotes.jsx';
 import Availability from './Doctor/Pages/Availability.jsx';
-
+import Doctorlogin from './Pages/Doctorlogin.jsx'
 function App() {
   return (
     <AppointmentProvider>
@@ -34,6 +34,7 @@ function App() {
           <Route path="/" element={<Layout />}></Route>
           <Route path="register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/login/Doctorlogin" element={<Doctorlogin />} />
 
           {/* User Dashboard */}
           <Route path='/UserDashboard' element={<UserDashboard />}>

@@ -138,5 +138,13 @@ appointmentPayment : async (body)=>{
  
 };
 
-// export default adminApi;
-//   export default apiService;
+
+export const doctorApi = {
+  // Post method api to login doctor
+  doctorLogin : async (formData)=>{
+     return api.post('/auth/loginDoctor',
+      formData
+    )
+  }
+}
+
