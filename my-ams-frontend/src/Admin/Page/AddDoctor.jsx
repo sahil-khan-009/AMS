@@ -174,7 +174,7 @@ const AddDoctor = () => {
       {/* Doctor Modal */}
       <div className="modal fade" id="doctorModal" tabIndex="-1" aria-labelledby="doctorModalLabel" aria-hidden="true">
         <div className="modal-dialog">
-          <div className="modal-content bg-light shadow">
+          <div className="modal-content bg-light shadow" style={{width:'40em'}}>
             <div className="modal-header">
               <h5 className="modal-title" id="doctorModalLabel">Add New Doctor</h5>
               <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -253,7 +253,7 @@ const AddDoctor = () => {
                 </div>
 
                 <div className="d-flex gap-2">
-                  <div className="mb-3" style={{ width: "280px" }}>
+                  <div className="mb-3" style={{ width: "300px" }}>
                     <label htmlFor="doctorAvailability" className="form-label">Availability</label>
                     <Select
                       options={options}
@@ -275,7 +275,7 @@ const AddDoctor = () => {
                     />
                   </div>
 
-                  <div className="mb-3">
+                  <div className="mb-3"style={{ width: "300px" }}>
                     <label htmlFor="timeRange" className="form-label">Available Timing</label>
                     <div className="input-group">
                       <input

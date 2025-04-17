@@ -24,6 +24,7 @@ import PatientDetails from './Doctor/Pages/PatientDetails.jsx';
 import PatientReport from './Doctor/Pages/PatientReport.jsx';
 import AppointmentNotes from './Doctor/Pages/AppointmentNotes.jsx';
 import Availability from './Doctor/Pages/Availability.jsx';
+import DoctorProfile from './Doctor/Pages/DoctorProfile.jsx';
 
 function App() {
   return (
@@ -63,6 +64,7 @@ function App() {
             <Route path='PatientReport' element={<PatientReport />} />
             <Route path='AppointmentNotes' element={<AppointmentNotes />} />
             <Route path='Availability' element={<Availability />} />
+            <Route path='DoctorProfile' element={<DoctorProfile/>} />
           </Route>
 
 

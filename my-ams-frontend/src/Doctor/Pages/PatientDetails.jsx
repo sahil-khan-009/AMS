@@ -20,7 +20,7 @@ const PatientDetails = () => {
             diagnosed: "Jan 2022",
             allergies: "Penicillin",
             medications: "Lisinopril 10mg (Daily)",
-            lastVisit: "March 15, 2025",
+            lastVisit: "",
             notes: "Blood pressure under control. Monitor weekly."
         };
     });
