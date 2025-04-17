@@ -64,6 +64,7 @@ function App() {
             <Route path='PatientReport' element={<PatientReport />} />
             <Route path='AppointmentNotes' element={<AppointmentNotes />} />
             <Route path='Availability' element={<Availability />} />
+            <Route path='DoctorProfile' element={<DoctorProfile/>} />
           </Route>
 
 

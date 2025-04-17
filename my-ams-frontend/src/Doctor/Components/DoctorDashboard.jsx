@@ -78,7 +78,7 @@ const DoctorDashboard = () => {
                                         <Link className="nav-link text-white" to="Availability">Availability</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link className="nav-link text-white" to="/">Profile</Link>
+                                        <Link className="nav-link text-white" to="DoctorProfile">Profile</Link>
                                     </li>
                                 </ul>
                             )}
