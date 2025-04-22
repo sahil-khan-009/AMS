@@ -16,6 +16,7 @@ const AddDoctor = () => {
   const [departmentId, SetdepartmentId] = useState("");
   const [email, Setemail] = useState("");
   const [contactNumber, SetcontactNumber] = useState("");
+  const [message, Setmesseage] = useState();
   //<------------------------ get api doctor state ----------------------------->
   const [getApiDoctors, SetgetApiDoctors] = useState([]);
 
@@ -44,8 +45,6 @@ const AddDoctor = () => {
     },
   ]);
 
-
-
   const formatTimeTo12Hour = (time24) => {
     if (!time24) return "";
     const [hour, minute] = time24.split(":");
@@ -54,7 +53,6 @@ const AddDoctor = () => {
     const formattedHour = hours % 12 || 12; // convert 0 to 12
     return `${formattedHour}:${minute} ${ampm}`;
   };
-  
 
   // const formData = {
   //   availability: selectedOptions, //Week  days
@@ -77,7 +75,6 @@ const AddDoctor = () => {
     start: formatTimeTo12Hour(startDate),
     end: formatTimeTo12Hour(endDate),
   };
-  
 
   const options = [
     { value: "Monday", label: "Monday" },
@@ -123,16 +120,32 @@ const AddDoctor = () => {
 
   //<---------------------------- post department api --------------------->
 
+  // meesage useEffect
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      Setmesseage("");
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [message]);
+
   async function AddingDoctor(e) {
-    e.preventDefault()
+    e.preventDefault();
     try {
       const response = await adminApi.addDoctor(formData);
-      console.log("Rsponse From Post reques", response);
+      console.log("Rsponse From Post reques", response.data);
+      if (response.data.message) {
+        Setmesseage(response.data.message);
+        console.log("this is message", message);
+        // alert("Doctor added successfully");
+        // window.location.reload();
+      } else {
+        Setmesseage("Some error occurred");
+      }
     } catch (err) {
       console.error("Error Fetching data :", err);
     }
   }
-
 
   //<-------------------------------------  get all doctors api ------------------------------------>
 
@@ -141,17 +154,14 @@ const AddDoctor = () => {
       try {
         const response = await adminApi.getAllDoctor();
         console.log("this is get api response of doctors------", response.data);
-        SetgetApiDoctors(response.data)
-
+        SetgetApiDoctors(response.data);
       } catch (err) {
-        console.log("this is catch error", err)
-
+        console.log("this is catch error", err);
       }
-    }
+    };
 
     fetchDoctor();
-
-  }, [])
+  }, []);
 
   //   <-------------------------------Unique id logic--------------------------->
 
@@ -178,10 +188,17 @@ const AddDoctor = () => {
   };
 
   return (
-    <div className="full-height-bg" style={{ paddingTop: '4em' }}>
+    <div className="full-height-bg" style={{ paddingTop: "4em" }}>
       <Adminnav />
-      <h3 >Add Doctor</h3>
+      <h3>Add Doctor</h3>
       <hr />
+
+      {message && (
+        <div className="alert alert-primary" role="alert">
+          {message}
+        </div>
+      )}
+
       <div className="mt-1">
         <button
           type="button"
@@ -195,17 +212,35 @@ const AddDoctor = () => {
       </div>
 
       {/* Doctor Modal */}
-      <div className="modal fade" id="doctorModal" tabIndex="-1" aria-labelledby="doctorModalLabel" aria-hidden="true">
+      <div
+        className="modal fade"
+        id="doctorModal"
+        tabIndex="-1"
+        aria-labelledby="doctorModalLabel"
+        aria-hidden="true"
+      >
         <div className="modal-dialog">
-          <div className="modal-content bg-light shadow" style={{width:'40em'}}>
+          <div
+            className="modal-content bg-light shadow"
+            style={{ width: "40em" }}
+          >
             <div className="modal-header">
-              <h5 className="modal-title" id="doctorModalLabel">Add New Doctor</h5>
-              <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <h5 className="modal-title" id="doctorModalLabel">
+                Add New Doctor
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
             </div>
             <div className="modal-body">
               <form>
                 <div className="mb-3">
-                  <label htmlFor="doctorName" className="form-label">Doctor Name</label>
+                  <label htmlFor="doctorName" className="form-label">
+                    Doctor Name
+                  </label>
                   <input
                     type="text"
                     className="form-control"
@@ -217,7 +252,9 @@ const AddDoctor = () => {
 
                 <div className="d-flex gap-2">
                   <div className="mb-3 flex-grow-1">
-                    <label htmlFor="selectDepartment" className="form-label">Department</label>
+                    <label htmlFor="selectDepartment" className="form-label">
+                      Department
+                    </label>
                     <select
                       name="department"
                       id="doctorDepartment"
@@ -245,15 +282,25 @@ const AddDoctor = () => {
                   {/* Conditionally display the input with the generated unique ID if departmentId exists */}
                   {departmentId && uniqueId && (
                     <div className="mb-3 flex-grow-1">
-                      <label htmlFor="generatedId" className="form-label">Generated Unique ID</label>
-                      <input type="text" id="generatedId" value={uniqueId} readOnly className="form-control" />
+                      <label htmlFor="generatedId" className="form-label">
+                        Generated Unique ID
+                      </label>
+                      <input
+                        type="text"
+                        id="generatedId"
+                        value={uniqueId}
+                        readOnly
+                        className="form-control"
+                      />
                     </div>
                   )}
                 </div>
 
                 <div className="d-flex gap-2">
                   <div className="mb-3 flex-grow-1">
-                    <label htmlFor="doctorEmail" className="form-label">Email</label>
+                    <label htmlFor="doctorEmail" className="form-label">
+                      Email
+                    </label>
                     <input
                       type="email"
                       className="form-control"
@@ -264,7 +311,9 @@ const AddDoctor = () => {
                   </div>
 
                   <div className="mb-3 flex-grow-1">
-                    <label htmlFor="doctorPhone" className="form-label">Phone</label>
+                    <label htmlFor="doctorPhone" className="form-label">
+                      Phone
+                    </label>
                     <input
                       type="text"
                       className="form-control"
@@ -277,13 +326,17 @@ const AddDoctor = () => {
 
                 <div className="d-flex gap-2">
                   <div className="mb-3" style={{ width: "300px" }}>
-                    <label htmlFor="doctorAvailability" className="form-label">Availability</label>
+                    <label htmlFor="doctorAvailability" className="form-label">
+                      Availability
+                    </label>
                     <Select
                       options={options}
                       isMulti
                       closeMenuOnSelect={false}
                       hideSelectedOptions={false}
-                      value={options.filter((option) => selectedOptions.includes(option.value))}
+                      value={options.filter((option) =>
+                        selectedOptions.includes(option.value)
+                      )}
                       onChange={handleChange}
                       placeholder="Select days"
                       menuPortalTarget={document.body}
@@ -292,14 +345,21 @@ const AddDoctor = () => {
                       }}
                       getOptionLabel={(e) => (
                         <div>
-                          <input type="checkbox" checked={selectedOptions.includes(e.value)} readOnly /> {e.label}
+                          <input
+                            type="checkbox"
+                            checked={selectedOptions.includes(e.value)}
+                            readOnly
+                          />{" "}
+                          {e.label}
                         </div>
                       )}
                     />
                   </div>
 
-                  <div className="mb-3"style={{ width: "300px" }}>
-                    <label htmlFor="timeRange" className="form-label">Available Timing</label>
+                  <div className="mb-3" style={{ width: "300px" }}>
+                    <label htmlFor="timeRange" className="form-label">
+                      Available Timing
+                    </label>
                     <div className="input-group">
                       <input
                         type="time"
@@ -308,7 +368,10 @@ const AddDoctor = () => {
                         name="startTime"
                         onChange={(e) => {
                           SetStartDate(e.target.value);
-                          console.log("startDate-------------------", e.target.value);
+                          console.log(
+                            "startDate-------------------",
+                            e.target.value
+                          );
                         }}
                       />
                       <span className="input-group-text">-</span>
@@ -342,7 +405,6 @@ const AddDoctor = () => {
         </div>
       </div>
 
-
       {/* Table Structure */}
       <div className="table-responsive mt-2">
         <table className="table table-bordered table-responsive mt-3 text-center">
@@ -368,10 +430,11 @@ const AddDoctor = () => {
                   <td>{doctor.email}</td>
                   <td>{doctor.phone}</td>
                   <td>{doctor.availability?.join(", ") || "N/A"}</td>
-                  <td>{doctor.timings?.start || "N/A"} - {doctor.timings?.end || "N/A"}</td>
                   <td>
-                    {doctor.uniqueId || "N/A"}
+                    {doctor.timings?.start || "N/A"} -{" "}
+                    {doctor.timings?.end || "N/A"}
                   </td>
+                  <td>{doctor.uniqueId || "N/A"}</td>
                   <td>
                     <i className="text-danger" type="button">
                       <RiDeleteBin7Fill size={20} />
@@ -384,50 +447,53 @@ const AddDoctor = () => {
                 <td colSpan="8" className="text-center">
                   <div className="d-flex align-items-center">
                     <strong>Loading...</strong>
-                    <div className="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+                    <div
+                      className="spinner-border ms-auto"
+                      role="status"
+                      aria-hidden="true"
+                    ></div>
                   </div>
                 </td>
               </tr>
             )}
           </tbody>
-
         </table>
       </div>
 
       {/* Pagination */}
-     <div className="d-flex justify-content-center">
-      <div className="d-flex align-items-center gap-2">
-        <button
-          className="btn btn-secondary px-2 py-1 rounded-circle"
-          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          disabled={currentPage === 1}
-        >
-          <IoIosArrowBack className="text-white" />
-        </button>
-
-        {Array.from({ length: totalPages }, (_, i) => (
+      <div className="d-flex justify-content-center">
+        <div className="d-flex align-items-center gap-2">
           <button
-            key={i + 1}
-            className={`btn px-3 py-2 rounded-circle ${
-              currentPage === i + 1 ? "btn-primary" : "btn-secondary"
-            }`}
-            onClick={() => setCurrentPage(i + 1)}
+            className="btn btn-secondary px-2 py-1 rounded-circle"
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
           >
-            {i + 1}
+            <IoIosArrowBack className="text-white" />
           </button>
-        ))}
 
-        <button
-          className="btn btn-secondary px-2 py-1 rounded-circle"
-          onClick={() =>
-            setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-          }
-          disabled={currentPage === totalPages}
-        >
-          <IoIosArrowForward className="text-white" />
-        </button>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i + 1}
+              className={`btn px-3 py-2 rounded-circle ${
+                currentPage === i + 1 ? "btn-primary" : "btn-secondary"
+              }`}
+              onClick={() => setCurrentPage(i + 1)}
+            >
+              {i + 1}
+            </button>
+          ))}
+
+          <button
+            className="btn btn-secondary px-2 py-1 rounded-circle"
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+            }
+            disabled={currentPage === totalPages}
+          >
+            <IoIosArrowForward className="text-white" />
+          </button>
+        </div>
       </div>
-    </div>
     </div>
   );
 };

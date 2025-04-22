@@ -16,9 +16,11 @@ function AppointmentStatus() {
     SetGlobalStateForUpdateFrom,
     appointments,
     setAppointments,
-    setupdateId
+    setupdateId,
+    videoRoomId,
+    SetvideoRoomId
   } = useAppointment();
- 
+
   const [deleteReason, setDeleteReason] = useState("");
   const [deleteMessage, setDeleteMessage] = useState("");
   const [selectedAppointment, setSelectedAppointment] = useState(null);
@@ -28,9 +30,11 @@ function AppointmentStatus() {
   const fetchAppointments = async () => {
     try {
       const response = await apiService.getAppointment();
-      console.log("response-------------------", response.data);
+      console.log("response-------------------", response.data.appointments);
       setAppointments(
-        Array.isArray(response.data) ? response.data : [response.data]
+        Array.isArray(response.data.appointments)
+          ? response.data.appointments
+          : [response.data.appointments]
       );
     } catch (err) {
       console.error("Error fetching appointments:", err.message);
@@ -78,17 +82,22 @@ function AppointmentStatus() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10; // You can change this to any number
 
-
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentAppointments = appointments.slice(indexOfFirstItem, indexOfLastItem);
+  const currentAppointments = appointments.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   const totalPages = Math.ceil(appointments.length / itemsPerPage);
 
 
 
+
+
+
   return (
-    <div className="full-height-bg" style={{ paddingTop: '5em' }}>
+    <div className="full-height-bg" style={{ paddingTop: "5em" }}>
       <DashboardNav />
       <h3>Appointment Status</h3>
       <hr />
@@ -109,7 +118,11 @@ function AppointmentStatus() {
                 <th>Department</th>
                 <th>Appointment Date</th>
                 <th>Status</th>
+                <th>Mode</th>
                 <th>View</th>
+                <th>
+               
+                </th>
                 <th>Cancel</th>
                 <th>Edit</th>
               </tr>
@@ -119,11 +132,12 @@ function AppointmentStatus() {
                 currentAppointments.map((appointment, index) => (
                   <tr key={appointment._id}>
                     <td className="py-2">{indexOfFirstItem + index + 1}</td>
-                    <td >{appointment.patientName}</td>
-                    <td >{appointment.patientemail}</td>
-                    <td >{appointment.doctorName}</td>
-                    <td >{appointment.department}</td>
-                    <td >
+                    <td>{appointment.patientName}</td>
+                    <td>{appointment.patientemail}</td>
+                    <td>{appointment.doctorId.name}</td>
+                    <td>{appointment.departmentId.name}</td>
+
+                    <td>
                       {new Date(appointment.appointmentDate).toLocaleDateString(
                         "en-US",
                         {
@@ -133,7 +147,8 @@ function AppointmentStatus() {
                         }
                       )}
                     </td>
-                    <td >{appointment.appointmentStatus}</td>
+                    <td>{appointment.appointmentStatus}</td>
+                    <td>{appointment.mode}</td>
 
                     {/* View Appointment */}
                     <td>
@@ -147,9 +162,8 @@ function AppointmentStatus() {
                       </button>
                     </td>
 
-
                     {/* Delete Appointment */}
-                    <td >
+                    <td>
                       <button
                         type="button"
                         className="btn p-0 m-0"
@@ -157,7 +171,10 @@ function AppointmentStatus() {
                         data-bs-target="#deleteModal"
                         onClick={() => {
                           setSelectedAppointment(appointment),
-                            console.log("selectedAppointment---", selectedAppointment);
+                            console.log(
+                              "selectedAppointment---",
+                              selectedAppointment
+                            );
                         }}
                       >
                         <AiFillDelete className="delete-icon" />
@@ -206,7 +223,9 @@ function AppointmentStatus() {
           {[...Array(totalPages)].map((_, i) => (
             <button
               key={i}
-              className={`btn btn-sm me-1 ${currentPage === i + 1 ? 'btn-primary' : 'btn-outline-primary'}`}
+              className={`btn btn-sm me-1 ${
+                currentPage === i + 1 ? "btn-primary" : "btn-outline-primary"
+              }`}
               onClick={() => setCurrentPage(i + 1)}
             >
               {i + 1}
@@ -214,13 +233,14 @@ function AppointmentStatus() {
           ))}
           <button
             className="btn btn-sm btn-outline-primary ms-2"
-            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+            }
             disabled={currentPage === totalPages}
           >
             Next
           </button>
         </div>
-
       </div>
 
       {/* View Appointment Modal */}
@@ -254,31 +274,50 @@ function AppointmentStatus() {
                 {selectedAppointment ? (
                   <div className="appointment-details">
                     <div className="detail-item">
-                      <strong>Patient Name:</strong> {selectedAppointment.patientName}
+                      <strong>Patient Name:</strong>{" "}
+                      {selectedAppointment.patientName}
                     </div>
                     <div className="detail-item">
-                      <strong>Patient Email:</strong> {selectedAppointment.patientemail}
+                      <strong>Patient Email:</strong>{" "}
+                      {selectedAppointment.patientemail}
                     </div>
                     <div className="detail-item">
-                      <strong>Doctor:</strong> {selectedAppointment.doctorName}
+                      <strong>Doctor:</strong>{" "}
+                      {selectedAppointment.doctorId.name}
                     </div>
                     <div className="detail-item">
-                      <strong>Department:</strong> {selectedAppointment.department}
+                      <strong>Department:</strong>{" "}
+                      {selectedAppointment.departmentId.name}
                     </div>
                     <div className="detail-item fw-bold">
-                      <strong>Status:</strong> {selectedAppointment.appointmentStatus}
+                      <strong>Status:</strong>{" "}
+                      {selectedAppointment.appointmentStatus}
+                    </div>
+                    <div className="detail-item">
+                      <strong>Video Call Link:</strong>{" "}
+                      {selectedAppointment.mode === "online" &&
+                      selectedAppointment.videoCallLink ? (
+                        <a
+                          href={selectedAppointment.videoCallLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Join Call ({selectedAppointment.mode})
+                        </a>
+                      ) : (
+                        "No Link Available"
+                      )}
                     </div>
 
                     <div className="detail-item">
                       <strong>Appointment Date:</strong>
-                      {new Date(selectedAppointment.appointmentDate).toLocaleDateString(
-                        "en-US",
-                        {
-                          year: "numeric",
-                          month: "short",
-                          day: "2-digit",
-                        }
-                      )}
+                      {new Date(
+                        selectedAppointment.appointmentDate
+                      ).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "2-digit",
+                      })}
                     </div>
                   </div>
                 ) : (
@@ -286,7 +325,6 @@ function AppointmentStatus() {
                 )}
               </div>
             </div>
-
           </div>
         </div>
       </div>
