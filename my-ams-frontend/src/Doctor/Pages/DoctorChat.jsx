@@ -6,7 +6,7 @@ import { BiSolidMessageRounded } from "react-icons/bi";
 const DoctorChat = () => {
 
     const handleStartMessaging = () => {
-        window.open('/DoctorDashboard/DoctorMsg', '_blank');
+        window.open('/DoctorMsg', '_blank');
       };
 
     return (

@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 // import DoctorNavbar from '../Components/DoctorNavbar';
 import '../../Doctor/PagesStyle/DoctorMsg.css'
 import { MdOutlineAttachFile } from "react-icons/md";
+import { BsFilterRight } from "react-icons/bs";
+import { FaSearch } from "react-icons/fa";
+
+
 
 
 
@@ -23,6 +27,9 @@ const DoctorMsg = () => {
     const [selectedPatient, setSelectedPatient] = useState(patients[0]);
     const [messages, setMessages] = useState(messagesMock);
     const [newMessage, setNewMessage] = useState('');
+    const [showSearch, setShowSearch] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
+
 
     const handleSend = () => {
         if (!newMessage.trim()) return;
@@ -41,62 +48,110 @@ const DoctorMsg = () => {
         }
     };
 
+    const filteredPatients = patients.filter((patient) =>
+        patient.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+
 
     return (
         <div>
-            <div className='d-flex justify-content-center' >
-            <div class="search-wrapper position-relative w-50">
-                <i class="bi bi-search search-icon"></i>
-                <input type="text" class="form-control search-input shadow-sm" placeholder="Search here..." />
-            </div>
+            <div className='d-flex justify-content-center' style={{ backgroundColor: 'rgb(233, 239, 241)' }} >
+                <div class="search-wrapper position-relative w-50">
+                    <i class="px-2 search-icon"><FaSearch size={25} /></i>
+                    <input type="text" class="form-control search-input shadow-sm px-5" placeholder="Search patient here..." />
+                </div>
             </div>
 
             <div className="chat-wrapper">
-                <div className="border px-3 py-3">
+                <div className="border  py-3">
                     <div className="d-flex align-items-center justify-content-between mb-3">
-                        <h4 className="m-0">Chat</h4>
+                        {!showSearch ? (
+                            <>
+                                <h4 className="m-0 px-3">Chat</h4>
+                                <span className="m-0 px-3" onClick={() => setShowSearch(true)} style={{ cursor: 'pointer' }}>
+                                    <BsFilterRight size={30} />
+                                </span>
+                            </>
+                        ) : (
+                            <input
+                                type="text"
+                                className="form-control mx-3"
+                                placeholder="Search..."
+                                autoFocus
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                onBlur={() => setShowSearch(false)}
+                            />
 
+                        )}
                     </div><hr />
                     <div className="patients-list d-flex flex-column gap-2 mt-3">
-                        {patients.map((patient) => (
-                            <div
-                                key={patient.id}
-                                onClick={() => setSelectedPatient(patient)}
-                                className={`d-flex justify-content-between align-items-center p-3 rounded cursor-pointer shadow-sm transition 
-                ${selectedPatient.id === patient.id
-                                        ? 'bg-white border-start border-4 border-primary text-dark'
-                                        : 'bg-white hover-bg-success'
-                                    }`}
-                                style={{ transition: 'all 0.2s ease' }}
-                            >
-                                <div>
-                                    <div className={`fw-semibold ${selectedPatient.id === patient.id ? 'text-white' : 'text-dark'}`}>
-                                        {patient.name}
-                                    </div>
-                                    <div className={`small ${selectedPatient.id === patient.id ? 'text-light' : 'text-success'}`}>
-                                        Last message: {patient.lastMessage}
-                                    </div>
-                                </div>
-                                <span
-                                    className="rounded-circle"
+                        {filteredPatients.map((patient) => {
+                            const isSelected = selectedPatient.id === patient.id;
+                            return (
+                                <div
+                                    key={patient.id}
+                                    onClick={() => setSelectedPatient(patient)}
+                                    className={`d-flex align-items-center justify-content-between p-2 gap-4 rounded shadow-sm cursor-pointer position-relative ${isSelected
+                                        ? 'bg-secondary text-white'
+                                        : 'bg-white text-dark'
+                                        }`}
                                     style={{
-                                        width: '12px',
-                                        height: '12px',
-                                        backgroundColor: patient.online ? '#28a745' : '#6c757d'
+                                        transition: 'all 0.3s ease',
+                                        transform: isSelected ? 'scale(1.02)' : 'scale(1)',
                                     }}
-                                ></span>
-                            </div>
-                        ))}
+                                >
+                                    {/* Avatar and Info */}
+                                    <div className="d-flex align-items-center gap-3">
+                                        <div
+                                            className="d-flex justify-content-center align-items-center rounded-circle bg-primary text-white fw-bold"
+                                            style={{
+                                                width: '40px',
+                                                height: '40px',
+                                                fontSize: '1rem',
+                                            }}
+                                        >
+                                            {patient.name.charAt(0).toUpperCase()}
+                                        </div>
+                                        <div>
+                                            <div className={`fw-semibold ${isSelected ? 'text-white' : 'text-dark'}`}>
+                                                {patient.name}
+                                            </div>
+                                            <div
+                                                className={`small text-truncate`}
+                                                style={{
+                                                    maxWidth: '150px',
+                                                    color: isSelected ? '#e0e0e0' : '#6c757d',
+                                                }}
+                                            >
+                                                Last message: {patient.lastMessage}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Online Indicator */}
+                                    <div
+                                        className="rounded-circle border border-white me-3"
+                                        title={patient.online ? 'Online' : 'Offline'}
+                                        style={{
+                                            width: '12px',
+                                            height: '12px',
+                                            backgroundColor: patient.online ? '#28a745' : '#adb5bd',
+                                            boxShadow: '0 0 0 2px white',
+                                        }}
+                                    ></div>
+                                </div>
+                            );
+                        })}
                     </div>
-
-
                 </div>
 
                 {/* Chat area */}
                 <div className="chat-area border">
                     <div className="chat-header">
                         <div className="info">
-                            <div>
+                            <div className='px-3'>
                                 <div className="name">{selectedPatient.name}</div>
                                 <div className="status">{selectedPatient.online ? 'Online' : 'Offline'}</div>
                             </div>

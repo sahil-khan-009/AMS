@@ -7,7 +7,8 @@ import { FaEnvelope } from "react-icons/fa";
 import { IoNotifications } from "react-icons/io5";
 import { IoSettings } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
-import { RiChatNewFill } from "react-icons/ri";
+import { FaCommentMedical } from "react-icons/fa";
+
 
 import { useNavigate } from "react-router-dom";
 
@@ -109,7 +110,7 @@ const navigate = useNavigate();
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link text-white" to="DoctorChat">
-                                <span><MdLogout /><span className="ms-2">Chat-Box</span></span>
+                                <span><FaCommentMedical /><span className="ms-2">Chat-Box</span></span>
                             </Link>
                         </li>
                         <li className="nav-item">

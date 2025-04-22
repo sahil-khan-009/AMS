@@ -47,7 +47,7 @@ function App() {
             <Route path="UpdateDetails" element={<UpdateDetails />} />
             <Route path="Profile" element={<Profile />} />
             <Route path="Notification" element={<Notification />} />
-          
+
           </Route>
 
           {/* Admin Dashboard */}
@@ -68,12 +68,11 @@ function App() {
             <Route path='PatientReport' element={<PatientReport />} />
             <Route path='AppointmentNotes' element={<AppointmentNotes />} />
             <Route path='Availability' element={<Availability />} />
-            <Route path='DoctorProfile' element={<DoctorProfile/>} />
-            <Route path='DoctorChat' element={<DoctorChat/>} />
-            <Route path='DoctorMsg' element={<DoctorMsg/>} />
+            <Route path='DoctorProfile' element={<DoctorProfile />} />
+            <Route path='DoctorChat' element={<DoctorChat />} />
           </Route>
 
-
+          <Route path="/DoctorMsg" element={<DoctorMsg />} />
 
 
         </Routes>
