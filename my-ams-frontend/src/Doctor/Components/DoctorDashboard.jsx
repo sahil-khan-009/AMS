@@ -108,6 +108,11 @@ const navigate = useNavigate();
                             )}
                         </li>
                         <li className="nav-item">
+                            <Link className="nav-link text-white" to="DoctorChat">
+                                <span><MdLogout /><span className="ms-2">Chat-Box</span></span>
+                            </Link>
+                        </li>
+                        <li className="nav-item">
                             <Link className="nav-link text-white" to="/DoctorDashboard">
                                 <span><MdLogout /><span className="ms-2">Logout</span></span>
                             </Link>

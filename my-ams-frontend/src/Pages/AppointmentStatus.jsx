@@ -120,9 +120,6 @@ function AppointmentStatus() {
                 <th>Status</th>
                 <th>Mode</th>
                 <th>View</th>
-                <th>
-               
-                </th>
                 <th>Cancel</th>
                 <th>Edit</th>
               </tr>
