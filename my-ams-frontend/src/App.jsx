@@ -25,6 +25,9 @@ import PatientReport from './Doctor/Pages/PatientReport.jsx';
 import AppointmentNotes from './Doctor/Pages/AppointmentNotes.jsx';
 import Availability from './Doctor/Pages/Availability.jsx';
 import Doctorlogin from './Pages/Doctorlogin.jsx'
+import DoctorProfile from './Doctor/Pages/DoctorProfile.jsx';
+import DoctorMsg from './Doctor/Pages/DoctorMsg.jsx';
+import DoctorChat from './Doctor/Pages/DoctorChat.jsx';
 function App() {
   return (
     <AppointmentProvider>
