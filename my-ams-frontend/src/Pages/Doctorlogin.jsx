@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
 import {doctorApi } from '../Api-folder/Api';
 import { useNavigate } from 'react-router-dom';
+import { useAppointment } from '../context/AppointmentContext';
+
 
 function Doctorlogin() {
   const [formData, setFormData] = useState({
     email: '',
     uniqueId: ''
   });
+
+
+ const { 
+  
+  specificDoctorID, setspecificDoctorID
+  
+  } = useAppointment();
 
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -19,14 +28,16 @@ function Doctorlogin() {
 
   const handleSubmit =  async (e) => {
     e.preventDefault();
-    console.log('Submitted onClick Data:', formData);
+    // console.log('Submitted onClick Data:', formData);
 
     try{
   const response = await doctorApi.doctorLogin(formData);
   console.log("This is result ----- ",response.data);
 
   if (response.data.message) {
+
     sessionStorage.setItem("token", response.data.token); // ✅ fixed this line
+    // localStorage.setItem("doctorId", response.data.doctor.uniqueId); // ✅ fixed this line
     navigate('/DoctorDashboard');
   } else {
     console.log('Login failed');

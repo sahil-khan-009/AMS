@@ -18,6 +18,8 @@ export const AppointmentProvider = ({ children }) => {
   const [GlobalStateForUpdateFrom, SetGlobalStateForUpdateFrom] = useState("");
   const [appointments, setAppointments] = useState([]);
   const [role,Setrole]= useState("")
+  const [specificDoctorID, setspecificDoctorID] = useState('');
+  const [videoRoomId, SetvideoRoomId] = useState("");
 
   return (
     <AppointmentContext.Provider
@@ -42,7 +44,9 @@ export const AppointmentProvider = ({ children }) => {
         GlobalStateForUpdateFrom, 
         SetGlobalStateForUpdateFrom,
         appointments, setAppointments,
-        role,Setrole
+        role,Setrole,
+        specificDoctorID, setspecificDoctorID,
+        videoRoomId, SetvideoRoomId
 
      
       }}

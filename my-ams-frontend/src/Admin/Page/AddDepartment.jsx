@@ -174,7 +174,7 @@ const AddDepartment = () => {
                       onChange={setSelectedDoctors}
                       value={selectedDoctors}
                       placeholder="Choose doctors..."
-                    /> */}
+                     /> */}
                   {/* </div> */}
                 </form>
               </div>

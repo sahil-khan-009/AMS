@@ -115,9 +115,12 @@ totalAppointment : async ()=>{
 
 // Approved Appointment api
 
-approvedAppointment : async (id,status)=>{
-  return api.patch(`/admin/appointments/${id}/${status}`)
-},
+approvedAppointment : async (id, status, mode, slot) => {
+  return api.patch(`/admin/appointments/${id}/${status}/${mode}`, {
+    timeSlot: slot
+  });
+}
+,
 // canceld appointment api 
 cancelAppointment : async (id,status)=>{
   return api.patch(`/admin/appointments/${id}/${status}`)
@@ -145,6 +148,15 @@ export const doctorApi = {
      return api.post('/auth/loginDoctor',
       formData
     )
+  },
+
+// to get all Appointment of doctor
+
+allAppointment : async ()=>{
+    return api.get('/doctorDashboard/allAppointments')
   }
+
+
+
 }
 

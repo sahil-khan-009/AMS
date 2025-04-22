@@ -1,13 +1,41 @@
-import React, { useState } from 'react'
-import DoctorNavbar from '../Components/DoctorNavbar'
+import React, { useState, useEffect } from "react";
+import DoctorNavbar from "../Components/DoctorNavbar";
 import { IoVideocam } from "react-icons/io5";
+import { doctorApi } from "../../Api-folder/Api";
+import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from 'uuid';
+import { useAppointment } from "../../context/AppointmentContext";
 
 const PatientAppointments = () => {
   const [status, setStatus] = useState("All");
   const [selectedDate, setSelectedDate] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [meetingLink, setMeetingLink] = useState("");
+  const [appoinmentdata, Setappoinmentdata] = useState([]);
 
+
+
+const {  videoRoomId, SetvideoRoomId} = useAppointment();
+
+  const navigate = useNavigate();
+  // const doctorid = localStorage.getItem("doctorId");
+  const allAppointment = async () => {
+    try {
+      const result = await doctorApi.allAppointment();
+      console.log("Result from PatientAppointment:", result.data.appointments);
+      if (result.data) {
+        Setappoinmentdata(result.data.appointments);
+      } else {
+        console.log("No data found");
+      }
+    } catch (err) {
+      console.log("Catch error this is cacth error :", err);
+    }
+  };
+
+  useEffect(() => {
+    allAppointment();
+  }, []);
 
   const appointments = [
     {
@@ -17,7 +45,7 @@ const PatientAppointments = () => {
       date: "2025-04-10",
       time: "10:00 AM",
       description: "Follow-up consultation for test results",
-       meetingLink: "https://meet.example.com/johndoe"
+      meetingLink: "https://meet.example.com/johndoe",
     },
     {
       id: 2,
@@ -98,11 +126,10 @@ const PatientAppointments = () => {
       date: "2025-04-11",
       time: "6:00 PM",
       description: "Discuss allergy symptoms",
-    }
+    },
   ];
 
-
-  const filteredAppointments = appointments.filter(app => {
+  const filteredAppointments = appoinmentdata.filter((app) => {
     const matchStatus = status === "All" || app.type === status;
     const matchDate = selectedDate === "" || app.date === selectedDate;
     return matchStatus && matchDate;
@@ -113,20 +140,24 @@ const PatientAppointments = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentAppointments = filteredAppointments.slice(indexOfFirstItem, indexOfLastItem);
+  const currentAppointments = filteredAppointments.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   const totalPages = Math.ceil(filteredAppointments.length / itemsPerPage);
 
 
   return (
-    <div className="full-height-bg" style={{ paddingTop: '5em' }}>
+    <div className="full-height-bg" style={{ paddingTop: "5em" }}>
       <DoctorNavbar />
       <h3>Patient Appointments (Online/Offline)</h3>
       <hr />
+
       <div className="row">
         <div className="d-flex flex-wrap items-center gap-3">
-          <div className='status'>
-            <label className='me-2'>Status:</label>
+          <div className="status">
+            <label className="me-2">Status:</label>
             <select
               className="border px-3 py-2 rounded"
               value={status}
@@ -137,8 +168,8 @@ const PatientAppointments = () => {
               <option value="Offline">Offline</option>
             </select>
           </div>
-          <div className='byDate'>
-            <label className='me-2'>By Date:</label>
+          <div className="byDate">
+            <label className="me-2">By Date:</label>
             <input
               type="date"
               className="border px-3 py-2 rounded"
@@ -150,11 +181,11 @@ const PatientAppointments = () => {
 
         <div className="container p-1">
           <table className="table table-bordered table-hover text-center">
-            <thead className='table-header'>
+            <thead className="table-header">
               <tr>
                 <th>Sr</th>
                 <th>Patient Name</th>
-                <th>Type</th>
+                <th>Mode</th>
                 <th>Date</th>
                 <th>Time</th>
                 <th>Description</th>
@@ -164,24 +195,25 @@ const PatientAppointments = () => {
             <tbody>
               {currentAppointments.length > 0 ? (
                 currentAppointments.map((app, index) => (
-                  <tr key={app.id} className={app.type.toLowerCase()}>
+                  <tr key={app._id}>
                     <td>{indexOfFirstItem + index + 1}</td>
-                    <td>{app.name}</td>
-                    <td>{app.type}</td>
-                    <td>{app.date}</td>
-                    <td>{app.time}</td>
+                    <td>{app.patientName}</td>
+                    <td>{app.mode}</td>
+                    <td>{app.appointmentDate}</td>
+                    <td>{app.patientemail}</td>
                     <td>{app.description}</td>
                     <td>
-                      {app.type === "Online" ? (
-                        <IoVideocam 
-                        size={25} 
-                        style={{ cursor: 'pointer', color: 'blue' }} 
-                        onClick={() => {
-                          setMeetingLink(app.meetingLink || "No link available");
-                          setIsModalOpen(true);
-                        }} 
-                      />
-                      
+                      {app.mode === "online" ? (
+                        <IoVideocam
+                          size={25}
+                          style={{ cursor: "pointer", color: "blue" }}
+                          onClick={() => {
+                            setMeetingLink(
+                              app.videoCallLink || "No link available"
+                            );
+                            setIsModalOpen(true);
+                          }}
+                        />
                       ) : (
                         "N/A"
                       )}
@@ -197,28 +229,47 @@ const PatientAppointments = () => {
           </table>
         </div>
         {isModalOpen && (
-  <div className="modal d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
-    <div className="modal-dialog">
-      <div className="modal-content">
-        <div className="modal-header">
-          <h5 className="modal-title">Video Meeting Link</h5>
-          <button type="button" className="btn-close" onClick={() => setIsModalOpen(false)}></button>
-        </div>
-        <div className="modal-body">
-          <p>Click the link below to join the meeting:</p>
-          <a href={meetingLink} target="_blank" rel="noopener noreferrer">
-            {meetingLink}
-          </a>
-        </div>
-        <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" onClick={() => setIsModalOpen(false)}>Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
+          <div
+            className="modal d-block"
+            tabIndex="-1"
+            style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+          >
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Video Meeting Link</h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    onClick={() => setIsModalOpen(false)}
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  <p>Click the link below to join the meeting:</p>
+                  <a
+                    // href={meetingLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {meetingLink}
 
-        
+                   
+                  </a>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => setIsModalOpen(false)}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div>
           <div className="pagination-controls d-flex justify-content-center">
             <button
@@ -231,7 +282,9 @@ const PatientAppointments = () => {
             {[...Array(totalPages)].map((_, i) => (
               <button
                 key={i}
-                className={`btn btn-sm me-1 ${currentPage === i + 1 ? 'btn-primary' : 'btn-outline-primary'}`}
+                className={`btn btn-sm me-1 ${
+                  currentPage === i + 1 ? "btn-primary" : "btn-outline-primary"
+                }`}
                 onClick={() => setCurrentPage(i + 1)}
               >
                 {i + 1}
@@ -239,17 +292,18 @@ const PatientAppointments = () => {
             ))}
             <button
               className="btn btn-sm btn-outline-primary ms-2"
-              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+              }
               disabled={currentPage === totalPages}
             >
               Next
             </button>
           </div>
-
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default PatientAppointments;

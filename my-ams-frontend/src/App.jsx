@@ -24,7 +24,10 @@ import PatientDetails from './Doctor/Pages/PatientDetails.jsx';
 import PatientReport from './Doctor/Pages/PatientReport.jsx';
 import AppointmentNotes from './Doctor/Pages/AppointmentNotes.jsx';
 import Availability from './Doctor/Pages/Availability.jsx';
-import Doctorlogin from './Pages/Doctorlogin.jsx'
+import Doctorlogin from './Pages/Doctorlogin.jsx';
+import DoctorProfile from './Doctor/Pages/DoctorProfile.jsx';
+// import VideoCallPage from './Doctor/Pages/VideoCallPage.jsx';
+
 function App() {
   return (
     <AppointmentProvider>
@@ -44,6 +47,7 @@ function App() {
             <Route path="UpdateDetails" element={<UpdateDetails />} />
             <Route path="Profile" element={<Profile />} />
             <Route path="Notification" element={<Notification />} />
+          
           </Route>
 
           {/* Admin Dashboard */}
@@ -65,6 +69,8 @@ function App() {
             <Route path='AppointmentNotes' element={<AppointmentNotes />} />
             <Route path='Availability' element={<Availability />} />
             <Route path='DoctorProfile' element={<DoctorProfile/>} />
+            {/* <Route path="PatientAppointments/video/:roomId" element={<VideoCallPage />} /> */}
+
           </Route>
 
 
