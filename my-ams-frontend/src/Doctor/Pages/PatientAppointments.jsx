@@ -247,7 +247,7 @@ const {  videoRoomId, SetvideoRoomId} = useAppointment();
                 <div className="modal-body">
                   <p>Click the link below to join the meeting:</p>
                   <a
-                    // href={meetingLink}
+                    href={meetingLink}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
