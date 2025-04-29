@@ -87,6 +87,14 @@ const navigate = useNavigate();
                 </span>
               </Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link text-white" to="/DoctorDashboard/video-call">
+                <span>
+                  <IoNotifications />
+                  <span className="ms-2">Video Call</span>
+                </span>
+              </Link>
+            </li>
 
                         <li className="nav-item">
                             <div
@@ -114,7 +122,11 @@ const navigate = useNavigate();
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link text-white" to="/DoctorDashboard">
+                            <Link className="nav-link text-white" to="#"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              logOutUser();
+                            }} >
                                 <span><MdLogout /><span className="ms-2">Logout</span></span>
                             </Link>
                         </li>

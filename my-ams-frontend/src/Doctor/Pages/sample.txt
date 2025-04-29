@@ -1,0 +1,169 @@
+// utils/daily.js
+const axios = require("axios");
+
+const DAILY_API_URL = "https://api.daily.co/v1/rooms";
+const DAILY_API_KEY = "YOUR_DAILY_API_KEY"; // 🔒 Keep this in env in production
+
+async function createDailyRoom() {
+  try {
+    const response = await axios.post(
+      DAILY_API_URL,
+      {
+        properties: {
+          enable_chat: true,
+          start_video_off: true,
+          exp: Math.floor(Date.now() / 1000) + 60 * 60, // 1 hour expiration
+        },
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${DAILY_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data.url;
+  } catch (err) {
+    console.error("Daily.co Room Error:", err.message);
+    return null;
+  }
+}
+
+module.exports = { createDailyRoom };
+const { createDailyRoom } = require("./utils/daily");
+
+router.patch("/appointments/:id/:status/:mode", async (req, res) => {
+  try {
+    const { id, status, mode } = req.params;
+    const { timeSlot } = req.body;
+
+    if (!timeSlot) {
+      return res.status(400).json({ message: "Time slot is required." });
+    }
+
+    if (status !== "confirm" && status !== "cancel") {
+      return res
+        .status(400)
+        .json({ error: "Please select value only 'confirm' or 'cancel'" });
+    }
+
+    let videoCallLink = null;
+
+    if (mode === "online" && status === "confirm") {
+      videoCallLink = await createDailyRoom();
+    }
+
+    const updateFields = {
+      appointmentStatus: status === "confirm" ? "confirmed" : "cancelled",
+      mode,
+    };
+
+    if (videoCallLink) {
+      updateFields.videoCallLink = videoCallLink;
+    }
+
+    const updateStatus = await Appointment.findByIdAndUpdate(
+      id,
+      updateFields,
+      { new: true }
+    ).populate("doctorId", "name");
+
+    if (!updateStatus) {
+      return res.status(404).json({ error: "Appointment not found" });
+    }
+
+    const doctorName = updateStatus.doctorId
+      ? updateStatus.doctorId.name
+      : "Unknown Doctor";
+
+    const email = updateStatus.patientemail;
+    const message = `Dear ${updateStatus.patientName}, your appointment with Dr. ${doctorName} on ${new Date(
+      updateStatus.appointmentDate
+    ).toDateString()} at time slot: ${timeSlot} has been ${
+      updateStatus.appointmentStatus
+    }.${
+      videoCallLink
+        ? `\nJoin via video: ${videoCallLink} (Also available in your dashboard)`
+        : " (Please check your dashboard for appointment details)"
+    }`;
+
+    await sendEmail(email, "Appointment Status Updated", message);
+
+    res.status(200).json({
+      updateStatus,
+      message:
+        updateStatus.appointmentStatus === "confirmed"
+          ? "Appointment Approved"
+          : "Appointment Canceled",
+    });
+  } catch (err) {
+    console.error("Error:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
+install this pckege
+
+Create a Video Call Page (React Example)
+npm install @daily-co/daily-js
+import { useEffect, useRef } from "react";
+import DailyIframe from "@daily-co/daily-js";
+import axios from "axios";
+
+function VideoCall({ roomUrl, appointmentId }) {
+  const callFrameRef = useRef(null);
+yaha par useparams hook use karna hai
+  useEffect(() => {
+    const callFrame = DailyIframe.createFrame({
+      showLeaveButton: true,
+      iframeStyle: {
+        width: "100%",
+        height: "600px",
+        border: "0",
+      },
+    });
+
+    callFrame.join({ url: roomUrl });
+
+    // User joined event
+    callFrame.on("joined-meeting", () => {
+      console.log("User joined the meeting");
+      axios.post("/api/appointments/call-start", { appointmentId });
+    });
+
+    // User left or call ended
+    callFrame.on("left-meeting", () => {
+      console.log("User left the meeting");
+      axios.post("/api/appointments/call-end", { appointmentId });
+    });
+
+    callFrameRef.current = callFrame;
+
+    return () => callFrame.destroy();
+  }, [roomUrl, appointmentId]);
+
+  return <div id="video-call-container" />;
+}
+
+export default VideoCall;
+
+
+
+ Backend Routes to Track Calls
+router.post("/appointments/call-start", async (req, res) => {
+  const { appointmentId } = req.body;
+  await Appointment.findByIdAndUpdate(appointmentId, {
+    callStartedAt: new Date(),
+  });
+  res.json({ message: "Call start recorded" });
+});
+
+router.post("/appointments/call-end", async (req, res) => {
+  const { appointmentId } = req.body;
+  await Appointment.findByIdAndUpdate(appointmentId, {
+    callEndedAt: new Date(),
+    appointmentStatus: "completed", // or a new status
+  });
+  res.json({ message: "Call end recorded" });
+});

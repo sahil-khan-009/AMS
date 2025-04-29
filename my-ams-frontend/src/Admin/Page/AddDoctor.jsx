@@ -7,6 +7,11 @@ import { RiDeleteBin7Fill } from "react-icons/ri";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import "../PageStyle/AddDoctor.css";
 import { adminApi } from "../../Api-folder/Api";
+import { LuView } from "react-icons/lu";
+import { FiImage } from "react-icons/fi";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+// import { LuView } from "react-icons/lu";
 
 const AddDoctor = () => {
   const [selectedOptions, setSelectedOptions] = useState([]);
@@ -137,6 +142,9 @@ const AddDoctor = () => {
       if (response.data.message) {
         Setmesseage(response.data.message);
         console.log("this is message", message);
+            toast.success("Doctor Added successfully ✅", {
+                position: "top-center",
+              });
         // alert("Doctor added successfully");
         // window.location.reload();
       } else {
@@ -144,6 +152,7 @@ const AddDoctor = () => {
       }
     } catch (err) {
       console.error("Error Fetching data :", err);
+        toast.error(`Upload failed: ${err.message}`, { position: "top-center" });
     }
   }
 
@@ -429,6 +438,7 @@ const AddDoctor = () => {
                   <td>{doctor.name}</td>
                   <td>{doctor.email}</td>
                   <td>{doctor.phone}</td>
+                  {/* <td>{doctor.department}</td> */}
                   <td>{doctor.availability?.join(", ") || "N/A"}</td>
                   <td>
                     {doctor.timings?.start || "N/A"} -{" "}

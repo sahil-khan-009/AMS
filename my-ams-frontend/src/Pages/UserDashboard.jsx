@@ -80,7 +80,7 @@ const UserDashboard = () => {
           <Link to="Notification" className="nav-link" onClick={handleLinkClick}>
             <IoMdNotifications className="me-2" /> <span>Notification</span>
           </Link>
-          <Link to="video-call" className="nav-link" onClick={handleLinkClick}>
+          <Link to="Video-call/123/abc" className="nav-link" onClick={handleLinkClick}>
             <FaVideo className="me-2" /> <span>Video Call</span>
           </Link>
           <Link

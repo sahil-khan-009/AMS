@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useRef} from "react";
 import DoctorNavbar from "../Components/DoctorNavbar";
 import { IoVideocam } from "react-icons/io5";
 import { doctorApi } from "../../Api-folder/Api";
 import { useNavigate } from "react-router-dom";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 import { useAppointment } from "../../context/AppointmentContext";
+import { FaCheck } from "react-icons/fa";
 
 const PatientAppointments = () => {
   const [status, setStatus] = useState("All");
@@ -12,13 +13,20 @@ const PatientAppointments = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [meetingLink, setMeetingLink] = useState("");
   const [appoinmentdata, Setappoinmentdata] = useState([]);
+  const [timeSlote, SetTimeslot] = useState("");
+  const [appointmentId, setAppointmentId] = useState("");
+  const [message,Setmessage] = useState("");
 
-
-
-const {  videoRoomId, SetvideoRoomId} = useAppointment();
+  // const {  videoRoomId, SetvideoRoomId} = useAppointment();
 
   const navigate = useNavigate();
+  const btnRef = useRef();
   // const doctorid = localStorage.getItem("doctorId");
+
+  useEffect(()=>{
+    allAppointment();
+  },[message])
+
   const allAppointment = async () => {
     try {
       const result = await doctorApi.allAppointment();
@@ -147,6 +155,32 @@ const {  videoRoomId, SetvideoRoomId} = useAppointment();
 
   const totalPages = Math.ceil(filteredAppointments.length / itemsPerPage);
 
+  const videoMeeting = async (meetingLink, appointmentId) => {
+    // navigate(`/DoctorDashboard/Video-call/${appointmentId}/${meetingLink}`);
+    navigate(
+      `/DoctorDashboard/Video-call/${appointmentId}?link=${encodeURIComponent(
+        "https://meet.jit.si/your-room-name"
+      )}`
+    );
+  };
+
+// update status that videocall is completed
+const updateVdoStatus = async (id, status) => {
+  try {
+    const result = await doctorApi.vdoCompleted(id, status);
+    console.log("Result from vdo----:", result);
+    if (result.data.message) {
+      window.location.reload();
+
+      Setmessage(result.data.message);
+    } else {
+      console.log("No data found");
+      Setmessage("Some error occured")
+    }
+  } catch (err) {
+    console.log("Catch error this is cacth error :", err);
+  }
+}
 
   return (
     <div className="full-height-bg" style={{ paddingTop: "5em" }}>
@@ -190,6 +224,7 @@ const {  videoRoomId, SetvideoRoomId} = useAppointment();
                 <th>Time</th>
                 <th>Description</th>
                 <th>Action</th>
+                <th>Mark As Completed</th>
               </tr>
             </thead>
             <tbody>
@@ -199,8 +234,18 @@ const {  videoRoomId, SetvideoRoomId} = useAppointment();
                     <td>{indexOfFirstItem + index + 1}</td>
                     <td>{app.patientName}</td>
                     <td>{app.mode}</td>
-                    <td>{app.appointmentDate}</td>
-                    <td>{app.patientemail}</td>
+                    <td>
+                      {" "}
+                      {new Date(app.appointmentDate).toLocaleDateString(
+                        "en-US",
+                        {
+                          year: "numeric",
+                          month: "short",
+                          day: "2-digit",
+                        }
+                      )}
+                    </td>
+                    <td>{app.timeSlot}</td>
                     <td>{app.description}</td>
                     <td>
                       {app.mode === "online" ? (
@@ -212,11 +257,21 @@ const {  videoRoomId, SetvideoRoomId} = useAppointment();
                               app.videoCallLink || "No link available"
                             );
                             setIsModalOpen(true);
+                            SetTimeslot(app.timeSlot);
+                            setAppointmentId(app._id);
                           }}
                         />
                       ) : (
                         "N/A"
                       )}
+                    </td>
+                    <td>
+                      {" "}
+                      <button className="btn  border px-5  " 
+                      
+                      onClick={() => {updateVdoStatus(app._id, "completed");}}>
+                    {app.videoStatus === "pending" ?  <FaCheck size={20} />: "completed"}
+                      </button>{" "}
                     </td>
                   </tr>
                 ))
@@ -246,14 +301,20 @@ const {  videoRoomId, SetvideoRoomId} = useAppointment();
                 </div>
                 <div className="modal-body">
                   <p>Click the link below to join the meeting:</p>
+
+                  {/* <button
+                    className="btn btn-primary"
+                    onClick={() => videoMeeting(meetingLink, appointmentId)}
+                  >
+                    Join Meeting
+                  </button> */}
+                  <span className="border ">{timeSlote} :</span>
                   <a
                     href={meetingLink}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     {meetingLink}
-
-                   
                   </a>
                 </div>
                 <div className="modal-footer">

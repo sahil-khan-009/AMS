@@ -6,6 +6,9 @@ import { BiEdit } from "react-icons/bi";
 import { AiFillDelete } from "react-icons/ai";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { adminApi } from "../../Api-folder/Api";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const AddDepartment = () => {
   const [createDepartment, SetcreateDepartment] = useState("");
@@ -90,8 +93,12 @@ const AddDepartment = () => {
       console.log("Handlecreate department ------", response);
       if (response.status === 201) {
         Setmesseage(response.data.message);
+        toast.success("Department Added successfully ✅ ", {
+          position: "top-center",
+        });
       } else {
         Setmesseage("Some Errorr Occured!!!!!");
+        toast.error(`Upload failed: ${err.message}`, { position: "top-center" });
       }
     } catch (err) {
       console.log("Catch error:", err.response?.data || err.message);

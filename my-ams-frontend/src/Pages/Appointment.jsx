@@ -4,7 +4,8 @@ import { useAppointment } from "../context/AppointmentContext";
 import { apiService, adminApi } from "../Api-folder/Api";
 import DashboardNav from "../Component/DashboardNav";
 // import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
-
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Appointment() {
   const [dropDownValue, setDropDownValue] = useState([]);
   const [availibility, setAvailibility] = useState("");
@@ -64,8 +65,12 @@ function Appointment() {
       const response = await apiService.createAppointment(formData);
       console.log("response------", response.data);
       Setmessage(response.data.message);
+      toast.success("Appointment Requested Successfully✅", {
+        position: "top-center",
+      });
     } catch (err) {
       console.error("Error creating appointment:", err.message);
+      toast.error(`Upload failed: ${err.message}`, { position: "top-center" });
     }
   };
 

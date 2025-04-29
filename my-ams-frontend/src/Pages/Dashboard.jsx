@@ -17,10 +17,10 @@ function Dashboard() {
 
   const fetchAppointments = async () => {
     try {
-      const response = await adminApi.totalAppointment();
-      const appointments = Array.isArray(response.data)
-        ? response.data
-        : [response.data];
+      const response = await apiService.AlluserAppointment();
+      const appointments = Array.isArray(response.data.appointments)
+        ? response.data.appointments
+        : [response.data.appointments];
       console.log("this is appointment data", appointments);
 
       // Calculate counts based on appointment status

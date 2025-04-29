@@ -290,6 +290,11 @@ function AppointmentStatus() {
                       <strong>Status:</strong>{" "}
                       {selectedAppointment.appointmentStatus}
                     </div>
+
+                    <div className="detail-item fw-bold">
+                      <strong>Join At:</strong>{" "}
+                      {selectedAppointment.timeSlot}
+                    </div>
                     <div className="detail-item">
                       <strong>Video Call Link:</strong>{" "}
                       {selectedAppointment.mode === "online" &&
