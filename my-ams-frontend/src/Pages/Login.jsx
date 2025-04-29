@@ -61,7 +61,7 @@ const Login = () => {
 
           <div className="remember-me d-flex justify-content-between mx-3">
             <a href="#">Forget Password?</a>
-           <Link to="/login/Doctorlogin"><a href="#">Login as Doctor?</a></Link> 
+           <Link to="/login/Doctorlogin">Login as Doctor?</Link> 
           </div>
         </div>
 

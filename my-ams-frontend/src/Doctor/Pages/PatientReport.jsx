@@ -16,7 +16,7 @@ const PatientReport = () => {
   const [showImageModal, setShowImageModal] = useState(false);
   const [selectedImageUrl, setSelectedImageUrl] = useState("");
 const [showPdfModal, setShowPdfModal] = useState(false);//--Pdf modall--
-const [selectedPdfUrl,setselectedPdfUrl] = useState();//--Pdf url-- 
+const [selectedPdfUrl,setselectedPdfUrl] = useState('');//--Pdf url-- 
 
 
 
@@ -397,15 +397,16 @@ function handleClosePdfModal() {
               <span>&times;</span>
             </button>
           </div>
-          <div className="modal-body">
-            <iframe 
-              src={selectedPdfUrl} 
-              title="PDF Report" 
-              width="100%" 
-              height="100%" 
-              style={{ border: "none" }}
-            ></iframe>
-          </div>
+          <div className="modal-body" style={{ height: "500px" }}>
+  <iframe
+    src={selectedPdfUrl}
+    title="PDF Report"
+    width="100%"
+    height="100%"
+    style={{ border: "none" }}
+  />
+</div>
+
         </div>
       </div>
     </div>
