@@ -58,7 +58,7 @@ function AppointmentStatus() {
         })
         .catch((err) => console.error("Delete error:", err.message));
     }
-  };
+  };  
 
   useEffect(() => {
     if (deleteMessage) {
