@@ -6,8 +6,8 @@ import { BiSolidMessageRounded } from "react-icons/bi";
 const DoctorChat = () => {
 
     const handleStartMessaging = () => {
-        window.open('/DoctorMsg', '_blank');
-      };
+        window.location.href = '/DoctorMsg'; 
+    };
 
     return (
         <div className="full-height-bg" style={{ paddingTop: '12em' }}>

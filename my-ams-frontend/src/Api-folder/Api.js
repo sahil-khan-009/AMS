@@ -64,6 +64,14 @@ export const apiService = {
     return api.get("/appointments");
   },
 
+  AlluserAppointment: async () => {
+    return api.get("/AlluserAppointment");
+  },
+
+
+
+
+
   // Delete Method Api to delete Appointment
   deleteAppointment: async (deletAppointmentId) => {
     return api.delete(`/deleteAppointment/${deletAppointmentId}`);
@@ -154,9 +162,41 @@ export const doctorApi = {
 
 allAppointment : async ()=>{
     return api.get('/doctorDashboard/allAppointments')
+  },
+
+  vdoCompleted : async (id, status)=>{
+    return api.patch(`/doctorDashboard/videoStatus/${id}`,{
+      videoStatus: status
+    });
+  },
+
+  TreatedPatients : async ()=>{
+    return api.get('/doctorDashboard/treatedPatient')
+  },
+  
+  UploadReport: async (id, formData) => {
+    return api.post(`/doctorDashboard/UploadUserReport/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
   }
+  
+
 
 
 
 }
+// 
+// <------------------------------------- Video Call Api ---------------------------------> 
 
+export const videoCallApi = { 
+
+  // in your Api file
+conferenceLeft: async (appointmentId) => {
+  return api.patch(`/doctor/video/appointments/status/${appointmentId}`, {
+    callStatus: "completed",
+  });
+}
+
+}

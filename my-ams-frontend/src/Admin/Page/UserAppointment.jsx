@@ -341,7 +341,7 @@ const UserAppointment = () => {
                 type="button"
                 className="close"
                 data-dismiss="modal"
-                aria-label="Close"
+                aria-label="Close" 
               >
                 <span aria-hidden="true">&times;</span>
               </button>

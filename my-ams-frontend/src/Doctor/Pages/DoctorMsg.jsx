@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-// import DoctorNavbar from '../Components/DoctorNavbar';
 import '../../Doctor/PagesStyle/DoctorMsg.css'
 import { MdOutlineAttachFile } from "react-icons/md";
 import { BsFilterRight } from "react-icons/bs";
-import { FaSearch } from "react-icons/fa";
-
+import { RiUserAddFill } from "react-icons/ri";
+import { BiLogOut } from "react-icons/bi";
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -15,6 +15,14 @@ const patients = [
     { id: 3, name: 'Sophia Martinez', lastMessage: 'Yesterday', online: true },
     { id: 4, name: 'James Anderson', lastMessage: '3 days ago', online: false },
     { id: 5, name: 'Michael Brown', lastMessage: '4 days ago', online: false },
+    { id: 6, name: 'Michael Brown', lastMessage: '4 days ago', online: false },
+    { id: 7, name: 'Michael Brown', lastMessage: '4 days ago', online: false },
+    { id: 8, name: 'Michael Brown', lastMessage: '4 days ago', online: false },
+    { id: 9, name: 'Michael Brown', lastMessage: '4 days ago', online: false },
+    { id: 10, name: 'Michael Brown', lastMessage: '4 days ago', online: false },
+    { id: 11, name: 'Michael Brown', lastMessage: '4 days ago', online: false },
+    { id: 12, name: 'Michael Brown', lastMessage: '4 days ago', online: false },
+
 ];
 
 const messagesMock = [
@@ -29,6 +37,8 @@ const DoctorMsg = () => {
     const [newMessage, setNewMessage] = useState('');
     const [showSearch, setShowSearch] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const navigate = useNavigate();
+
 
 
     const handleSend = () => {
@@ -42,9 +52,7 @@ const DoctorMsg = () => {
     const handleFileUpload = (e) => {
         const file = e.target.files[0];
         if (file) {
-            // Handle file upload (send it to backend or attach it to the chat)
             console.log("Selected file:", file);
-            // You can create a FormData object and send via fetch or axios
         }
     };
 
@@ -56,20 +64,16 @@ const DoctorMsg = () => {
 
     return (
         <div>
-            <div className='d-flex justify-content-center' style={{ backgroundColor: 'rgb(233, 239, 241)' }} >
-                <div class="search-wrapper position-relative w-50">
-                    <i class="px-2 search-icon"><FaSearch size={25} /></i>
-                    <input type="text" class="form-control search-input shadow-sm px-5" placeholder="Search patient here..." />
-                </div>
-            </div>
-
             <div className="chat-wrapper">
                 <div className="border  py-3">
                     <div className="d-flex align-items-center justify-content-between mb-3">
                         {!showSearch ? (
                             <>
                                 <h4 className="m-0 px-3">Chat</h4>
-                                <span className="m-0 px-3" onClick={() => setShowSearch(true)} style={{ cursor: 'pointer' }}>
+                                <span className='ms-auto text-primary' style={{ cursor: 'pointer' }}>
+                                    <RiUserAddFill size={23} />
+                                </span>
+                                <span className="m-0 px-3 text-primary" onClick={() => setShowSearch(true)} style={{ cursor: 'pointer' }}>
                                     <BsFilterRight size={30} />
                                 </span>
                             </>
@@ -94,7 +98,7 @@ const DoctorMsg = () => {
                                     key={patient.id}
                                     onClick={() => setSelectedPatient(patient)}
                                     className={`d-flex align-items-center justify-content-between p-2 gap-4 rounded shadow-sm cursor-pointer position-relative ${isSelected
-                                        ? 'bg-secondary text-white'
+                                        ? 'bg-secondary bg-opacity-75 text-white'
                                         : 'bg-white text-dark'
                                         }`}
                                     style={{
@@ -145,6 +149,13 @@ const DoctorMsg = () => {
                             );
                         })}
                     </div>
+                    <div >
+                        <hr />
+                        <div className='px-3' onClick={() => navigate('/DoctorDashboard')} style={{ cursor: 'pointer' }}>
+                            <BiLogOut size={27} />
+                        </div>
+                    </div>
+
                 </div>
 
                 {/* Chat area */}
@@ -169,7 +180,7 @@ const DoctorMsg = () => {
                         ))}
                     </div>
 
-                    <div className="chat-input">
+                    <div className="chat-input ">
 
                         {/* Label to trigger file input */}
                         <label htmlFor="file-upload" className="upload-btn ">
