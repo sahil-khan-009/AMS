@@ -18,7 +18,7 @@ function AppointmentStatus() {
     setAppointments,
     setupdateId,
     videoRoomId,
-    SetvideoRoomId
+    SetvideoRoomId,
   } = useAppointment();
 
   const [deleteReason, setDeleteReason] = useState("");
@@ -58,7 +58,7 @@ function AppointmentStatus() {
         })
         .catch((err) => console.error("Delete error:", err.message));
     }
-  };  
+  };
 
   useEffect(() => {
     if (deleteMessage) {
@@ -90,11 +90,6 @@ function AppointmentStatus() {
   );
 
   const totalPages = Math.ceil(appointments.length / itemsPerPage);
-
-
-
-
-
 
   return (
     <div className="full-height-bg" style={{ paddingTop: "5em" }}>
@@ -290,26 +285,30 @@ function AppointmentStatus() {
                       <strong>Status:</strong>{" "}
                       {selectedAppointment.appointmentStatus}
                     </div>
+                    {selectedAppointment.mode === "online" && (
+                      <div className="detail-item fw-bold">
+                        <strong>Join At:</strong> {selectedAppointment.timeSlot}
+                      </div>
+                    )}
 
-                    <div className="detail-item fw-bold">
-                      <strong>Join At:</strong>{" "}
-                      {selectedAppointment.timeSlot}
-                    </div>
-                    <div className="detail-item">
-                      <strong>Video Call Link:</strong>{" "}
-                      {selectedAppointment.mode === "online" &&
-                      selectedAppointment.videoCallLink ? (
-                        <a
-                          href={selectedAppointment.videoCallLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Join Call ({selectedAppointment.mode})
-                        </a>
-                      ) : (
-                        "No Link Available"
+                    {selectedAppointment.mode ===
+                      "online"(
+                        <div className="detail-item">
+                          <strong>Video Call Link:</strong>{" "}
+                          {selectedAppointment.mode === "online" &&
+                          selectedAppointment.videoCallLink ? (
+                            <a
+                              href={selectedAppointment.videoCallLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              Join Call ({selectedAppointment.mode})
+                            </a>
+                          ) : (
+                            "No Link Available"
+                          )}
+                        </div>
                       )}
-                    </div>
 
                     <div className="detail-item">
                       <strong>Appointment Date:</strong>

@@ -4,23 +4,22 @@ import { useNavigate } from "react-router-dom";
 import { useAppointment } from "../context/AppointmentContext";
 import { apiService } from "../Api-folder/Api";
 import DashboardNav from "../Component/DashboardNav";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function UpdateDetails() {
   const [dropDownValue, setDropDownValue] = useState([]);
   const [availibility, setAvailibility] = useState("");
   const [message, Setmessage] = useState("");
 
-  const {
-    GlobalStateForUpdateFrom,
-    SetGlobalStateForUpdateFrom,
-    updateid,
-  } = useAppointment();
+  const { GlobalStateForUpdateFrom, SetGlobalStateForUpdateFrom, updateid } =
+    useAppointment();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await apiService.getDepartments();
-        console.log("response.data-------", response.data)
+        console.log("response.data-------", response.data);
         setDropDownValue(response.data);
       } catch (err) {
         console.error("Error fetching departments:", err.message);
@@ -42,14 +41,22 @@ function UpdateDetails() {
       departmentId: GlobalStateForUpdateFrom.departmentId,
     };
 
-
-    console.log("formData>>>>>>>>>>>>>>>>>>>>>>>>>", formData)
+    console.log("formData>>>>>>>>>>>>>>>>>>>>>>>>>", formData);
     try {
       const response = await apiService.updateAppointment(formData, updateid);
       console.log("Response:", response);
-      Setmessage("Appointment updated successfully");
+      // Setmessage("Appointment updated successfully");
+      toast.success(" Appointment Updated  Successfully✅", {
+        position: "top-center",
+      });
     } catch (err) {
       console.error("Error updating appointment:", err.message);
+
+      toast.error(`Someting went wrong: ${err.message}`, {
+        position: "top-center",
+      });
+    }finally{
+      SetGlobalStateForUpdateFrom("");
     }
   };
 
@@ -60,20 +67,19 @@ function UpdateDetails() {
     });
   };
 
-
-
-
-  
-
   return (
-    <div className="full-height-bg" style={{ paddingTop: '5em' }}>
+    <div className="full-height-bg" style={{ paddingTop: "5em" }}>
       <DashboardNav />
       <h3>Update Details</h3>
       <hr />
       {message && (
         <div className="alert alert-warning alert-dismissible fade show">
           <strong>{message}</strong> You can check your details now
-          <button type="button" className="btn-close" data-bs-dismiss="alert"></button>
+          <button
+            type="button"
+            className="btn-close"
+            data-bs-dismiss="alert"
+          ></button>
         </div>
       )}
       <div className="form-container mx-auto">
@@ -101,7 +107,6 @@ function UpdateDetails() {
                     departmentId: selectedDept ? selectedDept._id : "", // Ensure it's assigned correctly
                   });
                 }}
-
               >
                 <option value="">Select Department</option>
                 {dropDownValue.map((dept, ind) => (
@@ -120,7 +125,9 @@ function UpdateDetails() {
                 id="appointmentDate"
                 name="appointmentDate"
                 className="form-control"
-                value={GlobalStateForUpdateFrom.appointmentDate?.split("T")[0] || ""}
+                value={
+                  GlobalStateForUpdateFrom.appointmentDate?.split("T")[0] || ""
+                }
                 onChange={handleInputChange}
                 required
               />
@@ -139,7 +146,10 @@ function UpdateDetails() {
                 value={GlobalStateForUpdateFrom.selectedDoctorId || ""}
                 onChange={(e) => {
                   const selectedDoctor = dropDownValue
-                    .find((dept) => dept.name === GlobalStateForUpdateFrom.department)
+                    .find(
+                      (dept) =>
+                        dept.name === GlobalStateForUpdateFrom.department
+                    )
                     ?.doctors.find((doctor) => doctor._id === e.target.value);
 
                   SetGlobalStateForUpdateFrom({
@@ -151,7 +161,9 @@ function UpdateDetails() {
               >
                 <option value="">Select Doctor</option>
                 {dropDownValue
-                  .find((dept) => dept.name === GlobalStateForUpdateFrom.department)
+                  .find(
+                    (dept) => dept.name === GlobalStateForUpdateFrom.department
+                  )
                   ?.doctors.map((doctor, ind) => (
                     <option key={ind} value={doctor._id}>
                       {doctor.name}
@@ -175,8 +187,13 @@ function UpdateDetails() {
               >
                 <option value="">Select Availability</option>
                 {dropDownValue
-                  .find((dept) => dept.name === GlobalStateForUpdateFrom.department)
-                  ?.doctors.find((doctor) => doctor._id === GlobalStateForUpdateFrom.selectedDoctorId)
+                  .find(
+                    (dept) => dept.name === GlobalStateForUpdateFrom.department
+                  )
+                  ?.doctors.find(
+                    (doctor) =>
+                      doctor._id === GlobalStateForUpdateFrom.selectedDoctorId
+                  )
                   ?.availability.map((day, ind) => (
                     <option key={ind} value={day}>
                       {day}
@@ -245,7 +262,6 @@ function UpdateDetails() {
               Update
             </button>
           </div>
-
         </form>
       </div>
     </div>

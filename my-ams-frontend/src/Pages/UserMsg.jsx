@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import "../../Doctor/PagesStyle/DoctorMsg.css";
+import "../PagesStyles/UserMsg.css";
 import { MdOutlineAttachFile } from "react-icons/md";
 import { BsFilterRight } from "react-icons/bs";
 import { RiUserAddFill } from "react-icons/ri";
 import { BiLogOut } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
-import socket from "../../Sockets/socket";
-import { localApiService, doctorApi } from "../../Api-folder/Api";
+import socket from "../Sockets/socket";
+import { localApiService, apiService } from "../Api-folder/Api";
 
 const patients = [
   { id: 1, name: "Emily Johnson", lastMessage: "2 min ago", online: true },
@@ -38,151 +38,43 @@ const messagesMock = [
   },
 ];
 
-const DoctorMsg = () => {
+function UserMsg() {
+  const [selectedPatient, setSelectedPatient] = useState(patients[0]);
   const [newMessage, setNewMessage] = useState("");
   const [messages, setMessages] = useState(
     Array.isArray(newMessage) && newMessage.length > 0 ? newMessage : []
   );
 
-  const [Data, SetData] = useState([]);
   const [showSearch, setShowSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [DocChatId, SetDocChatId] = useState("");
-  const [sendingToUserID, SetsendingToUserID] = useState("");
-  const [Mymessage, SetMymessages] = useState([]);
-  const [MessageRole, SetMessageRole] = useState("");
+  const [UserChatID, SetUSerChatID] = useState("");
+  const [sendingToDocId, SetsendingToDocId] = useState("");
+  const [ChatDoctor, SetChatDoctor] = useState([]);
+  const [Mymessage, SetMymessage] = useState([]);
   const [chatHistoryMap, setChatHistoryMap] = useState({});
 
-  const [loggedInUserAppointments, setLoggedInUserAppointments] = useState([]);
-  const [selectedPatient, setSelectedPatient] = useState(patients);
-
   const navigate = useNavigate();
-  // ------------------------------------->>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<------------------------------
 
-  console.log(
-    "selectedPatientOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO---",
-    selectedPatient
-  );
+  // For sending messages
+  const handleSend = () => {
+    if (!newMessage.trim()) return;
 
-  // fetching logged in user appointments with individual doctor
-  const fetchUserAppointments = async () => {
-    try {
-      const AppointmentResponse = await doctorApi.DoctorChatLoggedInUser();
-      console.log(
-        "AppointmentResponse data-----------:AppointmentResponse",
-        AppointmentResponse.data.LoggedinUser
-      );
-      setLoggedInUserAppointments(AppointmentResponse.data?.LoggedinUser);
-    } catch (error) {
-      console.error("Error fetching user appointments:", error);
-    }
-  };
+    // Send to server
+    sendingMessage();
 
-  useEffect(() => {
-    fetchUserAppointments();
-  }, []);
-
-  const fetcIdData = async () => {
-    try {
-      const response = await doctorApi.DoctorChatId();
-      console.log("response data------:", response.data);
-      if (response.data) {
-        SetData(response.data?.appointments);
-      }
-
-      const id = response.data?.appointments?.[0]?.doctorId;
-      console.log("docotr Chat ID-------:", response.data);
-      const userId = "67da884ed53ee8024998c556"; //response.data?.appointments?.[0]?.userId;
-      if (id && userId) {
-        SetDocChatId(id);
-        // SetsendingToUserID(userId);
-        SetMessageRole(response.data?.role);
-        console.log("userId------------)))))))))))))))))", userId);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-  console.log("-------------------newMessage------", newMessage);
-  // console.log("----------messages--------",messages)
-  console.log("DocChatId=========", DocChatId);
-  console.log("sendingToUserID=========", sendingToUserID);
-
-  // Socket logi goes here--------------------------------
-useEffect(() => {
-  if (!DocChatId && !sendingToUserID) return;
-
-  socket.emit("join-Room", DocChatId);
-  console.log("Socket connected to room with ID:", DocChatId);
-
-  const handleMessage = (data) => {
-    const currentUserId = selectedPatient?.userId;
+    // Add to current doctor's chat history
     setChatHistoryMap((prev) => ({
       ...prev,
-      [currentUserId]: [
-        ...(prev[currentUserId] || []),
+      [currentDoctorId]: [
+        ...(prev[currentDoctorId] || []),
         {
-          sender: "user",
-          text: data.message,
+          sender: "doctor",
+          text: newMessage,
           time: new Date().toLocaleTimeString(),
         },
       ],
     }));
-  };
 
-  socket.on("receiveMessage", handleMessage);
-
-  return () => {
-    socket.off("receiveMessage", handleMessage);
-  };
-}, [DocChatId, selectedPatient]); // ✅ Valid dependency list
-
-  const sendingMessage = () => {
-    if (!DocChatId && sendingToUserID) return;
-    socket.emit("sendMessage", {
-      senderId: DocChatId,
-      receiverId: sendingToUserID, // Spelling corrected: "reciverId" ➝ "receiverId"
-      message: newMessage,
-    });
-  };
-
-  //  till here socekt logic---------------------------
-
-  useEffect(() => {
-    fetcIdData();
-  }, []);
-
-  // useEffect(() => {
-  //     console.log("MessageRole----------", MessageRole)
-  // },[MessageRole])
-
-  //     const handleSend = () => {
-  //         sendingMessage()
-  //         if (!newMessage.trim()) return;
-
-  //         // const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  //         setMessages(messages => [...messages, newMessage]);
-
-  //         // setNewMessage('');
-  // // prevMessages => [...prevMessages, data]
-  //     };
-
-  const handleSend = () => {
-    if (!newMessage.trim()) return;
-
-    sendingMessage();
-
-setChatHistoryMap((prev) => ({
-  ...prev,
-  [currentUserId]: [
-    ...(prev[currentUserId] || []),
-    {
-      sender: "doctor",
-      text: newMessage,
-      time: new Date().toLocaleTimeString(),
-    },
-  ],
-}));
     setNewMessage("");
   };
 
@@ -193,26 +85,116 @@ setChatHistoryMap((prev) => ({
     }
   };
 
-  const filteredPatients = loggedInUserAppointments.filter((patient) =>
-    patient.userName.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredPatients = ChatDoctor.filter((patient) =>
+    patient.doctorName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // ---------------------------<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>--------------------------
 
- const currentUserId = selectedPatient?.userId;
-const currentChat = chatHistoryMap[currentUserId] || [];
+  useEffect(() => {
+    const fetchChatData = async () => {
+      try {
+        const response = await apiService.userChatDoctorappointment();
+        console.log(
+          "response from backend>>>>>>>>>>>>>>>>>>>>> ",
+          response.data
+        );
+        SetChatDoctor(response.data?.appointments);
+        if (response.data?.appointments.length > 0) {
+          const id = response.data?.appointments?.[0]?.userId;
+          SetUSerChatID(id);
+        }
+      } catch (err) {
+        console.error("Error fetching int catch:", err);
+      }
+    };
+    fetchChatData();
+  }, []);
 
+  //   useEffect(()=>{
+  //     console.log("ChatDoctor datannnnnnnnn in useEffect:", ChatDoctor);
+  //   },[ChatDoctor])
+  // ---------------------------<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>-------------------------
+
+  useEffect(() => {
+    const fetchIdData = async () => {
+      try {
+        const response = await apiService.UserChatId();
+        console.log("rsponse from backend data---------", response.data);
+        const id = response.data?.appointments?.[0]?.userId;
+        const docId = response.data.appointments?.[0]?.doctorId?._id;
+        if (id && docId) {
+          //   SetUSerChatID(id);
+          //   SetsendingToDocId(docId);
+          console.log("main kuch bhi nahi karta");
+        } else {
+          console.log("No ID found in the response.");
+        }
+      } catch (error) {
+        console.error("Error fetching User Chat ID:", error);
+      }
+    };
+
+    fetchIdData();
+  }, []);
+
+  // Socket logiica goes here------------------------------
+  useEffect(() => {
+    if (!UserChatID && !sendingToDocId) return;
+
+    socket.emit("join-Room", UserChatID);
+    console.log("Joined Room:", UserChatID);
+
+    const currentDoctorId = selectedPatient?.doctorId;
+
+    const handleMessage = (data) => {
+      setChatHistoryMap((prev) => ({
+        ...prev,
+        [currentDoctorId]: [
+          ...(prev[currentDoctorId] || []),
+          {
+            sender: "user", // message from doctor should be marked as "doctor"
+            text: data.message,
+            time: new Date().toLocaleTimeString(),
+          },
+        ],
+      }));
+    };
+
+    socket.on("receiveMessage", handleMessage);
+
+    return () => {
+      socket.off("receiveMessage", handleMessage);
+    };
+  }, [UserChatID, selectedPatient]);
+
+  const sendingMessage = () => {
+    if (!UserChatID || !sendingToDocId) return;
+
+    socket.emit("sendMessage", {
+      senderId: UserChatID,
+      receiverId: sendingToDocId, // This should also be dynamic if possible
+      message: newMessage,
+    });
+  };
+
+  // socket logic goes till her--------------------------
+  const currentDoctorId = selectedPatient?.doctorId;
+  const currentChat = chatHistoryMap[currentDoctorId] || [];
+
+  console.log("User Chat ID-------:", UserChatID);
+  console.log("Doctor Chat ID-------:", sendingToDocId);
+  console.log("newMessage========================", newMessage);
 
   return (
     <div>
-      {/* <button className="btn btn-primary" onClick={sendingMessage}>
-        sendMessagetoUSer
-      </button> */}
+      {/* <button className='btn btn-primary' onClick={ sendingMessage}>sendMessagetoDoctor</button> */}
       <div className="chat-wrapper">
         <div className="border  py-3">
           <div className="d-flex align-items-center justify-content-between mb-3">
             {!showSearch ? (
               <>
-                <h4 className="m-0 px-3">Chat Doctor</h4>
+                <h4 className="m-0 px-3">Chat User</h4>
                 <span
                   className="ms-auto text-primary"
                   style={{ cursor: "pointer" }}
@@ -241,16 +223,15 @@ const currentChat = chatHistoryMap[currentUserId] || [];
           </div>
           <hr />
           <div className="patients-list d-flex flex-column gap-2 mt-3">
-            {filteredPatients.map((patient) => {
-              const isSelected = selectedPatient.userId === patient.userId;
+            {filteredPatients.map((patient, ind) => {
+              const isSelected = selectedPatient.doctorId === patient.doctorId;
               return (
                 <div
-                  key={patient._id}
-                onClick={() => {
-  setSelectedPatient(patient);
-  SetsendingToUserID(patient.userId); // ✅ use the correct one
-}}
-
+                  key={ind}
+                  onClick={() => {
+                    setSelectedPatient(patient);
+                    SetsendingToDocId(patient.doctorId);
+                  }}
                   className={`d-flex align-items-center justify-content-between p-2 gap-4 rounded shadow-sm cursor-pointer position-relative ${
                     isSelected
                       ? "bg-secondary bg-opacity-75 text-white"
@@ -271,12 +252,7 @@ const currentChat = chatHistoryMap[currentUserId] || [];
                         fontSize: "1rem",
                       }}
                     >
-                      {patient.userName.charAt(0).toUpperCase()}
-                      {/* --------------------------------- */}
-                      {/* {
-                    loggedInUserAppointments && loggedInUserAppointments.map((item, ind)=> item?.userName.charAt(0).toUpperCase() )
-                      
-                      } */}
+                      {patient.doctorName.charAt(0).toUpperCase()}
                     </div>
                     <div>
                       <div
@@ -284,7 +260,7 @@ const currentChat = chatHistoryMap[currentUserId] || [];
                           isSelected ? "text-white" : "text-dark"
                         }`}
                       >
-                        {patient.userName}
+                        {patient.doctorName}
                       </div>
                       <div
                         className={`small text-truncate`}
@@ -330,7 +306,7 @@ const currentChat = chatHistoryMap[currentUserId] || [];
           <div className="chat-header">
             <div className="info">
               <div className="px-3">
-                <div className="name">{selectedPatient.userName}</div>
+                <div className="name">{selectedPatient.doctorName}</div>
                 <div className="status">
                   {selectedPatient.online ? "Online" : "Offline"}
                 </div>
@@ -339,7 +315,16 @@ const currentChat = chatHistoryMap[currentUserId] || [];
           </div>
 
           <div className="chat-body">
-            {/* Render received messages from socket */}
+            {/* {messages.map((msg) => (
+                               <div key={msg.id} className={`chat-message ${msg.sender === 'Doctor' ? 'sent' : 'received'}`}>
+                                   {msg.sender !== 'Doctor'}
+                                   <div className="bubble">{msg.text}</div>
+                                   {msg.sender === 'Doctor'}
+                                   <div className="time">{msg.time}</div>
+                               </div>
+                           ))} */}
+
+            {/*  */}
             {currentChat.map((msg, idx) => (
               <div
                 key={idx}
@@ -353,6 +338,7 @@ const currentChat = chatHistoryMap[currentUserId] || [];
             ))}
 
             {/* Render sent messages */}
+
             {messages.map((msg, idx) => (
               <div key={idx} className="chat-message sent">
                 <div className="bubble">{msg}</div>
@@ -360,37 +346,35 @@ const currentChat = chatHistoryMap[currentUserId] || [];
               </div>
             ))}
           </div>
+        </div>
 
-          <div className="chat-input ">
-            {/* Label to trigger file input */}
-            <label htmlFor="file-upload" className="upload-btn ">
-              <MdOutlineAttachFile size={25} />
-            </label>
-            <input
-              type="text"
-              placeholder="Type your message..."
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            
-            />
+        <div className="chat-input ">
+          {/* Label to trigger file input */}
+          <label htmlFor="file-upload" className="upload-btn ">
+            <MdOutlineAttachFile size={25} />
+          </label>
+          <input
+            type="text"
+            placeholder="Type your message..."
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSend()}
+          />
 
-            {/* File input (hidden) */}
-            <input
-              type="file"
-              id="file-upload"
-              style={{ display: "none" }}
-              onChange={handleFileUpload}
-              
-            />
+          {/* File input (hidden) */}
+          <input
+            type="file"
+            id="file-upload"
+            style={{ display: "none" }}
+            onChange={handleFileUpload}
+          />
 
-            {/* Send message button */}
-            <button onClick={handleSend}>➤</button>
-          </div>
+          {/* Send message button */}
+          <button onClick={handleSend}>➤</button>
         </div>
       </div>
     </div>
   );
-};
+}
 
-export default DoctorMsg;
+export default UserMsg;

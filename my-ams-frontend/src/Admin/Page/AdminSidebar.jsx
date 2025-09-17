@@ -14,11 +14,11 @@ useEffect(()=>{
 const fetchAppointments = async () => {
   try{
     const response = await adminApi.totalAppointment();
-    console.log("this is appointment99999----- data", response.data);
+    // console.log("this is appointment99999----- data", response.data);
     const appointments = Array.isArray(response.data)
     ? response.data
     : [response.data];
-  console.log("this is appointment in admin dashbpard ----  data", appointments);
+  // console.log("this is appointment in admin dashbpard ----  data", appointments);
     
 
   }catch(error){

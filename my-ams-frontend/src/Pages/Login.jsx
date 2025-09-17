@@ -2,15 +2,16 @@
 import "../PagesStyles/Login.css";
 import { Link, useNavigate } from "react-router-dom";
 // import axios from 'axios'
-import { useState } from "react";
-import { apiService } from "../Api-folder/Api";
+import { useEffect, useState } from "react";
+import { localApiService ,apiService} from "../Api-folder/Api";
 import { useAppointment } from "../context/AppointmentContext";
+import Navbar from '../Component/Navbar'
 
 const Login = () => {
   // Correctly define the component here
   const [email, Setemail] = useState("");
   const [password, Setpassword] = useState("");
-  const { role, Setrole } = useAppointment();
+  const { role, Setrole ,navBarConfig,SetNavBarConfig} = useAppointment();
 
   const navigate = useNavigate();
 
@@ -31,8 +32,16 @@ const Login = () => {
     }
   };
 
+
+useEffect(()=>{
+  SetNavBarConfig(false);
+},[])
   return (
+
+
+
     <div className="login-container">
+      <Navbar/>
       <div className="login-box">
         <div className="left-panel">
           <form onSubmit={loginUser}>

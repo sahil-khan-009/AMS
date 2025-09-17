@@ -31,6 +31,10 @@ import DoctorChat from './Doctor/Pages/DoctorChat.jsx';
 import Videocall from './utils/Videocall.jsx';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import UserReport from './Pages/UserReport.jsx';
+import UserChat from './Pages/UserChat.jsx';
+import UserMsg from './Pages/UserMsg.jsx';
+
 function App() {
   return (
     <AppointmentProvider>
@@ -51,9 +55,13 @@ function App() {
             <Route path="UpdateDetails" element={<UpdateDetails />} />
             <Route path="Profile" element={<Profile />} />
             <Route path="Notification" element={<Notification />} />
+            <Route path="UserReport" element={<UserReport />} />
             <Route path="Video-call/:appointmentId/:videoCallLink" element={<Videocall/>}/>
-            <Route path="DoctorMsg" element={<DoctorMsg />} />
-            <Route path="DoctorChat" element={<DoctorChat />} />
+           
+            <Route path='UserChat' element={<UserChat/>}/>
+            <Route path='UserMsg' element={<UserMsg/>}/>
+
+         
 
 
           </Route>

@@ -71,6 +71,15 @@ function Appointment() {
     } catch (err) {
       console.error("Error creating appointment:", err.message);
       toast.error(`Upload failed: ${err.message}`, { position: "top-center" });
+    }finally{
+
+     setDropDownValue([]);
+     setAvailibility("");
+     setEmail("");
+     setDate("");
+     setDescription("");
+     setMode("");
+
     }
   };
 

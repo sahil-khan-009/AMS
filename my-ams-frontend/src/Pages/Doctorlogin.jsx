@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {doctorApi } from '../Api-folder/Api';
+import {doctorApi,localApiService } from '../Api-folder/Api';
 import { useNavigate } from 'react-router-dom';
 import { useAppointment } from '../context/AppointmentContext';
 

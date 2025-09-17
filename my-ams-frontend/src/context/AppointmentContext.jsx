@@ -20,6 +20,7 @@ export const AppointmentProvider = ({ children }) => {
   const [role,Setrole]= useState("")
   const [specificDoctorID, setspecificDoctorID] = useState('');
   const [videoRoomId, SetvideoRoomId] = useState("");
+  const [navBarConfig,SetNavBarConfig] = useState(false); // this state is resposible for nav-bar condition rendering
 
   return (
     <AppointmentContext.Provider
@@ -46,8 +47,9 @@ export const AppointmentProvider = ({ children }) => {
         appointments, setAppointments,
         role,Setrole,
         specificDoctorID, setspecificDoctorID,
-        videoRoomId, SetvideoRoomId
-
+        videoRoomId, SetvideoRoomId,
+        navBarConfig,SetNavBarConfig
+         
      
       }}
     >

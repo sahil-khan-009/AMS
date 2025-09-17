@@ -8,19 +8,6 @@ const api = axios.create({
   },
 });
 
-// <--------------------------------------Local base url--------------------------------->
-
-
-const localApi = axios.create({
-  baseURL: "http://localhost:4000/api",
-  withCredentials: true,
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
-
-
-// Request interceptor To add the token to the request header
 api.interceptors.request.use(
   (config) => {
     const token = sessionStorage.getItem("token");
@@ -32,6 +19,58 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+// <--------------------------------------Local base url--------------------------------->
+
+const localApi = axios.create({
+  baseURL: "http://localhost:4000/api",
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+// Local API Interceptor (for cookie-based auth)
+localApi.interceptors.request.use(
+  (config) => {
+    // Optional: Check if token is present in sessionStorage or localStorage and add it to headers
+    const token = sessionStorage.getItem("token"); // Or use localStorage if needed
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    console.log("Making request to Local API: ", config.url);
+    return config;
+  },
+  (error) => {
+    console.error("Local API Request Error:", error);
+    return Promise.reject(error); // Reject the promise if there's an error
+  }
+);
+// Request interceptor To add the token to the request header
+
+//LOCAL API MMETHODS
+export const localApiService = {
+  //   UserChatId : async()=>{
+  //     return localApi.get('/ChatUserID')
+  //   },
+  // // Doctor chat id
+  // DoctorChatId : async()=>{
+  //   return localApi.get('/doctorDashboard/DoctorChatId')
+  // },
+  // doctorLogin : async (formData)=>{
+  //   return localApi.post('/auth/loginDoctor',
+  //    formData
+  //  )
+  // },
+  // User login
+  // login: async (email, password) => {
+  //   return api.post("/auth/login", {
+  //     userEmail: email,
+  //     userPassword: password,
+  //   });
+  // },
+};
+
 // API Methods
 export const apiService = {
   // Post Method Api to  Appointment
@@ -41,7 +80,7 @@ export const apiService = {
 
   // Get Method Api to Department and doctor
   getDepartments: async () => {
-    return api.get('/department/Getdepartment');
+    return api.get("/department/Getdepartment");
   },
   // Login Api to login
 
@@ -68,10 +107,10 @@ export const apiService = {
     return api.get("/AlluserAppointment");
   },
 
-
-
-
-
+  // COMPLTED APPOINTMENT API
+  completedAppointment: async () => {
+    return api.get("/completedAppointments");
+  },
   // Delete Method Api to delete Appointment
   deleteAppointment: async (deletAppointmentId) => {
     return api.delete(`/deleteAppointment/${deletAppointmentId}`);
@@ -81,6 +120,16 @@ export const apiService = {
   updateAppointment: async (formData, updateid) => {
     return api.put(`/updateAppointment/${updateid}`, formData);
   },
+
+  UserChatId: async () => {
+    return api.get("/ChatUserID");
+  },
+
+  userChatDoctorappointment : async ()=>{
+    return api.get('/appointmentDoctorChat')
+  },
+
+
 };
 
 // <------------------------------------- Admin Api--------------------------------->
@@ -88,115 +137,102 @@ export const apiService = {
 export const adminApi = {
   // add department api
   addDepartment: async (createDepartment) => {
-    return api.post("/department/Createdepartment",
-      {name:createDepartment}
-    );
+    return api.post("/department/Createdepartment", { name: createDepartment });
   },
 
-//<------------ Get department api ---------------->
+  //<------------ Get department api ---------------->
 
-getDoctorDepartment : async () =>{
-  return api.get('/department/Getdepartment')
+  getDoctorDepartment: async () => {
+    return api.get("/department/Getdepartment");
+  },
 
-},
+  //<------------------------Add doctor api--------------------->
 
-//<------------------------Add doctor api--------------------->
+  addDoctor: async (formData) => {
+    return api.post("/doctor/Createdoctor", formData);
+  },
+  //<------------------get doctor api ------------------------------->
+  getAllDoctor: async () => {
+    return api.get("/doctor/Alldoctors");
+  },
 
-addDoctor : async (formData)=>{
-  return api.post('/doctor/Createdoctor', formData)
-}
-,
-//<------------------get doctor api ------------------------------->
- getAllDoctor : async () =>{
-  
-  return api.get('/doctor/Alldoctors')
+  // <----------- Total Appointment ----------------->
 
- },
+  totalAppointment: async () => {
+    return api.get("/admin/totalAppointment");
+  },
 
-// <----------- Total Appointment ----------------->
+  // Approved Appointment api
 
-totalAppointment : async ()=>{
+  approvedAppointment: async (id, status, mode, slot) => {
+    return api.patch(`/admin/appointments/${id}/${status}/${mode}`, {
+      timeSlot: slot,
+    });
+  },
+  // canceld appointment api
+  cancelAppointment: async (id, status) => {
+    return api.patch(`/admin/appointments/${id}/${status}`);
+  },
 
-  return api.get('/admin/totalAppointment');
+  GetDepartment: async () => {
+    return api.get("/admin/getDepartment");
+  },
 
-},
+  // Payment method
+  appointmentPayment: async (body) => {
+    return api.post("/admin/payment", body);
+  },
 
-// Approved Appointment api
-
-approvedAppointment : async (id, status, mode, slot) => {
-  return api.patch(`/admin/appointments/${id}/${status}/${mode}`, {
-    timeSlot: slot
-  });
-}
-,
-// canceld appointment api 
-cancelAppointment : async (id,status)=>{
-  return api.patch(`/admin/appointments/${id}/${status}`)
-},
-
-
-GetDepartment : async ()=>{
-  return api.get('/admin/getDepartment');
-
-},
-
-
-// Payment method
-appointmentPayment : async (body)=>{
-  return api.post('/admin/payment',body)
-}
-
- 
+  BarChartApi: async () => {
+    return api.get("/admin/appointmentChart");
+  },
 };
-
 
 export const doctorApi = {
   // Post method api to login doctor
-  doctorLogin : async (formData)=>{
-     return api.post('/auth/loginDoctor',
-      formData
-    )
+  doctorLogin: async (formData) => {
+    return api.post("/auth/loginDoctor", formData);
   },
 
-// to get all Appointment of doctor
+  // to get all Appointment of doctor
 
-allAppointment : async ()=>{
-    return api.get('/doctorDashboard/allAppointments')
+  allAppointment: async () => {
+    return api.get("/doctorDashboard/allAppointments");
   },
 
-  vdoCompleted : async (id, status)=>{
-    return api.patch(`/doctorDashboard/videoStatus/${id}`,{
-      videoStatus: status
+  vdoCompleted: async (id, status) => {
+    return api.patch(`/doctorDashboard/videoStatus/${id}`, {
+      videoStatus: status,
     });
   },
 
-  TreatedPatients : async ()=>{
-    return api.get('/doctorDashboard/treatedPatient')
+  TreatedPatients: async () => {
+    return api.get("/doctorDashboard/treatedPatient");
   },
-  
+
   UploadReport: async (id, formData) => {
     return api.post(`/doctorDashboard/UploadUserReport/${id}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
-  }
-  
+  },
+  DoctorChatId: async () => {
+    return api.get("/doctorDashboard/DoctorChatId");
+  },
 
+  DoctorChatLoggedInUser: async () => {
+    return api.get("/doctorDashboard/loggedInUSer");
+  },
+};
+//
+// <------------------------------------- Video Call Api --------------------------------->
 
-
-
-}
-// 
-// <------------------------------------- Video Call Api ---------------------------------> 
-
-export const videoCallApi = { 
-
+export const videoCallApi = {
   // in your Api file
-conferenceLeft: async (appointmentId) => {
-  return api.patch(`/doctor/video/appointments/status/${appointmentId}`, {
-    callStatus: "completed",
-  });
-}
-
-}
+  conferenceLeft: async (appointmentId) => {
+    return api.patch(`/doctor/video/appointments/status/${appointmentId}`, {
+      callStatus: "completed",
+    });
+  },
+};

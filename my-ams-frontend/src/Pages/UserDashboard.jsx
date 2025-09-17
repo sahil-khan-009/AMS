@@ -9,6 +9,8 @@ import { MdOutlineAddToQueue } from "react-icons/md";
 import { BsClipboard2PlusFill } from "react-icons/bs";
 import logo from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
+import { GoReport } from "react-icons/go";
+import { FaUserDoctor } from "react-icons/fa6";
 
 const UserDashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -27,13 +29,17 @@ const UserDashboard = () => {
 
   const logOutUser = () => {
     sessionStorage.removeItem("token"); // Remove token
-    navigate('/'); // Redirect to homepage
+    navigate("/"); // Redirect to homepage
   };
 
   // Close sidebar when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (isSidebarOpen && sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+      if (
+        isSidebarOpen &&
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target)
+      ) {
         setIsSidebarOpen(false);
       }
     };
@@ -55,32 +61,64 @@ const UserDashboard = () => {
         {/* Sidebar */}
         <div
           ref={sidebarRef}
-          className={`col-lg-2 col-md-3 sidebar text-white p-3 shadow ${isSidebarOpen ? "open" : ""}`}
+          className={`col-lg-2 col-md-3 sidebar text-white p-3 shadow ${
+            isSidebarOpen ? "open" : ""
+          }`}
         >
           <img src={logo} alt="Logo" className="logo" />
           <hr />
           <h3 className="text-center">User Panel</h3>
           <hr />
-          <Link to="/UserDashboard" className="nav-link" onClick={handleLinkClick} style={{ marginTop: "1rem" }}>
+          <Link
+            to="/UserDashboard"
+            className="nav-link"
+            onClick={handleLinkClick}
+            style={{ marginTop: "1rem" }}
+          >
             <FaHome className="me-2" /> <span>Dashboard</span>
           </Link>
           <Link to="Appointment" className="nav-link" onClick={handleLinkClick}>
-            <MdOutlineAddToQueue className="me-2" /> <span>Make Appointment</span>
+            <MdOutlineAddToQueue className="me-2" />{" "}
+            <span>Make Appointment</span>
           </Link>
-          <Link to="AppointmentStatus" className="nav-link" onClick={handleLinkClick}>
+          <Link
+            to="AppointmentStatus"
+            className="nav-link"
+            onClick={handleLinkClick}
+          >
             <BsClipboard2PlusFill className="me-2" />
             <span> Status</span>
           </Link>
-          <Link to="UpdateDetails" className="nav-link" onClick={handleLinkClick}>
+          <Link
+            to="UpdateDetails"
+            className="nav-link"
+            onClick={handleLinkClick}
+          >
             <FaUserEdit className="me-2" /> <span>Update Details</span>
           </Link>
           <Link to="Profile" className="nav-link" onClick={handleLinkClick}>
             <FaCircleUser className="me-2" /> <span>Profile</span>
           </Link>
-          <Link to="Notification" className="nav-link" onClick={handleLinkClick}>
+          <Link
+            to="Notification"
+            className="nav-link"
+            onClick={handleLinkClick}
+          >
             <IoMdNotifications className="me-2" /> <span>Notification</span>
           </Link>
-          <Link to="Video-call/123/abc" className="nav-link" onClick={handleLinkClick}>
+          <Link to="UserReport" className="nav-link" onClick={handleLinkClick}>
+            <GoReport className="me-2" /> <span>User Report</span>
+          </Link>
+          <Link to="UserChat" className="nav-link" onClick={handleLinkClick}>
+            <span>
+              <FaUserDoctor />{" "}
+            </span>{" "} Chat with
+          </Link>
+          <Link
+            to="Video-call/123/abc"
+            className="nav-link"
+            onClick={handleLinkClick}
+          >
             <FaVideo className="me-2" /> <span>Video Call</span>
           </Link>
           <Link

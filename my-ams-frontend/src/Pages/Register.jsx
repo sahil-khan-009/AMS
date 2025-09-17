@@ -1,93 +1,124 @@
-import React from 'react';
-import { Link,useNavigate } from "react-router-dom";
-import {apiService} from '../Api-folder/Api';
-import { useState } from "react"
-
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { apiService } from "../Api-folder/Api";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Navbar from '../Component/Navbar'
+import { useAppointment } from "../context/AppointmentContext";
 const Register = () => {
   const [name, SetName] = useState("");
-    const [email, Setemail] = useState("");
-    const [password, Setpassword] = useState("");
-    const [message, SetMessage] = useState("");
-    const navigate = useNavigate();
+  const [email, Setemail] = useState("");
+  const [password, Setpassword] = useState("");
+  const [message, SetMessage] = useState("");
+
+const { navBarConfig, SetNavBarConfig} =useAppointment();
+
+  const navigate = useNavigate();
 
 
-    const registerUser = async (e) => {
-          e.preventDefault();
-          try{
-       const result = await apiService.register(name, email, password);
-        console.log("registerResult-------",result);
-        SetMessage(result.data.message);
-        if(result.data.message === "User created successfully"){
-          navigate('/UserDashboard');
-        }
 
-          }catch(err){
-            console.log("This is catch error------",err.response?.data || err.message)
+useEffect(()=>{
+  SetNavBarConfig(false);
+},[])
 
-          }
-        
-        };
+  const registerUser = async (e) => {
+    e.preventDefault();
+    try {
+      const result = await apiService.register(name, email, password);
+      console.log("registerResult-------", result);
+      SetMessage(result.data.message);
+      if (result.data.message === "User created successfully") {
+        navigate("/UserDashboard");
+      }
+    } catch (err) {
+      console.log("This is catch error------", err);
+      if (err.response.data === "You already have an account. Please login.") {
+        toast.success(`You  already have an account : Please Login`, {
+          position: "top-center",
+        });
+      }
+    }
+  };
 
+  return (
 
-    return (
-      <form onSubmit={registerUser}>
-        <div className="login-container">
-        <div className="login-box">
-            <div className="left-panel">
-                <h2>Sign Up</h2>
-                {message && (
-            <div
-              className={`alert ${
-                message === "User created successfully"
-                  ? "alert-primary"
-                  : "alert-warning"
-              }`}
-              role="alert"
-            >
-              {message}
-            </div>
-          )}
+    
+    <form onSubmit={registerUser}>
 
-                <label htmlFor="username">Username</label>
-                <input  type="text" id="username" placeholder="Enter your username"
-                    onChange={(e) => SetName(e.target.value)}
-                                    onKeyPress={(e) => {
-                                      const regex = /^[a-zA-Z\s!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]*$/; // Allow only letters and spaces
-                                      if (!regex.test(e.key)) {
-                                        e.preventDefault(); // Prevent invalid characters from being typed
-                                      }
-                                    }}
-                />
+      <div className="login-container">
 
-                <label htmlFor="useremail">Useremail</label>
-                <input  type="email" id="useremail" placeholder="Enter your useremail"
-                 onChange={(e) => Setemail(e.target.value.toLowerCase())}
-                />
+        <div>
 
-                <label htmlFor="password">Password</label>
-                <input type="password" id="password" placeholder="Enter your password" 
-                  onChange={(e) => Setpassword(e.target.value)}
-                                  maxLength={8}
-                />
-
-                <button  type="submit"  className="btn-Signin">Sign Up</button>
-            </div>
-
-            <div className="right-panel">
-                <h2>Welcome!</h2>
-                <h2>Create your account</h2>
-                <p>Already have an account?</p>
-                <Link to="/Login"><button>Sign In</button></Link>
-            
-            </div>
+          <Navbar/>
         </div>
-    </div>
+        <div className="login-box">
+          <div className="left-panel">
+            <h2>Sign Up</h2>
+            {message && (
+              <div
+                className={`alert ${
+                  message === "User created successfully"
+                    ? "alert-primary"
+                    : "alert-warning"
+                }`}
+                role="alert"
+              >
+                {message}
+              </div>
+            )}
+
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              placeholder="Enter your username"
+              onChange={(e) => SetName(e.target.value)}
+              onKeyPress={(e) => {
+                const regex = /^[a-zA-Z\s!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]*$/; // Allow only letters and spaces
+                if (!regex.test(e.key)) {
+                  e.preventDefault(); // Prevent invalid characters from being typed
+                }
+              }}
+            />
+
+            <label htmlFor="useremail">Useremail</label>
+            <input
+              type="email"
+              id="useremail"
+              placeholder="Enter your useremail"
+              onChange={(e) => Setemail(e.target.value.toLowerCase())}
+            />
+
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Enter your password"
+              onChange={(e) => Setpassword(e.target.value)}
+              maxLength={8}
+            />
+
+            <button type="submit" className="btn-Signin">
+              Sign Up
+            </button>
+          </div>
+
+          <div className="right-panel">
+            <h2>Welcome!</h2>
+            <h2>Create your account</h2>
+            <p>Already have an account?</p>
+            <Link to="/Login">
+              <button>Sign In</button>
+            </Link>
+          </div>
+        </div>
+      </div>
     </form>
-    );
+  );
 };
 
 export default Register;
-
 
 // import React from "react";
 // import "../PagesStyles/Signup.css";
@@ -201,15 +232,6 @@ export default Register;
 // }
 
 // export default Signup;
-
-
-
-
-
-
-
-
-
 
 // try {
 //   await axios

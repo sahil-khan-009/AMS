@@ -245,7 +245,7 @@ const updateVdoStatus = async (id, status) => {
                         }
                       )}
                     </td>
-                    <td>{app.timeSlot}</td>
+                    <td>{app.timeSlot ? app.timeSlot:"N/A"}</td>
                     <td>{app.description}</td>
                     <td>
                       {app.mode === "online" ? (
