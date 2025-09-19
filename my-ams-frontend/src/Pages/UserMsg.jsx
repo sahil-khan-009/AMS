@@ -346,7 +346,12 @@ function UserMsg() {
               </div>
             ))}
           </div>
-        </div>
+
+
+
+
+
+
 
         <div className="chat-input ">
           {/* Label to trigger file input */}
@@ -372,6 +377,11 @@ function UserMsg() {
           {/* Send message button */}
           <button onClick={handleSend}>➤</button>
         </div>
+
+
+
+        </div>
+
       </div>
     </div>
   );

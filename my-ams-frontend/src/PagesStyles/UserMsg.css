@@ -3,8 +3,10 @@
     height: 100vh;
     font-family: 'Segoe UI', sans-serif;
     background-color: #f5f7fa;
-    overflow: hidden;
+    /* overflow: hidden; ❌ remove this */
+    overflow-y: auto; /* ✅ safer */
 }
+
 
 .patients-list {
     max-height: calc(100vh - 155px);
@@ -182,4 +184,11 @@
     color: #555;
     cursor: pointer;
     margin-right: 10px;
+}
+.modal-backdrop {
+  z-index: 1040 !important;
+}
+
+.modal {
+  z-index: 1050 !important;
 }

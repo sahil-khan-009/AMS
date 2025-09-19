@@ -70,7 +70,7 @@ const UserAppointment = () => {
   const approvedAppointments = async (id, status, mode,slot) => {
     try {
       const response = await adminApi.approvedAppointment(id, status, mode,slot);
-      console.log("Appointment Status Updated:", response.data);
+      console.log("Appointment Status Updated=====:", response.data);
       if (response.data.message) {
         window.location.reload();
       }

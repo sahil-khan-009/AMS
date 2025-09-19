@@ -178,6 +178,17 @@ export const adminApi = {
     return api.get("/admin/getDepartment");
   },
 
+// -------------------
+
+assignDoctor: async (departmentId, DoctorId) => {
+  return api.post("/admin/assignDoctor", {
+    departmentId,
+    DoctorId
+  });
+},
+
+// ------------------
+
   // Payment method
   appointmentPayment: async (body) => {
     return api.post("/admin/payment", body);

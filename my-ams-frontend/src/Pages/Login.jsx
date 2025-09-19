@@ -19,13 +19,14 @@ const Login = () => {
     e.preventDefault();
     try {
       const result = await apiService.login(email, password);
-      console.log("loginResult-------", result);
+      console.log("loginResult-------role--------->>", result.data);
 
       sessionStorage.setItem("token", result.data.token);
       if (result.data.role === "admin") {
         navigate("/AdminDashboard");
       } else {
         navigate("/UserDashboard");
+        //  navigate("/AdminDashboard");
       }
     } catch (err) {
       console.log("Login Failded: this is catch error----------", err);

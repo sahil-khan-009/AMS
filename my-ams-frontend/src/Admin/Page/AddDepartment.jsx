@@ -9,19 +9,43 @@ import { adminApi } from "../../Api-folder/Api";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 const AddDepartment = () => {
   const [createDepartment, SetcreateDepartment] = useState("");
   const [message, Setmesseage] = useState();
   const [selectedDoctors, setSelectedDoctors] = useState([]);
   // const [departments, setDepartments] = useState([]);
+  const [doctorsDropDown, SetDoctorsDropDown] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [DoctorId, SetHandleChangeDoctor] = useState("");
+  const [departmentId, SetDepartmentId] = useState("");
   const appointmentsPerPage = 10;
 
   const [departments, setDepartments] = useState([]);
 
   // fetching department with doctor
+
+  // const departmentId;  // global variable to hold the id
+
+  // Getting All the Doctors for dropdown
+  // console.log("--------------------",handleChangeDoctor)
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      try {
+        const response = await adminApi.getAllDoctor();
+
+        if (response.data) {
+          SetDoctorsDropDown(response.data);
+        } else {
+          console.log("something went wrong");
+        }
+        console.log("Response from backend==", response);
+      } catch (err) {
+        console.error("This is catch error ", err);
+      }
+    };
+
+    fetchDoctors();
+  }, []);
 
   useEffect(() => {
     fetchDepartmentWithDoctor();
@@ -98,7 +122,9 @@ const AddDepartment = () => {
         });
       } else {
         Setmesseage("Some Errorr Occured!!!!!");
-        toast.error(`Upload failed: ${err.message}`, { position: "top-center" });
+        toast.error(`Upload failed: ${err.message}`, {
+          position: "top-center",
+        });
       }
     } catch (err) {
       console.log("Catch error:", err.response?.data || err.message);
@@ -111,67 +137,97 @@ const AddDepartment = () => {
     console.log("createDepartment==================", createDepartment);
   };
 
+  function handleEditAssign(id) {
+    if (id) {
+      SetDepartmentId(id);
+    } else {
+      return alert("id required of deprtment");
+    }
+  }
+
+  // Assign Doctor function\
+
+  async function handleAssignDoctor() {
+    try {
+      if (!departmentId || !DoctorId)
+        return alert("!departmentId Not Found !DoctorId");
+
+      const response = await adminApi.assignDoctor(departmentId, DoctorId);
+      console.log("respons from assign doctor---", response);
+
+      if(response.data){
+         toast.success("Doctor assigned successfully ✅ ", {
+          position: "top-center",})
+
+      }
+        await fetchDepartmentWithDoctor();
+    } catch (err) {
+      console.error("this is catch error", err);
+    }
+  }
+
   return (
-    <div className="full-height-bg" style={{ paddingTop: "5em" }}>
-      <Adminnav />
+    <>
+      <div className="full-height-bg" style={{ paddingTop: "5em" }}>
+        <Adminnav />
 
-      <h3>Add Department</h3>
-      <hr />
-      <div className="mt-1 d-flex">
-        {message && message ? (
-          <div className="alert alert-primary" role="alert">
-            {message}
-          </div>
-        ) : (
-          <button
-            type="button"
-            className="btn btn-primary d-flex align-items-center me-auto"
-            data-bs-toggle="modal"
-            data-bs-target="#doctorModal"
+        <h3>Add Department</h3>
+        <hr />
+        <div className="mt-1 d-flex">
+          {message && message ? (
+            <div className="alert alert-primary" role="alert">
+              {message}
+            </div>
+          ) : (
+            <button
+              type="button"
+              className="btn btn-primary d-flex align-items-center me-auto"
+              data-bs-toggle="modal"
+              data-bs-target="#doctorModal"
+            >
+              <IoMdAdd className="me-1 " />
+              Add Department
+            </button>
+          )}
+
+          {/* Modal for Adding Department */}
+          <div
+            className="modal fade"
+            id="doctorModal"
+            tabIndex="-1"
+            aria-labelledby="doctorModalLabel"
+            aria-hidden="true"
           >
-            <IoMdAdd className="me-1 " />
-            Add Department
-          </button>
-        )}
-
-        {/* Modal for Adding Department */}
-        <div
-          className="modal fade"
-          id="doctorModal"
-          tabIndex="-1"
-          aria-labelledby="doctorModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog">
-            <div className="modal-content bg-light shadow">
-              <div className="modal-header">
-                <h5 className="modal-title" id="doctorModalLabel">
-                  Add New Department
-                </h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div className="modal-body">
-                <form>
-                  <div className="mb-3">
-                    <label htmlFor="departmentName" className="form-label">
-                      Department Name ||{" "}
-                      <span>(Please Enter First Letter Capital)</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="departmentName"
-                      placeholder="Enter department name"
-                      onChange={(e) => AddDepartment(e.target.value)}
-                    />
-                  </div>
-                  {/* <div className="mb-3"> */}
-                  {/* <label htmlFor="doctorSelect" className="form-label">Select Doctor(s)</label>
+            <div className="modal-dialog">
+              <div className="modal-content bg-light shadow">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="doctorModalLabel">
+                    Add New Department
+                  </h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  <form>
+                    <div className="mb-3">
+                      <label htmlFor="departmentName" className="form-label">
+                        Department Name ||{" "}
+                        <span>(Please Enter First Letter Capital)</span>
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="departmentName"
+                        placeholder="Enter department name"
+                        onChange={(e) => AddDepartment(e.target.value)}
+                      />
+                    </div>
+                    {/* <div className="mb-3"> */}
+                    {/* <label htmlFor="doctorSelect" className="form-label">Select Doctor(s)</label>
                     <Select
                       id="doctorSelect"
                       options={doctorOptions}
@@ -182,114 +238,187 @@ const AddDepartment = () => {
                       value={selectedDoctors}
                       placeholder="Choose doctors..."
                      /> */}
-                  {/* </div> */}
-                </form>
+                    {/* </div> */}
+                  </form>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    onClick={handleCreateDepartment}
+                    type="button"
+                    className="btn btn-primary"
+                    data-bs-dismiss="modal"
+                  >
+                    Create Department
+                  </button>
+                </div>
               </div>
-              <div className="modal-footer">
+            </div>
+          </div>
+        </div>
+
+        {/* Table Section */}
+        <div className="table-responsive mt-2">
+          <table className="table table-bordered table-responsive mt-3 text-center">
+            <thead className="thead">
+              <tr>
+                <th scope="col">Sr</th>
+                <th scope="col">Department Name</th>
+                <th scope="col">Doctor's Name</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentAppointments.length > 0 ? (
+                currentAppointments.map((dept, index) => (
+                  <tr key={dept._id}>
+                    <td>{indexOfFirstAppointment + index + 1}</td>
+
+                    <td>{dept.name}</td>
+                    <td>
+                      {dept.doctors.length > 0 ? (
+                        dept.doctors.map((doc) => doc.name).join(", ")
+                      ) : (
+                        <span className="text-danger">No Doctors Assigned</span>
+                      )}
+                    </td>
+
+                    <td>
+                      <button
+                        type="button"
+                        className="btn btn-sm "
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                        onClick={() => handleEditAssign(dept._id)}
+                      >
+                        <BiEdit size={20} />
+                      </button>
+                    </td>
+
+                    <td>
+                      <i
+                        className="text-danger"
+                        type="button"
+                        onClick={() =>
+                          setDepartments(
+                            departments.filter((d) => d.id !== dept.id)
+                          )
+                        }
+                      >
+                        <AiFillDelete size={20} />
+                      </i>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5">No Departments Available</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+
+          {/* Pagination */}
+          <div className="p-3 d-flex justify-content-center">
+            <div className="d-flex align-items-center gap-2">
+              <button
+                className="btn btn-secondary px-2 py-1 rounded-circle"
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+              >
+                <IoIosArrowBack className="text-white" />
+              </button>
+              {Array.from({ length: totalPages }, (_, i) => (
                 <button
-                  onClick={handleCreateDepartment}
-                  type="button"
-                  className="btn btn-primary"
-                  data-bs-dismiss="modal"
+                  key={i + 1}
+                  className={`btn px-3 py-2 rounded-circle ${
+                    currentPage === i + 1 ? "btn-primary" : "btn-secondary"
+                  }`}
+                  onClick={() => setCurrentPage(i + 1)}
                 >
-                  Create Department
+                  {i + 1}
                 </button>
-              </div>
+              ))}
+              <button
+                className="btn btn-secondary px-2 py-1 rounded-circle"
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                }
+                disabled={
+                  currentPage === totalPages || departments.length === 0
+                }
+              >
+                <IoIosArrowForward className="text-white" />
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Table Section */}
-      <div className="table-responsive mt-2">
-        <table className="table table-bordered table-responsive mt-3 text-center">
-          <thead className="thead">
-            <tr>
-              <th scope="col">Sr</th>
-              <th scope="col">Department Name</th>
-              <th scope="col">Doctor's Name</th>
-              <th scope="col">Update</th>
-              <th scope="col">Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentAppointments.length > 0 ? (
-              currentAppointments.map((dept, index) => (
-                <tr key={dept._id}>
-                <td>{indexOfFirstAppointment + index + 1}</td>
+      {/* Modal start from here */}
 
-                  <td>{dept.name}</td>
-                  <td>
-                    {dept.doctors.length > 0 ? (
-                      dept.doctors.map((doc) => doc.name).join(", ")
-                    ) : (
-                      <span className="text-danger">No Doctors Assigned</span>
-                    )}
-                  </td>
-
-                  <td>
-                    <i className="text-dark" type="button">
-                      <BiEdit size={20} />
-                    </i>
-                  </td>
-                  <td>
-                    <i
-                      className="text-danger"
-                      type="button"
-                      onClick={() =>
-                        setDepartments(
-                          departments.filter((d) => d.id !== dept.id)
-                        )
-                      }
-                    >
-                      <AiFillDelete size={20} />
-                    </i>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="5">No Departments Available</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-
-        {/* Pagination */}
-        <div className="p-3 d-flex justify-content-center">
-          <div className="d-flex align-items-center gap-2">
-            <button
-              className="btn btn-secondary px-2 py-1 rounded-circle"
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-            >
-              <IoIosArrowBack className="text-white" />
-            </button>
-            {Array.from({ length: totalPages }, (_, i) => (
+      <div
+        className="modal fade"
+        id="exampleModal"
+        tabIndex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
+                Select Doctors
+              </h5>
               <button
-                key={i + 1}
-                className={`btn px-3 py-2 rounded-circle ${
-                  currentPage === i + 1 ? "btn-primary" : "btn-secondary"
-                }`}
-                onClick={() => setCurrentPage(i + 1)}
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              <label htmlFor="doctors">Choose a Doctor</label>
+              <select
+                name="doctors"
+                id="doctors"
+                className="form-select"
+                onChange={(e) => SetHandleChangeDoctor(e.target.value)}
               >
-                {i + 1}
+                <option value="">Select Doctor</option>
+                {doctorsDropDown &&
+                  doctorsDropDown.map((doctor) => (
+                    <option key={doctor._id} value={doctor._id}>
+                      {doctor.name}
+                    </option>
+                  ))}
+              </select>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary btn-sm"
+                data-bs-dismiss="modal"
+              >
+                Close
               </button>
-            ))}
-            <button
-              className="btn btn-secondary px-2 py-1 rounded-circle"
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-              }
-              disabled={currentPage === totalPages || departments.length === 0}
-            >
-              <IoIosArrowForward className="text-white" />
-            </button>
+              <button
+                type="button"
+                className="btn btn-primary btn-sm"
+                data-bs-dismiss="modal"
+                onClick={handleAssignDoctor}
+              >
+                Assign Doctor
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
 export default AddDepartment;
+
+
+
